@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>OutSky — Browser VPN</title>
+<meta name="description" content="OutSky is a lightweight browser VPN for Chrome. One click to protect your traffic, pick a country, smart routing keeps local sites direct.">
+<link rel="icon" href="icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root { --bg:#161826; --surface:#1d1f2e; --text:#f3f5fe; --muted:#b2b6ca; --dim:#75798c; --accent:#b5abfc; --accent-700:#5d5294; --line:#3f424d; }
+  * { box-sizing:border-box; }
+  body { margin:0; background:radial-gradient(1000px 600px at 80% 0%, #2b2741 0%, var(--bg) 60%); color:var(--text); font-family:Inter, -apple-system, "Segoe UI", Roboto, sans-serif; line-height:1.6; min-height:100vh; }
+  .wrap { max-width:960px; margin:0 auto; padding:32px 24px 64px; }
+  header { display:flex; align-items:center; gap:12px; }
+  header img { width:36px; height:36px; border-radius:10px; }
+  .brand { font-weight:600; font-size:18px; }
+  .brand b { color:var(--accent); font-weight:600; }
+  nav { margin-left:auto; display:flex; gap:22px; }
+  nav a { color:var(--muted); text-decoration:none; font-size:14px; font-weight:500; }
+  nav a:hover { color:var(--text); }
+  .hero { display:grid; grid-template-columns:1.1fr 1fr; gap:48px; align-items:center; margin-top:96px; }
+  h1 { font-size:52px; line-height:1.08; margin:0 0 18px; letter-spacing:-0.02em; }
+  h1 span { color:var(--accent); }
+  .lead { color:var(--muted); font-size:18px; margin:0 0 32px; max-width:480px; }
+  .cta { display:flex; gap:12px; flex-wrap:wrap; }
+  .btn { display:inline-flex; align-items:center; gap:8px; padding:13px 22px; border-radius:12px; font-weight:600; text-decoration:none; font-size:15px; }
+  .btn-primary { background:var(--accent); color:#161826; }
+  .btn-primary:hover { background:#d2cefd; }
+  .btn-ghost { border:1px solid var(--line); color:var(--text); }
+  .btn-ghost:hover { border-color:var(--accent-700); }
+  .shot { border-radius:22px; overflow:hidden; box-shadow:0 30px 80px rgba(0,0,0,.55); border:1px solid rgba(255,255,255,.08); max-width:340px; justify-self:end; }
+  .shot img { display:block; width:100%; }
+  .feats { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-top:96px; }
+  .feat { background:var(--surface); border:1px solid var(--line); border-radius:16px; padding:22px; }
+  .feat h3 { margin:0 0 6px; font-size:16px; }
+  .feat p { margin:0; color:var(--muted); font-size:14.5px; }
+  footer { margin-top:96px; color:var(--dim); font-size:13px; display:flex; gap:18px; flex-wrap:wrap; }
+  footer a { color:var(--dim); }
+  @media (max-width: 760px) {
+    .hero { grid-template-columns:1fr; margin-top:56px; }
+    h1 { font-size:38px; }
+    .feats { grid-template-columns:1fr; }
+    .shot { max-width:360px; margin:0 auto; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <img src="icon.png" alt="OutSky">
+    <div class="brand">Out<b>Sky</b></div>
+    <nav>
+      <a href="https://t.me/outskyapp">Telegram</a>
+      <a href="privacy.html">Privacy</a>
+    </nav>
+  </header>
+
+  <section class="hero">
+    <div>
+      <h1>Browser VPN.<br><span>One click.</span></h1>
+      <p class="lead">Protect your browser traffic instantly. Pick any of 9 countries or let OutSky choose the fastest server — smart routing keeps local sites direct.</p>
+      <div class="cta">
+        <!-- TODO: после публикации подставить ссылку на листинг в Chrome Web Store -->
+        <a class="btn btn-primary" href="https://chromewebstore.google.com/">Add to Chrome</a>
+        <a class="btn btn-ghost" href="https://t.me/outskyapp">Get a subscription</a>
+      </div>
+    </div>
+    <div class="shot"><img src="screenshot.png" alt="OutSky extension — connected to Germany"></div>
+  </section>
+
+  <section class="feats">
+    <div class="feat"><h3>9 countries</h3><p>Finland, Germany, Netherlands, Sweden, Latvia, Switzerland, USA, Kazakhstan, Russia. Auto-select by lowest ping.</p></div>
+    <div class="feat"><h3>Smart routing</h3><p>Russian and local sites go direct, everything else through the tunnel. Or route all traffic — your choice.</p></div>
+    <div class="feat"><h3>No accounts, no trackers</h3><p>Activate with a single subscription link. No analytics, no ads, no browsing logs.</p></div>
+  </section>
+
+  <footer>
+    <span>© 2026 OutSky</span>
+    <a href="privacy.html">Privacy Policy</a>
+    <a href="https://t.me/outskyapp">t.me/outskyapp</a>
+    <a href="mailto:support@outsky.app">support@outsky.app</a>
+  </footer>
+</div>
+</body>
+</html>

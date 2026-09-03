@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Privacy Policy — OutSky VPN</title>
+<meta name="description" content="Privacy Policy for the OutSky VPN browser extension.">
+<link rel="icon" href="icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root { --bg:#161826; --surface:#1d1f2e; --text:#f3f5fe; --muted:#b2b6ca; --dim:#75798c; --accent:#b5abfc; --line:#3f424d; }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--bg); color:var(--text); font-family:Inter, -apple-system, "Segoe UI", Roboto, sans-serif; line-height:1.6; }
+  .wrap { max-width:760px; margin:0 auto; padding:40px 24px 80px; }
+  header { display:flex; align-items:center; gap:12px; margin-bottom:40px; }
+  header img { width:36px; height:36px; border-radius:10px; }
+  header a { color:var(--text); text-decoration:none; font-weight:600; font-size:18px; }
+  header a b { color:var(--accent); font-weight:600; }
+  .lang { margin-left:auto; display:flex; gap:6px; }
+  .lang a { font-size:13px; padding:5px 10px; border:1px solid var(--line); border-radius:8px; color:var(--muted); font-weight:500; }
+  h1 { font-size:34px; margin:0 0 6px; letter-spacing:-0.01em; }
+  .date { color:var(--dim); font-size:14px; margin-bottom:36px; }
+  h2 { font-size:19px; margin:36px 0 10px; }
+  p, li { color:var(--muted); font-size:15.5px; }
+  ul { padding-left:20px; }
+  li { margin:6px 0; }
+  strong { color:var(--text); font-weight:600; }
+  code { background:var(--surface); border:1px solid var(--line); border-radius:6px; padding:1px 6px; font-size:13.5px; color:var(--text); }
+  a { color:var(--accent); }
+  hr { border:0; border-top:1px solid var(--line); margin:64px 0 48px; }
+  footer { color:var(--dim); font-size:13px; margin-top:64px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <img src="icon.png" alt="OutSky">
+    <a href="./">Out<b>Sky</b></a>
+    <nav class="lang"><a href="#en">EN</a><a href="#ru">RU</a></nav>
+  </header>
+
+  <!-- ============================== ENGLISH ============================== -->
+  <section id="en">
+    <h1>Privacy Policy</h1>
+    <div class="date">OutSky VPN browser extension · Effective September 2, 2026</div>
+
+    <p>OutSky VPN (“OutSky”, “we”) is a browser extension that routes your browser traffic through OutSky proxy servers in the country you choose. This policy explains what information the extension handles, why, and what we never do with it. We keep it short because there isn't much to tell: <strong>the extension has no analytics, no advertising, and no trackers.</strong></p>
+
+    <h2>1. Information stored on your device</h2>
+    <p>The extension stores the following in your browser's local extension storage (<code>chrome.storage.local</code>). This data never leaves your device except as described in section 2.</p>
+    <ul>
+      <li><strong>Subscription token</strong> — the identifier contained in the subscription link you paste during activation.</li>
+      <li><strong>Proxy credentials</strong> — the login and password the OutSky server issues for your subscription, so the browser can authenticate to the proxy.</li>
+      <li><strong>Account details</strong> — your subscription's account name and expiry date, shown in Settings.</li>
+      <li><strong>Preferences</strong> — selected location, routing mode, language, and toggles such as auto-connect.</li>
+    </ul>
+    <p>This data is deleted when you choose <strong>Change account</strong> in Settings or uninstall the extension.</p>
+
+    <h2>2. Information sent to OutSky servers</h2>
+    <ul>
+      <li><strong>Subscription service</strong> (<code>sub.outsky.app</code>): when you activate the extension and periodically afterwards, it sends your subscription token to retrieve your proxy credentials, the server list, and your expiry date. Nothing else is sent — no browsing history, no page content.</li>
+      <li><strong>Proxy servers</strong>: while the VPN is enabled, your browser traffic (all of it in <em>Full tunnel</em> mode; everything except Russian and local sites in <em>Smart</em> mode) is routed through the OutSky server you selected. The server necessarily sees the destinations you connect to in order to forward the connection. Encrypted (HTTPS) content stays encrypted end-to-end — the proxy cannot read it.</li>
+      <li><strong>Latency checks</strong>: when you open the location list, the extension sends a tiny request to each OutSky server to measure ping. No personal data is included.</li>
+    </ul>
+
+    <h2>3. What we do not do</h2>
+    <ul>
+      <li>We do <strong>not</strong> record or store your browsing history, the pages you visit, or the content of your traffic.</li>
+      <li>We do <strong>not</strong> sell, rent, or share any data with third parties for advertising or marketing.</li>
+      <li>We do <strong>not</strong> use analytics SDKs, tracking pixels, or fingerprinting in the extension.</li>
+      <li>We do <strong>not</strong> collect names, e-mail addresses, or payment details in the extension. Subscriptions are purchased outside the extension (for example, via our Telegram channel), and only the resulting subscription link is used here.</li>
+    </ul>
+    <p>Our servers keep the minimal technical logs needed to operate and protect the service (connection errors, aggregate traffic volume per subscription for fair use). These logs do not contain your browsing history and are retained for a short period only.</p>
+
+    <h2>4. Third-party services the extension contacts</h2>
+    <p>To render its interface, the extension loads a few resources from third parties. These providers receive a standard web request (including your IP address) but no data about your account:</p>
+    <ul>
+      <li><strong>api.ipify.org</strong> — used only after connecting, to show you your new public IP address. It receives the request from your (VPN) IP.</li>
+      <li><strong>flagcdn.com</strong> — country flag images shown in the location list.</li>
+      <li><strong>fonts.googleapis.com / fonts.gstatic.com</strong> — the Inter font used by the interface.</li>
+    </ul>
+    <p>These requests happen only while the extension popup is open. Each provider's own privacy policy applies to them.</p>
+
+    <h2>5. Browser permissions and why they are needed</h2>
+    <ul>
+      <li><strong>proxy</strong> — to configure the browser to route traffic through the OutSky server you selected. This is the core function of the extension.</li>
+      <li><strong>webRequest</strong> and <strong>webRequestAuthProvider</strong> — to answer the proxy server's authentication request with your subscription credentials automatically, so you are not prompted for a password on every site. The extension only handles proxy authentication challenges; it does not read or modify page requests.</li>
+      <li><strong>Access to all websites</strong> (<code>&lt;all_urls&gt;</code>) — proxy authentication challenges can occur for any website you visit while the VPN is on, so the browser requires this scope for the permission above. The extension does not read, inject into, or alter web pages.</li>
+      <li><strong>storage</strong> — to save your subscription and preferences locally (section 1).</li>
+    </ul>
+
+    <h2>6. Data retention and your choices</h2>
+    <ul>
+      <li>Locally stored data is kept until you remove the subscription (<strong>Change account</strong>) or uninstall the extension.</li>
+      <li>Your subscription record on our side is kept for the life of your subscription and deleted after it expires and is not renewed.</li>
+      <li>You can stop all traffic routing at any time by switching the VPN off; the extension then clears its proxy settings immediately.</li>
+    </ul>
+
+    <h2>7. Children</h2>
+    <p>OutSky is not directed at children under 13, and we do not knowingly collect information from them.</p>
+
+    <h2>8. Changes to this policy</h2>
+    <p>If we change how the extension handles data, we will update this page and the effective date above. Material changes will also be announced in our Telegram channel.</p>
+
+    <h2>9. Contact</h2>
+    <p>Questions about privacy: <a href="https://t.me/outskyapp">t.me/outskyapp</a> or <a href="mailto:support@outsky.app">support@outsky.app</a>.</p>
+  </section>
+
+  <hr>
+
+  <!-- ============================== RUSSIAN ============================== -->
+  <section id="ru" lang="ru">
+    <h1>Политика конфиденциальности</h1>
+    <div class="date">Расширение OutSky VPN · Действует с 2 сентября 2026 г.</div>
+
+    <p>OutSky VPN («OutSky», «мы») — расширение для браузера, которое направляет трафик браузера через прокси-серверы OutSky в выбранной вами стране. Здесь описано, какие данные обрабатывает расширение, зачем, и чего мы с ними никогда не делаем. Документ короткий, потому что рассказывать особо нечего: <strong>в расширении нет аналитики, рекламы и трекеров.</strong></p>
+
+    <h2>1. Данные, которые хранятся на вашем устройстве</h2>
+    <p>Расширение хранит в локальном хранилище браузера (<code>chrome.storage.local</code>) следующее. Эти данные не покидают устройство, кроме случаев из раздела 2.</p>
+    <ul>
+      <li><strong>Токен подписки</strong> — идентификатор из ссылки подписки, которую вы вставляете при активации.</li>
+      <li><strong>Учётные данные прокси</strong> — логин и пароль, которые сервер OutSky выдаёт для вашей подписки, чтобы браузер мог авторизоваться на прокси.</li>
+      <li><strong>Данные аккаунта</strong> — имя аккаунта подписки и дата её окончания, показываются в настройках.</li>
+      <li><strong>Настройки</strong> — выбранная локация, режим маршрутизации, язык и переключатели вроде автоподключения.</li>
+    </ul>
+    <p>Эти данные удаляются при нажатии <strong>«Сменить аккаунт»</strong> в настройках или при удалении расширения.</p>
+
+    <h2>2. Данные, которые отправляются на серверы OutSky</h2>
+    <ul>
+      <li><strong>Сервис подписок</strong> (<code>sub.outsky.app</code>): при активации и периодически после неё расширение отправляет токен подписки, чтобы получить учётные данные прокси, список серверов и дату окончания. Больше ничего не передаётся — ни история, ни содержимое страниц.</li>
+      <li><strong>Прокси-серверы</strong>: пока VPN включён, трафик браузера (весь — в режиме <em>Полный туннель</em>; всё, кроме российских и локальных сайтов, — в режиме <em>Smart</em>) идёт через выбранный сервер OutSky. Серверу неизбежно видны адреса назначения, чтобы установить соединение. Зашифрованный (HTTPS) контент остаётся зашифрованным насквозь — прокси его прочитать не может.</li>
+      <li><strong>Замер задержки</strong>: при открытии списка локаций расширение отправляет на каждый сервер OutSky крошечный запрос, чтобы измерить пинг. Личных данных в нём нет.</li>
+    </ul>
+
+    <h2>3. Чего мы не делаем</h2>
+    <ul>
+      <li>Мы <strong>не</strong> записываем и не храним историю посещений, адреса страниц и содержимое трафика.</li>
+      <li>Мы <strong>не</strong> продаём, не сдаём и не передаём данные третьим лицам для рекламы или маркетинга.</li>
+      <li>Мы <strong>не</strong> используем в расширении аналитические SDK, пиксели и фингерпринтинг.</li>
+      <li>Мы <strong>не</strong> собираем в расширении имена, e-mail и платёжные данные. Подписка покупается вне расширения (например, через наш Telegram-канал), а здесь используется только полученная ссылка подписки.</li>
+    </ul>
+    <p>Серверы ведут минимальные технические логи, необходимые для работы и защиты сервиса (ошибки соединений, суммарный объём трафика по подписке для контроля добросовестного использования). Эти логи не содержат истории посещений и хранятся недолго.</p>
+
+    <h2>4. Сторонние сервисы, к которым обращается расширение</h2>
+    <p>Для отрисовки интерфейса расширение загружает несколько ресурсов у сторонних провайдеров. Они получают обычный веб-запрос (включая ваш IP-адрес), но никаких данных о вашем аккаунте:</p>
+    <ul>
+      <li><strong>api.ipify.org</strong> — только после подключения, чтобы показать ваш новый публичный IP. Запрос приходит с вашего (VPN) IP.</li>
+      <li><strong>flagcdn.com</strong> — изображения флагов в списке локаций.</li>
+      <li><strong>fonts.googleapis.com / fonts.gstatic.com</strong> — шрифт Inter для интерфейса.</li>
+    </ul>
+    <p>Эти запросы происходят только пока открыто окно расширения. К ним применяются политики конфиденциальности соответствующих провайдеров.</p>
+
+    <h2>5. Разрешения браузера и зачем они нужны</h2>
+    <ul>
+      <li><strong>proxy</strong> — чтобы настроить браузер на маршрутизацию трафика через выбранный сервер OutSky. Это основная функция расширения.</li>
+      <li><strong>webRequest</strong> и <strong>webRequestAuthProvider</strong> — чтобы автоматически отвечать на запрос авторизации прокси-сервера вашими учётными данными и не спрашивать пароль на каждом сайте. Расширение обрабатывает только запросы авторизации прокси; оно не читает и не изменяет запросы страниц.</li>
+      <li><strong>Доступ ко всем сайтам</strong> (<code>&lt;all_urls&gt;</code>) — запрос авторизации прокси может возникнуть на любом сайте, пока VPN включён, поэтому браузер требует такую область для разрешения выше. Расширение не читает, не внедряет код и не изменяет веб-страницы.</li>
+      <li><strong>storage</strong> — чтобы локально сохранять подписку и настройки (раздел 1).</li>
+    </ul>
+
+    <h2>6. Сроки хранения и ваш выбор</h2>
+    <ul>
+      <li>Локальные данные хранятся, пока вы не удалите подписку (<strong>«Сменить аккаунт»</strong>) или само расширение.</li>
+      <li>Запись о подписке на нашей стороне хранится в течение срока подписки и удаляется после истечения, если подписка не продлена.</li>
+      <li>Вы можете в любой момент остановить маршрутизацию, выключив VPN; расширение сразу же сбрасывает настройки прокси.</li>
+    </ul>
+
+    <h2>7. Дети</h2>
+    <p>OutSky не предназначен для детей младше 13 лет, и мы сознательно не собираем их данные.</p>
+
+    <h2>8. Изменения политики</h2>
+    <p>Если порядок обработки данных изменится, мы обновим эту страницу и дату вступления в силу. О существенных изменениях мы также сообщим в Telegram-канале.</p>
+
+    <h2>9. Контакты</h2>
+    <p>Вопросы о конфиденциальности: <a href="https://t.me/outskyapp">t.me/outskyapp</a> или <a href="mailto:support@outsky.app">support@outsky.app</a>.</p>
+  </section>
+
+  <footer>© 2026 OutSky · <a href="./">outsky.app</a> · <a href="https://t.me/outskyapp">Telegram</a></footer>
+</div>
+</body>
+</html>
