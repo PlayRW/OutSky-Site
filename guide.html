@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Как подключить OutSky VPN</title>
+<meta name="description" content="Пошаговая инструкция: как получить пробный период OutSky VPN в Telegram-боте и подключиться на iPhone, Android, Windows, Mac и в Chrome.">
+<link rel="icon" href="icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root { --bg:#161826; --surface:#1d1f2e; --surface-2:#24263a; --text:#f3f5fe; --muted:#b2b6ca; --dim:#75798c; --accent:#b5abfc; --accent-700:#5d5294; --line:#3f424d; --warn:#f2c46b; }
+  * { box-sizing:border-box; }
+  html { scroll-behavior:smooth; }
+  body { margin:0; background:radial-gradient(900px 520px at 85% 0%, #2b2741 0%, var(--bg) 60%); background-color:var(--bg); color:var(--text); font-family:Inter, -apple-system, "Segoe UI", Roboto, sans-serif; line-height:1.6; min-height:100vh; }
+  .wrap { max-width:760px; margin:0 auto; padding:40px 24px 80px; }
+  header { display:flex; align-items:center; gap:12px; margin-bottom:40px; }
+  header img { width:36px; height:36px; border-radius:10px; }
+  header a { color:var(--text); text-decoration:none; font-weight:600; font-size:18px; }
+  header a b { color:var(--accent); font-weight:600; }
+  h1 { font-size:34px; line-height:1.2; margin:0 0 10px; letter-spacing:-0.01em; }
+  .lead { color:var(--muted); font-size:17px; margin:0 0 32px; }
+  h2 { font-size:24px; margin:0 0 6px; letter-spacing:-0.01em; }
+  h3 { font-size:17px; margin:26px 0 8px; }
+  p, li { color:var(--muted); font-size:15.5px; }
+  ol, ul { padding-left:22px; margin:8px 0; }
+  li { margin:7px 0; }
+  b, strong { color:var(--text); font-weight:600; }
+  a { color:var(--accent); }
+  .card { background:var(--surface); border:1px solid var(--line); border-radius:16px; padding:22px 24px; margin:0 0 20px; }
+  .card h2 { font-size:20px; }
+  .devices { display:grid; grid-template-columns:repeat(auto-fill, minmax(200px, 1fr)); gap:12px; margin:14px 0 4px; }
+  .tile { display:flex; align-items:center; gap:12px; padding:14px 16px; background:var(--surface-2); border:1px solid var(--line); border-radius:14px; color:var(--text); text-decoration:none; transition:border-color .15s, transform .15s; }
+  .tile:hover { border-color:var(--accent-700); transform:translateY(-1px); }
+  .tile .ico { font-size:24px; line-height:1; }
+  .tile .name { font-weight:600; font-size:15.5px; display:block; }
+  .tile .sub { color:var(--dim); font-size:13px; display:block; }
+  section.device { scroll-margin-top:16px; padding-top:44px; margin-top:12px; border-top:1px solid var(--line); }
+  .app { color:var(--dim); font-size:14px; margin:0 0 6px; }
+  .note { border-left:3px solid var(--warn); background:rgba(242,196,107,.07); border-radius:0 10px 10px 0; padding:10px 14px; margin:14px 0; }
+  .note p { margin:0; color:var(--text); }
+  .top { margin-top:22px; font-size:14px; }
+  .top a { text-decoration:none; }
+  footer { color:var(--dim); font-size:13px; margin-top:64px; border-top:1px solid var(--line); padding-top:20px; }
+  footer a { color:var(--dim); }
+  @media (max-width:520px) {
+    .wrap { padding:28px 16px 64px; }
+    h1 { font-size:28px; }
+    .card { padding:18px 16px; }
+    .devices { grid-template-columns:1fr; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <img src="icon.png" alt="OutSky">
+    <a href="./">Out<b>Sky</b></a>
+  </header>
+
+  <h1>Как подключить OutSky VPN</h1>
+  <p class="lead">Бесплатный пробный период — 14 дней и 50 ГБ трафика. Подключение займёт пару минут.</p>
+
+  <div class="card">
+    <h2>Шаг 1. Получите ссылку подписки</h2>
+    <ol>
+      <li>Откройте бота <a href="https://t.me/OutSkyVPN_bot">@OutSkyVPN_bot</a> и нажмите «Старт». Если бот спросит язык — выберите.</li>
+      <li>Подпишитесь на канал <a href="https://t.me/outskyapp">@outskyapp</a> и нажмите «✅ Я подписался» — бот попросит это один раз.</li>
+      <li>Нажмите «🎁 Пробный период», затем «🎁 Активировать».</li>
+      <li>Бот пришлёт ссылку подписки. Нажмите на неё — она скопируется. Ссылка всегда есть в разделе «📱 Моя подписка».</li>
+    </ol>
+  </div>
+
+  <div class="card" id="devices">
+    <h2>Шаг 2. Выберите устройство</h2>
+    <div class="devices">
+      <a class="tile" href="#iphone"><span class="ico">📱</span><span><span class="name">iPhone и iPad</span><span class="sub">приложение INCY</span></span></a>
+      <a class="tile" href="#android"><span class="ico">🤖</span><span><span class="name">Android</span><span class="sub">приложение INCY</span></span></a>
+      <a class="tile" href="#windows"><span class="ico">🪟</span><span><span class="name">Windows</span><span class="sub">программа INCY</span></span></a>
+      <a class="tile" href="#mac"><span class="ico">💻</span><span><span class="name">Mac</span><span class="sub">приложение INCY</span></span></a>
+      <a class="tile" href="#chrome"><span class="ico">🌐</span><span><span class="name">Google Chrome</span><span class="sub">VPN только в браузере</span></span></a>
+    </div>
+  </div>
+
+  <!-- iPhone -->
+  <section class="device" id="iphone">
+    <h2>📱 iPhone и iPad</h2>
+    <p class="app">Бесплатное приложение INCY · iOS или iPadOS 15 и новее</p>
+    <h3>1. Установите INCY</h3>
+    <p>Установите из App Store: <a href="https://apps.apple.com/ru/app/incy/id6756943388">incy</a>. Приложение есть и в российском App Store.</p>
+    <div class="note"><p>⚠️ В App Store есть подделки с похожими названиями, например «Incy VPN Випиэн» и «INCY VPN ВПН Випиэн». Настоящее приложение называется просто «incy», разработчик — <b>LLC ITDEV</b>.</p></div>
+    <h3>2. Добавьте подписку</h3>
+    <ol>
+      <li>В боте нажмите на ссылку подписки — она скопируется.</li>
+      <li>Откройте INCY и нажмите «Вставить» на главном экране (или «+ Добавить» и вставьте ссылку). Если iPhone спросит разрешение на вставку — разрешите.</li>
+      <li>Появится список серверов по странам.</li>
+    </ol>
+    <h3>3. Подключитесь</h3>
+    <ol>
+      <li>Выберите сервер. Основной вариант — с названием страны; «HS2» и «xHTTP» — запасные, если основной не подключается.</li>
+      <li>Нажмите большую кнопку подключения.</li>
+      <li>При первом подключении iPhone попросит разрешить добавление конфигурации VPN — нажмите «Разрешить» и подтвердите код-паролем или Face ID.</li>
+    </ol>
+    <p>Готово — в строке состояния появится значок VPN. Подписка обновляется в приложении сама.</p>
+    <p class="top"><a href="#devices">↑ Все устройства</a></p>
+  </section>
+
+  <!-- Android -->
+  <section class="device" id="android">
+    <h2>🤖 Android</h2>
+    <p class="app">Бесплатное приложение INCY · Android 7.0 и новее</p>
+    <h3>1. Установите INCY</h3>
+    <ul>
+      <li>Из Google Play: <a href="https://play.google.com/store/apps/details?id=llc.itdev.incy">incy</a> (разработчик INCY-DEV).</li>
+      <li>Если Google Play недоступен — скачайте установочный файл с официальной страницы INCY на GitHub: <a href="https://github.com/INCY-DEV/incy-platforms/releases/download/android-v3.7.0/Incy.apk">Incy.apk</a>. Откройте скачанный файл и разрешите установку, если телефон спросит.</li>
+    </ul>
+    <h3>2. Добавьте подписку</h3>
+    <ol>
+      <li>В боте нажмите на ссылку подписки — она скопируется.</li>
+      <li>Откройте INCY и нажмите «Вставить» на главном экране (или «+ Добавить» и вставьте ссылку).</li>
+      <li>Появится список серверов по странам.</li>
+    </ol>
+    <h3>3. Подключитесь</h3>
+    <ol>
+      <li>Выберите сервер. Основной вариант — с названием страны; «HS2» и «xHTTP» — запасные, если основной не подключается.</li>
+      <li>Нажмите большую кнопку подключения.</li>
+      <li>При первом подключении Android покажет «Запрос на подключение» — нажмите «ОК».</li>
+    </ol>
+    <p>Готово — в строке состояния появится значок ключа. Подписка обновляется в приложении сама.</p>
+    <p class="top"><a href="#devices">↑ Все устройства</a></p>
+  </section>
+
+  <!-- Windows -->
+  <section class="device" id="windows">
+    <h2>🪟 Windows</h2>
+    <p class="app">Бесплатная программа INCY · 64-битная Windows 10 или 11</p>
+    <div class="note"><p>⚠️ Версия INCY для компьютеров пока ранняя — возможны ошибки. Если VPN нужен только в браузере, надёжнее <a href="#chrome">расширение OutSky VPN для Chrome</a>.</p></div>
+    <h3>1. Установите INCY</h3>
+    <ol>
+      <li>Скачайте <a href="https://github.com/INCY-DEV/incy-platforms/releases/download/desktop-v3.8.8/incy-windows-setup.exe">установщик INCY для Windows</a> с официальной страницы INCY на GitHub. Он подходит и для обычных компьютеров, и для ноутбуков на ARM-процессорах.</li>
+      <li>Запустите установщик и следуйте подсказкам. Если Windows покажет окно «Windows защитила ваш компьютер», нажмите «Подробнее» → «Выполнить в любом случае».</li>
+    </ol>
+    <h3>2. Добавьте подписку</h3>
+    <ol>
+      <li>В боте нажмите на ссылку подписки — она скопируется.</li>
+      <li>Откройте INCY и нажмите «Вставить» (или «+ Добавить» и вставьте ссылку).</li>
+      <li>Появится список серверов по странам.</li>
+    </ol>
+    <h3>3. Подключитесь</h3>
+    <ol>
+      <li>Выберите режим «Системный прокси» — его хватает для браузеров и большинства программ.</li>
+      <li>Выберите сервер с названием страны, без «HS2»: такие серверы в версии для Windows пока не работают.</li>
+      <li>Нажмите кнопку подключения.</li>
+    </ol>
+    <p class="top"><a href="#devices">↑ Все устройства</a></p>
+  </section>
+
+  <!-- Mac -->
+  <section class="device" id="mac">
+    <h2>💻 Mac</h2>
+    <p class="app">Бесплатное приложение INCY</p>
+    <h3>1. Установите INCY</h3>
+    <p>Какой у вас процессор, видно в меню Apple (значок яблока слева вверху) → «Об этом Mac».</p>
+    <ul>
+      <li><b>Apple M1 и новее</b> (macOS 12 и новее) — установите из App Store: <a href="https://apps.apple.com/ru/app/incy/id6756943388">incy</a>, разработчик <b>LLC ITDEV</b>. Это то же приложение, что на iPhone и iPad.</li>
+      <li><b>Intel</b> — скачайте <a href="https://github.com/INCY-DEV/incy-platforms/releases/download/desktop-v3.8.8/incy-macos-intel.dmg">INCY для Mac на Intel</a> с официальной страницы INCY на GitHub, откройте файл .dmg и перетащите INCY в папку «Программы». Эта версия пока ранняя — возможны ошибки.</li>
+    </ul>
+    <h3>2. Добавьте подписку</h3>
+    <ol>
+      <li>В боте нажмите на ссылку подписки — она скопируется.</li>
+      <li>Откройте INCY и нажмите «Вставить» на главном экране (или «+ Добавить» и вставьте ссылку).</li>
+      <li>Появится список серверов по странам.</li>
+    </ol>
+    <h3>3. Подключитесь</h3>
+    <ol>
+      <li>Выберите сервер. Основной вариант — с названием страны; «HS2» и «xHTTP» — запасные, если основной не подключается.</li>
+      <li>Нажмите кнопку подключения. При первом подключении Mac попросит разрешить добавление конфигурации VPN — нажмите «Разрешить».</li>
+    </ol>
+    <p>Подписка обновляется в приложении сама.</p>
+    <p class="top"><a href="#devices">↑ Все устройства</a></p>
+  </section>
+
+  <!-- Chrome -->
+  <section class="device" id="chrome">
+    <h2>🌐 Google Chrome</h2>
+    <p class="app">Расширение OutSky VPN · VPN только в браузере, остальные программы работают как обычно</p>
+    <h3>1. Установите расширение</h3>
+    <ol>
+      <li>Откройте <a href="https://chromewebstore.google.com/detail/outsky-vpn/aacogocimaopagjjfhgmaefgbcmbjhci">OutSky VPN в Chrome Web Store</a>, нажмите «Установить» и подтвердите.</li>
+      <li>Закрепите значок: нажмите на значок пазла справа от адресной строки, затем на кнопку-булавку рядом с OutSky VPN.</li>
+    </ol>
+    <h3>2. Добавьте подписку</h3>
+    <ol>
+      <li>В боте нажмите на ссылку подписки — она скопируется.</li>
+      <li>Нажмите на значок OutSky VPN, вставьте ссылку в поле «Вставьте ссылку-подписку» и нажмите «Активировать».</li>
+    </ol>
+    <h3>3. Подключитесь</h3>
+    <ol>
+      <li>Нажмите большую кнопку — статус сменится на «Защищено».</li>
+      <li>Локацию можно поменять кнопкой «Сменить».</li>
+    </ol>
+    <h3>Полезно знать</h3>
+    <ul>
+      <li>Маршрутизация в настройках расширения: «Умный» — российские сайты открываются напрямую, остальные через VPN; «Весь трафик» — все сайты через VPN.</li>
+      <li>«Автоподключение» в настройках — VPN включается при запуске Chrome.</li>
+      <li>Нужен VPN для всего компьютера — установите INCY: инструкции для <a href="#windows">Windows</a> и <a href="#mac">Mac</a>.</li>
+    </ul>
+    <p class="top"><a href="#devices">↑ Все устройства</a></p>
+  </section>
+
+  <section class="device" id="help">
+    <h2>Не получается?</h2>
+    <ul>
+      <li>Не подключается — выберите другой сервер или локацию.</li>
+      <li>Не помогло — напишите в поддержку <a href="https://t.me/outsky_support">@outsky_support</a>: какое у вас устройство и что видно на экране, лучше со скриншотом.</li>
+      <li>Ссылка подписки — ваш личный доступ. Не публикуйте её и не пересылайте.</li>
+    </ul>
+    <p>Новости сервиса — в канале <a href="https://t.me/outskyapp">@outskyapp</a>.</p>
+  </section>
+
+  <footer>© OutSky · <a href="privacy.html#ru">Политика конфиденциальности</a></footer>
+</div>
+</body>
+</html>
