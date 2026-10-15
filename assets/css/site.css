@@ -17,7 +17,8 @@
   --p-vless:#b5abfc;--p-hy2:#f472d0;--p-trojan:#67e8f9;--p-ss:#fbbf24;--p-wg:#6ee7b7;--p-reality:#c9b8ff;--p-tls:#86efac;--p-fmt:#fcd34d;
 }
 *{box-sizing:border-box}
-html{scroll-behavior:smooth}
+/* плавная прокрутка — только по клику внутри страницы (ссылка в фокусе); переход по адресу с #якорем — сразу к месту */
+html:focus-within{scroll-behavior:smooth}
 body{margin:0;color:#e9e9ed;font-family:var(--font);background:#0b0a1d;-webkit-font-smoothing:antialiased}
 a{color:inherit}button{font:inherit;color:inherit}
 main{position:relative;z-index:1;overflow-x:clip}
@@ -309,11 +310,13 @@ footer nav{display:flex;gap:18px;flex-wrap:wrap}footer a{text-decoration:none;co
 .skip{position:absolute;left:-9999px;top:8px;z-index:60;background:#fff;color:#111;padding:8px 14px;border-radius:10px;font-weight:600}
 .skip:focus{left:16px}
 .burger{color:#fff;cursor:pointer}
+/* меню: текущая страница (aria-current="page") или раздел (aria-current="true", например /vpn/guide/) */
+.links a[aria-current]{color:#fff;background:rgba(181,171,252,.12)}
 .links a:focus-visible,.seg a:focus-visible,.burger:focus-visible,summary:focus-visible,.pw:focus-visible{outline:2px solid var(--a400);outline-offset:2px}
 @media (max-width:980px){
   .nav{position:relative}
   body.menu-open .links{display:flex;position:absolute;top:calc(100% + 10px);left:0;right:0;flex-direction:column;gap:2px;padding:10px;border-radius:22px;
-    background:rgba(18,16,38,.97);border:1px solid rgba(181,171,252,.18);box-shadow:0 20px 50px rgba(3,2,12,.6)}
+    background:#121026;border:1px solid rgba(181,171,252,.18);box-shadow:0 20px 50px rgba(3,2,12,.6)}
   body.menu-open .links a{padding:12px 14px;font-size:16px}
 }
 @media (max-width:980px){.nav .seg{display:flex;margin-left:auto}.burger{margin-left:8px}}
@@ -336,4 +339,4 @@ a.pl{text-decoration:none;color:inherit}
 /* демо: недоступные элементы и фокус */
 .hw-id.off button{opacity:.5;cursor:not-allowed}
 .srv:focus-visible,.flt span:focus-visible,.tg:focus-visible,.rt:focus-visible,.pl:focus-visible{outline:2px solid var(--a400);outline-offset:2px}
-@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+@media (prefers-reduced-motion:reduce){html,html:focus-within{scroll-behavior:auto}}

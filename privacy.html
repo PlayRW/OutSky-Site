@@ -5,41 +5,99 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Privacy Policy — OutSky VPN</title>
 <meta name="description" content="Privacy Policy for the OutSky VPN browser extension.">
-<link rel="icon" href="icon.png">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self'; font-src 'self'; base-uri 'self'; form-action 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self'; font-src 'self'; connect-src 'self'; base-uri 'self'; form-action 'none'">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<meta name="theme-color" content="#0d0b20">
+<link rel="canonical" href="https://outsky.app/privacy.html">
+<link rel="icon" href="/assets/img/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/icon.png" type="image/png">
+<link rel="apple-touch-icon" href="/icon.png">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="OutSky">
+<meta property="og:title" content="Privacy Policy — OutSky VPN">
+<meta property="og:description" content="Privacy Policy for the OutSky VPN browser extension.">
+<meta property="og:url" content="https://outsky.app/privacy.html">
+<meta property="og:image" content="https://outsky.app/assets/img/og-en.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="en_US">
+<meta property="og:locale:alternate" content="ru_RU">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preload" href="/assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/assets/fonts/inter-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/assets/css/fonts.css">
+<link rel="stylesheet" href="/assets/css/site.css">
 <style>
-  :root { --bg:#161826; --surface:#1d1f2e; --text:#f3f5fe; --muted:#b2b6ca; --dim:#75798c; --accent:#b5abfc; --line:#3f424d; }
-  * { box-sizing:border-box; }
-  body { margin:0; background:var(--bg); color:var(--text); font-family:Inter, -apple-system, "Segoe UI", Roboto, sans-serif; line-height:1.6; }
-  .wrap { max-width:760px; margin:0 auto; padding:40px 24px 80px; }
-  header { display:flex; align-items:center; gap:12px; margin-bottom:40px; }
-  header img { width:36px; height:36px; border-radius:10px; }
-  header a { color:var(--text); text-decoration:none; font-weight:600; font-size:18px; }
-  header a b { color:var(--accent); font-weight:600; }
-  .lang { margin-left:auto; display:flex; gap:6px; }
-  .lang a { font-size:13px; padding:5px 10px; border:1px solid var(--line); border-radius:8px; color:var(--muted); font-weight:500; }
-  h1 { font-size:34px; margin:0 0 6px; letter-spacing:-0.01em; }
-  .date { color:var(--dim); font-size:14px; margin-bottom:36px; }
-  h2 { font-size:19px; margin:36px 0 10px; }
-  p, li { color:var(--muted); font-size:15.5px; }
-  ul { padding-left:20px; }
-  li { margin:6px 0; }
-  strong { color:var(--text); font-weight:600; }
-  code { background:var(--surface); border:1px solid var(--line); border-radius:6px; padding:1px 6px; font-size:13.5px; color:var(--text); }
-  a { color:var(--accent); }
-  hr { border:0; border-top:1px solid var(--line); margin:64px 0 48px; }
-  footer { color:var(--dim); font-size:13px; margin-top:64px; }
+  /* Одна страница на двух языках. Меню и подвал — на языке раздела из адреса:
+     #ru → русский, иначе английский. Без JS, через :target и :has(). */
+  .vh{position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap;border:0}
+  @supports selector(body:has(a)){
+    body:not(:has(#ru:target)) .ui-ru{display:none!important}
+    body:has(#ru:target) .ui-en{display:none!important}
+  }
+  @supports not selector(body:has(a)){.ui-ru{display:none!important}}
+  /* текст политики */
+  .policy{max-width:800px;margin:44px auto 0;padding:40px 44px 44px;border-radius:28px;
+    background:linear-gradient(180deg,rgba(28,25,54,.82),rgba(17,15,36,.82));border:1px solid rgba(181,171,252,.14)}
+  .policy section{scroll-margin-top:96px}
+  .policy h1{font-size:clamp(30px,3.6vw,40px);line-height:1.15;letter-spacing:-.03em;margin:0 0 8px}
+  .policy .date{color:var(--n500);font-size:14px;margin-bottom:32px}
+  .policy h2{font-size:19px;line-height:1.35;letter-spacing:-.01em;font-weight:600;margin:36px 0 10px;color:var(--n100)}
+  .policy p,.policy li{color:var(--n400);font-size:15.5px;line-height:1.65}
+  .policy ul{padding-left:22px}
+  .policy li{margin:6px 0}
+  .policy li::marker{color:var(--a400)}
+  .policy strong{color:var(--n100);font-weight:600}
+  .policy code{font-family:var(--mono);font-size:13px;padding:1px 6px;border-radius:6px;background:rgba(15,16,32,.7);border:1px solid rgba(181,171,252,.16);color:var(--n200);overflow-wrap:anywhere}
+  .policy a{color:var(--a300);text-underline-offset:3px;text-decoration-color:rgba(181,171,252,.45)}
+  .policy a:hover{color:#fff;text-decoration-color:currentColor}
+  .policy a:focus-visible{outline:2px solid var(--a400);outline-offset:2px;border-radius:4px}
+  .policy hr{border:0;border-top:1px solid rgba(181,171,252,.14);margin:56px 0 44px}
+  @media (max-width:600px){.policy{margin-top:28px;padding:26px 18px 30px;border-radius:22px}.policy h1{font-size:clamp(21px,6.8vw,30px)}.policy p,.policy li{font-size:15px}}
+  .policy h1{overflow-wrap:break-word}
 </style>
+<script src="/assets/js/early.js"></script>
 </head>
 <body>
-<div class="wrap">
-  <header>
-    <img src="icon.png" alt="OutSky">
-    <a href="./">Out<b>Sky</b></a>
-    <nav class="lang"><a href="#en">EN</a><a href="#ru">RU</a></nav>
-  </header>
+<a class="skip ui-en" href="#en">Skip to content</a>
+<a class="skip ui-ru" href="#ru" lang="ru">К содержимому</a>
+<div class="sky" aria-hidden="true">
+  <svg id="sky" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice">
+    <g class="const" id="constA">
+      <polyline points="60,170 230,110 410,160 600,90 780,140 1010,70 1230,120 1400,80"/>
+      <polyline points="40,760 260,700 470,790 720,720 960,800 1200,730 1420,770"/>
+      <polyline points="1180,300 1290,250 1360,330 1300,410"/>
+      <polyline points="120,420 200,360 300,400"/>
+      <circle cx="230" cy="110" r="2.2"/><circle cx="600" cy="90" r="1.8"/><circle cx="1010" cy="70" r="2.4"/><circle cx="1230" cy="120" r="1.8"/>
+      <circle cx="470" cy="790" r="2"/><circle cx="960" cy="800" r="2.2"/><circle cx="1290" cy="250" r="2"/><circle cx="1360" cy="330" r="1.6"/><circle cx="200" cy="360" r="1.8"/>
+    </g>
+    <g class="const lit" id="constB"></g>
+    <g fill="#b7aff2">
+      <circle class="tw" cx="110" cy="88" r="1.6"/><circle class="tw d1" cx="520" cy="230" r="1.2"/><circle class="tw d2" cx="860" cy="190" r="1.8"/>
+      <circle class="tw d3" cx="1330" cy="180" r="1.4"/><circle class="tw d1" cx="70" cy="560" r="1.3"/><circle class="tw d2" cx="1390" cy="560" r="1.6"/>
+      <circle class="tw" cx="700" cy="40" r="1.1"/><circle class="tw d3" cx="330" cy="300" r="1"/><circle class="tw d2" cx="1100" cy="380" r="1.1"/>
+    </g>
+    <path class="spark" d="M1110 230 l5 11 11 5 -11 5 -5 11 -5 -11 -11 -5 11 -5 Z"/>
+    <path class="spark" d="M60 690 l3.5 8 8 3.5 -8 3.5 -3.5 8 -3.5 -8 -8 -3.5 8 -3.5 Z" opacity=".7"/>
+  </svg>
+</div>
 
+<div class="nav-wrap">
+  <nav class="nav glass" aria-labelledby="nav-name">
+    <span class="vh" id="nav-name"><span class="ui-en">Main menu</span><span class="ui-ru" lang="ru">Главное меню</span></span>
+    <a class="logo ui-en" href="/en/" aria-label="OutSky — home"><span class="tile">O<b>S</b></span><span class="word">Out<b>Sky</b></span></a>
+    <a class="logo ui-ru" href="/" aria-label="OutSky — на главную" lang="ru"><span class="tile">O<b>S</b></span><span class="word">Out<b>Sky</b></span></a>
+    <div class="links ui-en"><a href="/en/#features">Features</a><a href="/en/#platforms">Platforms</a><a href="/en/#faq">FAQ</a><a href="/en/roadmap/">Roadmap</a><a href="/en/vpn/" class="vpn">OutSky VPN<i>service</i></a></div>
+    <div class="links ui-ru" lang="ru"><a href="/#features">Возможности</a><a href="/#platforms">Платформы</a><a href="/#faq">Вопросы</a><a href="/roadmap/">Роадмап</a><a href="/vpn/" class="vpn">OutSky VPN<i>сервис</i></a></div>
+    <div class="seg ui-en" role="group" aria-label="Language"><a href="#ru" hreflang="ru" lang="ru">RU</a><a class="on" href="#en" hreflang="en" aria-current="true">EN</a></div>
+    <div class="seg ui-ru" role="group" aria-label="Язык" lang="ru"><a class="on" href="#ru" hreflang="ru" aria-current="true">RU</a><a href="#en" hreflang="en" lang="en">EN</a></div>
+    <button class="burger" type="button" aria-expanded="false"><span class="vh"><span class="ui-en">Menu</span><span class="ui-ru" lang="ru">Меню</span></span><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+  </nav>
+</div>
+
+<main id="main">
+<div class="wrap">
+<article class="policy">
   <!-- ============================== ENGLISH ============================== -->
   <section id="en">
     <h1>Privacy Policy</h1>
@@ -177,8 +235,12 @@
     <h2>9. Контакты</h2>
     <p>Вопросы о конфиденциальности: <a href="https://t.me/outskyapp">t.me/outskyapp</a> или <a href="mailto:support@outsky.app">support@outsky.app</a>.</p>
   </section>
-
-  <footer>© 2026 OutSky · <a href="./">outsky.app</a> · <a href="https://t.me/outskyapp">Telegram</a></footer>
+</article>
 </div>
+</main>
+<footer><div class="wrap"><div><a class="logo ui-en" href="/en/" style="display:inline-flex"><span class="tile">O<b>S</b></span><span class="word">Out<b>Sky</b></span></a><a class="logo ui-ru" href="/" style="display:inline-flex" lang="ru"><span class="tile">O<b>S</b></span><span class="word">Out<b>Sky</b></span></a><div style="margin-top:8px"><span class="ui-en">Simple by default. Powerful when needed.</span><span class="ui-ru" lang="ru">Просто по умолчанию. Мощно, когда нужно.</span></div></div>
+  <nav aria-labelledby="footer-name"><span class="vh" id="footer-name"><span class="ui-en">Links</span><span class="ui-ru" lang="ru">Ссылки</span></span><a class="ui-en" href="/en/vpn/">OutSky VPN</a><a class="ui-en" href="/en/roadmap/">Roadmap</a><a class="ui-en" href="https://t.me/outskyapp">@outskyapp channel</a><a class="ui-en" href="/privacy.html#en">Privacy</a><a class="ui-ru" href="/vpn/" lang="ru">OutSky VPN</a><a class="ui-ru" href="/roadmap/" lang="ru">Роадмап</a><a class="ui-ru" href="https://t.me/outskyapp" lang="ru">Канал @outskyapp</a><a class="ui-ru" href="/privacy.html#ru" lang="ru">Конфиденциальность</a></nav><div>© 2026 OutSky</div></div></footer>
+
+<script src="/assets/js/site.js" defer></script>
 </body>
 </html>
