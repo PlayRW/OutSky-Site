@@ -1,86 +1,252 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>OutSky — Browser VPN</title>
-<meta name="description" content="OutSky is a lightweight browser VPN for Chrome. One click to protect your traffic, pick a country, smart routing keeps local sites direct.">
-<link rel="icon" href="icon.png">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-<style>
-  :root { --bg:#161826; --surface:#1d1f2e; --text:#f3f5fe; --muted:#b2b6ca; --dim:#75798c; --accent:#b5abfc; --accent-700:#5d5294; --line:#3f424d; }
-  * { box-sizing:border-box; }
-  body { margin:0; background:radial-gradient(1000px 600px at 80% 0%, #2b2741 0%, var(--bg) 60%); color:var(--text); font-family:Inter, -apple-system, "Segoe UI", Roboto, sans-serif; line-height:1.6; min-height:100vh; }
-  .wrap { max-width:960px; margin:0 auto; padding:32px 24px 64px; }
-  header { display:flex; align-items:center; gap:12px; }
-  header img { width:36px; height:36px; border-radius:10px; }
-  .brand { font-weight:600; font-size:18px; }
-  .brand b { color:var(--accent); font-weight:600; }
-  nav { margin-left:auto; display:flex; gap:22px; }
-  nav a { color:var(--muted); text-decoration:none; font-size:14px; font-weight:500; }
-  nav a:hover { color:var(--text); }
-  .hero { display:grid; grid-template-columns:1.1fr 1fr; gap:48px; align-items:center; margin-top:96px; }
-  h1 { font-size:52px; line-height:1.08; margin:0 0 18px; letter-spacing:-0.02em; }
-  h1 span { color:var(--accent); }
-  .lead { color:var(--muted); font-size:18px; margin:0 0 32px; max-width:480px; }
-  .cta { display:flex; gap:12px; flex-wrap:wrap; }
-  .btn { display:inline-flex; align-items:center; gap:8px; padding:13px 22px; border-radius:12px; font-weight:600; text-decoration:none; font-size:15px; }
-  .btn-primary { background:var(--accent); color:#161826; }
-  .btn-primary:hover { background:#d2cefd; }
-  .btn-ghost { border:1px solid var(--line); color:var(--text); }
-  .btn-ghost:hover { border-color:var(--accent-700); }
-  .shot { border-radius:22px; overflow:hidden; box-shadow:0 30px 80px rgba(0,0,0,.55); border:1px solid rgba(255,255,255,.08); max-width:340px; justify-self:end; }
-  .shot img { display:block; width:100%; }
-  .feats { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-top:96px; }
-  .feat { background:var(--surface); border:1px solid var(--line); border-radius:16px; padding:22px; }
-  .feat h3 { margin:0 0 6px; font-size:16px; }
-  .feat p { margin:0; color:var(--muted); font-size:14.5px; }
-  footer { margin-top:96px; color:var(--dim); font-size:13px; display:flex; gap:18px; flex-wrap:wrap; }
-  footer a { color:var(--dim); }
-  @media (max-width: 760px) {
-    .hero { grid-template-columns:1fr; margin-top:56px; }
-    h1 { font-size:38px; }
-    .feats { grid-template-columns:1fr; }
-    .shot { max-width:360px; margin:0 auto; }
-  }
-</style>
+<title>OutSky — бесплатный VPN-клиент для подписки любого провайдера</title>
+<meta name="description" content="OutSky — бесплатный VPN-клиент для подписки любого провайдера, сейчас в разработке. В планах: честный статус соединения, диагностика одной кнопкой, понятная маршрутизация и поддержка HWID. Без регистрации и телеметрии.">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self'; font-src 'self'; connect-src 'self'; base-uri 'self'; form-action 'none'">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<meta name="theme-color" content="#0d0b20">
+<link rel="canonical" href="https://outsky.app/">
+<link rel="alternate" hreflang="ru" href="https://outsky.app/">
+<link rel="alternate" hreflang="en" href="https://outsky.app/en/">
+<link rel="alternate" hreflang="x-default" href="https://outsky.app/en/">
+<link rel="icon" href="/assets/img/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/icon.png" type="image/png">
+<link rel="apple-touch-icon" href="/icon.png">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="OutSky">
+<meta property="og:title" content="OutSky — просто по умолчанию, мощно, когда нужно">
+<meta property="og:description" content="В разработке: бесплатный VPN-клиент для подписки любого провайдера. Честный статус, диагностика, маршрутизация, HWID.">
+<meta property="og:url" content="https://outsky.app/">
+<meta property="og:image" content="https://outsky.app/assets/img/og-ru.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="ru_RU">
+<meta property="og:locale:alternate" content="en_US">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preload" href="/assets/fonts/inter-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/assets/css/fonts.css">
+<link rel="stylesheet" href="/assets/css/site.css">
+<script src="/assets/js/early.js"></script>
 </head>
 <body>
-<div class="wrap">
-  <header>
-    <img src="icon.png" alt="OutSky">
-    <div class="brand">Out<b>Sky</b></div>
-    <nav>
-      <a href="https://t.me/outskyapp">Telegram</a>
-      <a href="privacy.html">Privacy</a>
-    </nav>
-  </header>
+<a class="skip" href="#main">К содержимому</a>
+<div class="sky" aria-hidden="true">
+  <svg id="sky" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice">
+    <g class="const" id="constA">
+      <polyline points="60,170 230,110 410,160 600,90 780,140 1010,70 1230,120 1400,80"/>
+      <polyline points="40,760 260,700 470,790 720,720 960,800 1200,730 1420,770"/>
+      <polyline points="1180,300 1290,250 1360,330 1300,410"/>
+      <polyline points="120,420 200,360 300,400"/>
+      <circle cx="230" cy="110" r="2.2"/><circle cx="600" cy="90" r="1.8"/><circle cx="1010" cy="70" r="2.4"/><circle cx="1230" cy="120" r="1.8"/>
+      <circle cx="470" cy="790" r="2"/><circle cx="960" cy="800" r="2.2"/><circle cx="1290" cy="250" r="2"/><circle cx="1360" cy="330" r="1.6"/><circle cx="200" cy="360" r="1.8"/>
+    </g>
+    <g class="const lit" id="constB"></g>
+    <g fill="#b7aff2">
+      <circle class="tw" cx="110" cy="88" r="1.6"/><circle class="tw d1" cx="520" cy="230" r="1.2"/><circle class="tw d2" cx="860" cy="190" r="1.8"/>
+      <circle class="tw d3" cx="1330" cy="180" r="1.4"/><circle class="tw d1" cx="70" cy="560" r="1.3"/><circle class="tw d2" cx="1390" cy="560" r="1.6"/>
+      <circle class="tw" cx="700" cy="40" r="1.1"/><circle class="tw d3" cx="330" cy="300" r="1"/><circle class="tw d2" cx="1100" cy="380" r="1.1"/>
+    </g>
+    <path class="spark" d="M1110 230 l5 11 11 5 -11 5 -5 11 -5 -11 -11 -5 11 -5 Z"/>
+    <path class="spark" d="M60 690 l3.5 8 8 3.5 -8 3.5 -3.5 8 -3.5 -8 -8 -3.5 8 -3.5 Z" opacity=".7"/>
+  </svg>
+</div>
 
+<div class="nav-wrap">
+  <nav class="nav glass" aria-label="Главное меню">
+    <a class="logo" href="/" aria-label="OutSky — на главную"><span class="tile">O<b>S</b></span><span class="word">Out<b>Sky</b></span></a>
+    <div class="links"><a href="#features">Возможности</a><a href="#platforms">Платформы</a><a href="#faq">Вопросы</a><a href="/guide" class="vpn">OutSky VPN<i>сервис</i></a></div>
+    <div class="seg" role="group" aria-label="Язык"><a class="on" href="/" hreflang="ru" aria-current="true">RU</a><a href="/en/" hreflang="en" lang="en">EN</a></div>
+    <button class="burger" type="button" aria-label="Меню" aria-expanded="false"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+  </nav>
+</div>
+
+<main id="main">
+<div class="wrap">
   <section class="hero">
     <div>
-      <h1>Browser VPN.<br><span>One click.</span></h1>
-      <p class="lead">Protect your browser traffic instantly. Pick any of 9 countries or let OutSky choose the fastest server — smart routing keeps local sites direct.</p>
-      <div class="cta">
-        <a class="btn btn-primary" href="https://chromewebstore.google.com/detail/outsky-vpn/aacogocimaopagjjfhgmaefgbcmbjhci">Add to Chrome</a>
-        <a class="btn btn-ghost" href="https://t.me/outskyapp">Get a subscription</a>
+      <a class="pill glass" href="#platforms"><span class="dot">В разработке</span><span>Первая альфа выйдет для Windows</span><span style="color:var(--a400)">→</span></a>
+      <h1>Просто по умолчанию.<br><span class="g">Мощно, когда нужно.</span></h1>
+      <p class="lead"><b>OutSky</b> — бесплатный VPN-клиент для подписки любого провайдера. Одна кнопка и честный статус соединения, а когда нужно — маршруты, DNS и диагностика.</p>
+      <div class="ctas">
+        <a class="btn btn-primary" href="https://t.me/outskyapp"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M21.9 4.6 18.7 19.7c-.2 1-.9 1.3-1.8.8l-4.9-3.6-2.4 2.3c-.3.3-.5.5-1 .5l.4-5 9-8.2c.4-.4-.1-.6-.6-.2L6.3 13.3l-4.8-1.5c-1-.3-1-1 .2-1.5l18.8-7.2c.9-.3 1.6.2 1.4 1.5z"/></svg>Следить за разработкой</a>
+        <a class="btn btn-neon" href="#features">Возможности<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      </div>
+      <div class="trust">
+        <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Без регистрации</span>
+        <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Без телеметрии</span>
+        <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Любой провайдер</span>
       </div>
     </div>
-    <div class="shot"><img src="screenshot.png" alt="OutSky extension — connected to Germany"></div>
+    <div>
+      <div class="fan">
+        <div class="halo"></div>
+        <!-- left: servers -->
+        <div class="phone p-left" role="group" aria-label="Превью: экран серверов"><div class="scr"><div class="isl"></div><div class="sb"><span>9:41</span><span class="vpn">VPN</span></div>
+          <div class="body">
+            <div class="ah"><div><div class="big" style="margin:0">Серверы</div></div><div class="hb"><span class="sq"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 12a9 9 0 1 1-3-6.7L21 8M21 3v5h-5"/></svg></span><span class="sq add"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span></div></div>
+            <div class="sub2">12 серверов · 1 подписка</div>
+            <div class="srch"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>Поиск серверов…</div>
+            <div class="flt" id="flt"><span class="on" data-f="all">Все</span><span data-f="v">VLESS</span><span class="hy" data-f="h">Hysteria2</span></div>
+            <div class="prov"><div class="pv-h"><b>My Provider</b><small>6ч</small><span class="ib"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M13 2 4 14h7l-1 8 9-12h-7z"/></svg></span></div>
+              <div class="tbar"><span>12.4 ГБ</span><span class="b"><i></i></span><span>/ 50 ГБ</span></div>
+              <div id="srvList2"></div></div>
+          </div>
+          <div class="tabs"><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="6" cy="7" r="2"/><circle cx="18" cy="7" r="2"/><circle cx="12" cy="18" r="2.4"/><path d="M8 7h8M7 9l4 7M17 9l-4 7"/></svg></span><span class="on"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="18" height="7" rx="2"/><rect x="3" y="13" width="18" height="7" rx="2"/></svg></span><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M4.9 19.1 7 17M17 7l2.1-2.1"/></svg></span></div>
+        </div></div>
+        <!-- middle: home -->
+        <div class="phone p-mid"><div class="scr st-off" id="home"><div class="isl"></div><div class="sb"><span>9:41</span><span class="vpn">VPN</span></div>
+          <div class="body">
+            <div class="ah"><div class="wm">Out<b>Sky</b><span class="ver">preview</span></div><span class="sq" title="Диагностика"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h4l3-8 4 16 3-8h4"/></svg></span></div>
+            <div class="stats"><span><i>↑</i> <b id="up">0</b> КБ/с</span><span>⏱ <b id="tm">00:00:00</b></span><span><i>↓</i> <b id="dn">0</b> КБ/с</span></div>
+            <div class="pw" id="pw" role="button" tabindex="0" aria-label="Подключить">
+              <div class="ring"></div>
+              <div class="spin"><svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="49" fill="none" stroke="#d2cefd" stroke-width="1.6" stroke-linecap="round" stroke-dasharray="70 240"/></svg></div>
+              <div class="disc"><svg class="ic-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M12 3v8"/><path d="M6.4 6.6a8 8 0 1 0 11.2 0"/></svg>
+                <svg class="ic-on" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><path d="M12 3 4.5 6v5.5c0 4.6 3.1 8.3 7.5 9.5 4.4-1.2 7.5-4.9 7.5-9.5V6z"/></svg></div>
+            </div>
+            <div class="loc" id="loc">Нажмите для подключения</div>
+            <div class="chk"><a>Проверить</a><span class="ok" id="okline"></span></div>
+            <div class="lbl">Текущий провайдер</div>
+            <div class="prov">
+              <div class="pv-h"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#9a9bb5" stroke-width="2.4"><path d="m6 9 6 6 6-6"/></svg><b>My Provider</b><small>6ч</small>
+                <span class="ib"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M21 12a9 9 0 1 1-3-6.7L21 8M21 3v5h-5"/></svg></span><span class="ib"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M13 2 4 14h7l-1 8 9-12h-7z"/></svg></span></div>
+              <div class="tbar"><span>12.4 ГБ</span><span class="b"><i></i></span><span>/ 50 ГБ</span></div>
+              <div class="chips"><span class="ch"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M9.5 9a2.5 2.5 0 1 1 3.5 2.3c-.7.3-1 .9-1 1.7M12 17h.01"/></svg>Поддержка</span><span class="ch"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg>Сайт</span></div>
+              <div id="srvList"></div>
+            </div>
+          </div>
+          <div class="tabs"><span class="on"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="6" cy="7" r="2"/><circle cx="18" cy="7" r="2"/><circle cx="12" cy="18" r="2.4"/><path d="M8 7h8M7 9l4 7M17 9l-4 7"/></svg>Подключение</span><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="18" height="7" rx="2"/><rect x="3" y="13" width="18" height="7" rx="2"/></svg>Серверы</span><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M4.9 19.1 7 17M17 7l2.1-2.1"/></svg>Настройки</span></div>
+        </div></div>
+        <!-- right: settings -->
+        <div class="phone p-right" role="group" aria-label="Превью: настройки"><div class="scr"><div class="isl"></div><div class="sb"><span>9:41</span><span class="vpn">VPN</span></div>
+          <div class="body">
+            <div class="big">Настройки</div>
+            <div class="grp" style="margin-top:10px">
+              <div class="it"><span class="ico" style="background:rgba(181,171,252,.16);color:#b5abfc"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 3v12a3 3 0 0 0 3 3h9M15 15l3 3-3 3"/></svg></span><b>Маршрутизация<small>Россия напрямую</small></b><span class="val"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="m9 6 6 6-6 6"/></svg></span></div>
+              <div class="it"><span class="ico" style="background:rgba(103,232,249,.14);color:#67e8f9"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg></span><b>DNS<small>Умное разделение</small></b><span class="val"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="m9 6 6 6-6 6"/></svg></span></div>
+            </div>
+            <div class="gl" style="font-size:9px;letter-spacing:.12em;color:#6b6d88;font-weight:600;margin:10px 4px 5px">СОЕДИНЕНИЕ</div>
+            <div class="grp">
+              <div class="it"><span class="ico" style="background:rgba(250,204,21,.14);color:#facc15"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M13 2 4 14h7l-1 8 9-12h-7z"/></svg></span><b>Автоподключение</b><span class="tg on"></span></div>
+              <div class="it"><span class="ico" style="background:rgba(248,113,113,.14);color:#f87171"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2 4 5v6c0 5 3.4 9.4 8 11 4.6-1.6 8-6 8-11V5z"/></svg></span><b>Kill switch<small>Блокировать сеть без VPN</small></b><span class="tg"></span></div>
+              <div class="it"><span class="ico" style="background:rgba(74,222,128,.14);color:#4ade80"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/></svg></span><b>Локальная сеть<small>Принтеры остаются доступны</small></b><span class="tg on"></span></div>
+            </div>
+            <div class="gl" style="font-size:9px;letter-spacing:.12em;color:#6b6d88;font-weight:600;margin:10px 4px 5px">ПРИВАТНОСТЬ</div>
+            <div class="grp">
+              <div class="it"><span class="ico" style="background:rgba(244,114,208,.14);color:#f472d0"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="7" y="2" width="10" height="20" rx="2"/><path d="M11 18h2"/></svg></span><b>ID устройства<small>Включается для каждой подписки</small></b><span class="val"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="m9 6 6 6-6 6"/></svg></span></div>
+              <div class="it"><span class="ico" style="background:rgba(181,171,252,.16);color:#b5abfc"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16v16H4z"/><path d="M8 9h8M8 13h6"/></svg></span><b>Журнал<small>Только на устройстве</small></b><span class="val">Базовый<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="m9 6 6 6-6 6"/></svg></span></div>
+            </div>
+          </div>
+          <div class="tabs"><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="6" cy="7" r="2"/><circle cx="18" cy="7" r="2"/><circle cx="12" cy="18" r="2.4"/><path d="M8 7h8M7 9l4 7M17 9l-4 7"/></svg></span><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="18" height="7" rx="2"/><rect x="3" y="13" width="18" height="7" rx="2"/></svg></span><span class="on"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M4.9 19.1 7 17M17 7l2.1-2.1"/></svg></span></div>
+        </div></div>
+      </div>
+      <div class="cap"><div class="glass">Превью интерфейса на демо-данных · приложение в разработке <a href="https://t.me/outskyapp">Новости в канале →</a></div></div>
+    </div>
   </section>
 
-  <section class="feats">
-    <div class="feat"><h3>9 countries</h3><p>Finland, Germany, Netherlands, Sweden, Latvia, Switzerland, USA, Kazakhstan, Russia. Auto-select by lowest ping.</p></div>
-    <div class="feat"><h3>Smart routing</h3><p>Russian and local sites go direct, everything else through the tunnel. Or route all traffic — your choice.</p></div>
-    <div class="feat"><h3>No accounts, no trackers</h3><p>Activate with a single subscription link. No analytics, no ads, no browsing logs.</p></div>
+  <!-- features -->
+  <section class="sec" id="features">
+    <div class="sh reveal"><span class="kick">Возможности</span><h2>Всё, что нужно,<br><span class="g">и ничего лишнего</span></h2>
+      <p>Так будет устроено приложение — сейчас оно в разработке. Новичку — одна кнопка. Тому, кто разбирается, — маршруты, DNS и диагностика. Без регистрации и без телеметрии.</p></div>
+    <div class="bento">
+      <div class="card c3 reveal"><h3>Честный статус</h3><p>«Подключено» — только когда трафик действительно идёт. Если что-то не так, вы увидите причину, а не «ошибку соединения».</p>
+        <div class="viz"><div class="states" id="states"><span class="s1">Не подключено</span><span class="s2">Подключение</span><span class="s3">Подключено</span><span class="s4">Сервер не ответил</span></div>
+          <div class="flow"><div><i>1</i>Туннель поднят</div><span>→</span><div><i>2</i>Трафик проверен</div><span>→</span><div class="ok"><i>✓</i>Подключено</div></div>
+          <p class="fnote">Запуск программы ещё не значит, что VPN работает. Поэтому OutSky сначала проверяет трафик и только потом пишет «Подключено».</p></div></div>
+      <div class="card c3 reveal"><h3>Диагностика одной кнопкой</h3><p>Проверит DNS, сервер, порты и подписку — и подскажет, что делать.</p>
+        <div class="viz"><div class="diag">
+          <div><i class="y">✓</i><span>DNS отвечает</span><small>12 мс</small></div>
+          <div><i class="y">✓</i><span>Сервер доступен · TCP 443</span><small>38 мс</small></div>
+          <div><i class="w">!</i><span>UDP блокируется в этой сети</span><small>—</small></div>
+          <div class="hint">Hysteria2 здесь не заработает — выберите сервер VLESS. Сервер в порядке, ограничивает сеть.</div>
+        </div></div></div>
+      <div class="card c2 reveal"><h3>Подписка любого провайдера</h3><p>Вставьте ссылку от своего провайдера — остаток трафика и срок подтянутся сами, если провайдер их передаёт.</p>
+        <div class="viz"><div class="mini">
+          <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M20 6 9 17l-5-5"/></svg>Добавление по ссылке</div>
+          <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M20 6 9 17l-5-5"/></svg>Несколько подписок сразу</div>
+          <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M20 6 9 17l-5-5"/></svg>Серверы не пропадут, если провайдер недоступен</div>
+        </div></div></div>
+      <div class="card c4 reveal"><h3>Протоколы</h3><p>Подойдёт почти любая подписка — от VLESS Reality до AmneziaWG.</p>
+        <div class="viz"><div class="protos">
+          <span style="color:var(--p-vless)">VLESS · REALITY</span><span style="color:var(--p-vless)">VLESS · xHTTP</span><span style="color:var(--p-hy2)">Hysteria2</span><span style="color:var(--p-trojan)">Trojan</span>
+          <span style="color:var(--p-ss)">Shadowsocks</span><span style="color:var(--p-wg)">WireGuard</span><span style="color:var(--p-wg)">AmneziaWG</span><span style="color:var(--n300)">VMess</span><span style="color:var(--n300)">TUIC</span><span style="color:var(--n400)">SOCKS5 / HTTP</span>
+        </div></div></div>
+      <div class="card c3 reveal"><h3>Маршрутизация человеческим языком</h3><p>Выбирайте по последствиям, а не по терминам. Нужно тоньше — редактор правил.</p>
+        <div class="viz"><div class="rts" id="rts">
+          <div class="rt on"><div><b>Россия напрямую</b><small>Российские сайты — напрямую, остальное — через VPN</small></div><span class="rd"></span></div>
+          <div class="rt"><div><b>Всё через VPN</b><small>Весь трафик идёт через сервер</small></div><span class="rd"></span></div>
+          <div class="rt"><div><b>Свои правила</b><small>Домены, IP, приложения — в редакторе</small></div><span class="rd"></span></div>
+        </div></div></div>
+      <div class="card c3 reveal"><h3>HWID — лимит устройств у провайдера</h3><p>Если провайдер ограничивает число устройств, OutSky сможет передавать ID устройства, который такие провайдеры требуют. Включается отдельно для каждой подписки.</p>
+        <div class="viz"><div class="hwid">
+          <div class="hw-top"><div><b>My Provider</b><small>Лимит: 3 устройства · используется 2</small></div><span class="dots"><i class="on"></i><i class="on"></i><i></i></span></div>
+          <div class="hw-row"><span>Отправлять ID устройства</span><span class="tg on" id="hwTg"></span></div>
+          <div class="hw-id" id="hwId"><code>7c1e9a40-2f6b-4d1e-9b83-…</code><button type="button" id="hwReset">Сбросить</button></div>
+          <p class="fnote">Случайный идентификатор, а не отпечаток железа. Вместе с ним провайдер увидит ОС, её версию и имя устройства (его можно изменить). Выключено по умолчанию, ID можно сбросить в любой момент.</p>
+        </div></div></div>
+      <div class="card c2 reveal"><h3>Бережёт трафик</h3><p>Пинг меряется сам и почти ничего не стоит. Замер скорости — только по кнопке и с предупреждением о расходе.</p>
+        <div class="viz"><div class="mini">
+          <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M20 6 9 17l-5-5"/></svg>Без фоновых спидтестов</div>
+          <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M20 6 9 17l-5-5"/></svg>Избранное и сортировка серверов</div>
+        </div></div></div>
+      <div class="card c2 reveal"><h3>Приватность</h3><p>Без аккаунтов и телеметрии. Логи — только на устройстве.</p>
+        <div class="viz"><div class="mini">
+          <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M20 6 9 17l-5-5"/></svg>Ключи — в защищённом хранилище системы</div>
+          <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M20 6 9 17l-5-5"/></svg>Экспорт лога со скрытыми паролями</div>
+        </div></div></div>
+      <div class="card c2 reveal"><h3>Вся система</h3><p>Режим TUN для всех программ и kill switch на случай обрыва.</p>
+        <div class="viz"><div class="mini">
+          <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M20 6 9 17l-5-5"/></svg>Переподключение после сна и смены сети</div>
+          <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M20 6 9 17l-5-5"/></svg>Локальная сеть остаётся доступна</div>
+        </div></div></div>
+    </div>
+    <p class="preview-note">Приложение в разработке: функции появятся по мере выхода версий. Следите за новостями в канале @outskyapp.</p>
   </section>
 
-  <footer>
-    <span>© 2026 OutSky</span>
-    <a href="privacy.html">Privacy Policy</a>
-    <a href="https://t.me/outskyapp">t.me/outskyapp</a>
-    <a href="mailto:support@outsky.app">support@outsky.app</a>
-  </footer>
+  <!-- platforms -->
+  <section class="sec" id="platforms">
+    <div class="sh reveal"><span class="kick">Платформы</span><h2>Один OutSky —<br><span class="g">на всех ваших устройствах</span></h2>
+      <p>Сначала Windows, затем телефоны и другие системы. Когда версия выйдет, здесь появится кнопка «Скачать».</p></div>
+    <div class="plats" id="plats">
+      <div class="pl reveal" data-os="windows"><span class="pi"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 5.5 10 4.5v7H3zM11 4.4 21 3v8.5H11zM3 12.5h7v7l-7-1zM11 12.5h10V21l-10-1.4z"/></svg></span><div><b>Windows</b><small>Выйдет первой</small></div><span class="st dev">В разработке</span></div>
+      <div class="pl reveal" data-os="android"><span class="pi"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 9h10v8a1 1 0 0 1-1 1h-1v3h-2v-3h-2v3H9v-3H8a1 1 0 0 1-1-1zM4 9h2v6H4zm14 0h2v6h-2zM8 8a4 4 0 0 1 8 0z"/></svg></span><div><b>Android</b><small>Телефоны</small></div><span class="st plan">Запланировано</span></div>
+      <div class="pl reveal" data-os="ios"><span class="pi"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M16.4 12.6c0-2.4 2-3.6 2.1-3.7-1.2-1.7-3-1.9-3.6-1.9-1.5-.2-3 .9-3.8.9-.8 0-2-.9-3.3-.9-1.7 0-3.2 1-4.1 2.5-1.8 3-.5 7.5 1.2 10 .8 1.2 1.8 2.6 3.1 2.5 1.2 0 1.7-.8 3.2-.8s1.9.8 3.2.8c1.3 0 2.2-1.2 3-2.4.9-1.4 1.3-2.7 1.3-2.8 0 0-2.4-.9-2.4-3.6zM14 5.4c.7-.8 1.1-1.9 1-3-1 0-2.1.7-2.8 1.5-.6.7-1.2 1.8-1 2.9 1.1.1 2.1-.6 2.8-1.4z"/></svg></span><div><b>iPhone</b><small>iOS</small></div><span class="st plan">Запланировано</span></div>
+      <div class="pl reveal" data-os="mac"><span class="pi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/></svg></span><div><b>macOS</b><small>Компьютеры Mac</small></div><span class="st plan">Запланировано</span></div>
+      <div class="pl reveal" data-os="linux"><span class="pi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 17l6-6-6-6M12 19h8"/></svg></span><div><b>Linux</b><small>Сборка для Linux</small></div><span class="st plan">Запланировано</span></div>
+      <a class="pl reveal" data-os="browser" href="/guide#chrome"><span class="pi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3.5"/><path d="M12 8.5h8.5M9 14l-4.3 5.6M15 14l-1.8 6.6"/></svg></span><div><b>Браузер</b><small>Google Chrome · расширение работает с OutSky VPN</small></div><span class="st av">Доступно</span></a>
+    </div>
+  </section>
+
+  <!-- OutSky VPN teaser -->
+  <section class="sec" id="vpn">
+    <div class="vpnb reveal"><div><span class="kick">OutSky VPN</span><h3 style="margin-top:14px">Нет подписки?</h3>
+      <p>OutSky рассчитан на подписку любого провайдера. Если своей подписки нет — попробуйте наш сервис OutSky VPN: бесплатный пробный период в нашем Telegram-боте.</p></div>
+      <a class="btn btn-neon" href="/guide">Как подключить OutSky VPN<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></div>
+  </section>
+
+  <!-- faq -->
+  <section class="sec" id="faq">
+    <div class="sh reveal"><span class="kick">Вопросы</span><h2>Частые вопросы</h2></div>
+    <div class="faq">
+      <details class="reveal" open><summary>OutSky — это VPN-сервис?</summary><p>Нет. OutSky — клиент: серверов и подписок он не продаёт. Нужна подписка вашего провайдера или собственный сервер.</p></details>
+      <details class="reveal"><summary>Где скачать?</summary><p>Пока нигде — приложение в разработке. Первой выйдет публичная альфа для Windows. Следите за новостями в канале @outskyapp.</p></details>
+      <details class="reveal"><summary>Это бесплатно?</summary><p>Да, OutSky бесплатный. Подписку на серверы вы получаете у своего провайдера.</p></details>
+      <details class="reveal"><summary>Нужна регистрация?</summary><p>Нет. Добавили подписку — и подключились.</p></details>
+      <details class="reveal"><summary>Мой провайдер ограничивает число устройств. Подойдёт?</summary><p>Должен подойти: OutSky сможет передавать ID устройства (HWID), который требуют такие провайдеры. Это случайный идентификатор, а не отпечаток железа; вместе с ним провайдер увидит ОС, её версию и имя устройства. ID включается отдельно для каждой подписки, и его можно сбросить в любой момент.</p></details>
+      <details class="reveal"><summary>Собирает ли OutSky данные?</summary><p>Телеметрии не будет. Логи остаются на устройстве, а при экспорте журнала ключи и пароли скрываются. ID устройства включается только по вашему желанию и отдельно для каждой подписки.</p></details>
+      <details class="reveal"><summary>Какие платформы?</summary><p>Сначала Windows, затем Android и iPhone, позже macOS и Linux. Для браузера уже есть расширение — оно работает с OutSky VPN.</p></details>
+      <details class="reveal"><summary>Будет ли открытый код?</summary><p>Планируем открыть исходный код к первому публичному релизу.</p></details>
+    </div>
+  </section>
 </div>
+</main>
+<footer><div class="wrap"><div><a class="logo" href="/" style="display:inline-flex"><span class="tile">O<b>S</b></span><span class="word">Out<b>Sky</b></span></a><div style="margin-top:8px">Просто по умолчанию. Мощно, когда нужно.</div></div>
+  <nav aria-label="Ссылки"><a href="/guide">OutSky VPN</a><a href="https://t.me/outskyapp">Канал @outskyapp</a><a href="/privacy.html#ru">Конфиденциальность</a></nav><div>© 2026 OutSky</div></div></footer>
+
+<script src="/assets/js/site.js" defer></script>
 </body>
 </html>

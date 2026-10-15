@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>OutSky — a free VPN client for any provider’s subscription</title>
+<meta name="description" content="OutSky is a free VPN client for any provider’s subscription, now in development. Designed around an honest connection status, one-tap diagnostics, plain-language routing and HWID support. No sign-up, no telemetry.">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self'; font-src 'self'; connect-src 'self'; base-uri 'self'; form-action 'none'">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<meta name="theme-color" content="#0d0b20">
+<link rel="canonical" href="https://outsky.app/en/">
+<link rel="alternate" hreflang="ru" href="https://outsky.app/">
+<link rel="alternate" hreflang="en" href="https://outsky.app/en/">
+<link rel="alternate" hreflang="x-default" href="https://outsky.app/en/">
+<link rel="icon" href="/assets/img/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/icon.png" type="image/png">
+<link rel="apple-touch-icon" href="/icon.png">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="OutSky">
+<meta property="og:title" content="OutSky — simple by default, powerful when needed">
+<meta property="og:description" content="In development: a free VPN client for any provider’s subscription. Honest status, diagnostics, routing, HWID.">
+<meta property="og:url" content="https://outsky.app/en/">
+<meta property="og:image" content="https://outsky.app/assets/img/og-en.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="en_US">
+<meta property="og:locale:alternate" content="ru_RU">
+<meta name="twitter:card" content="summary_large_image">
+
+<link rel="preload" href="/assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/assets/css/fonts.css">
+<link rel="stylesheet" href="/assets/css/site.css">
+<script src="/assets/js/early.js"></script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<div class="sky" aria-hidden="true">
+  <svg id="sky" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice">
+    <g class="const" id="constA">
+      <polyline points="60,170 230,110 410,160 600,90 780,140 1010,70 1230,120 1400,80"/>
+      <polyline points="40,760 260,700 470,790 720,720 960,800 1200,730 1420,770"/>
+      <polyline points="1180,300 1290,250 1360,330 1300,410"/>
+      <polyline points="120,420 200,360 300,400"/>
+      <circle cx="230" cy="110" r="2.2"/><circle cx="600" cy="90" r="1.8"/><circle cx="1010" cy="70" r="2.4"/><circle cx="1230" cy="120" r="1.8"/>
+      <circle cx="470" cy="790" r="2"/><circle cx="960" cy="800" r="2.2"/><circle cx="1290" cy="250" r="2"/><circle cx="1360" cy="330" r="1.6"/><circle cx="200" cy="360" r="1.8"/>
+    </g>
+    <g class="const lit" id="constB"></g>
+    <g fill="#b7aff2">
+      <circle class="tw" cx="110" cy="88" r="1.6"/><circle class="tw d1" cx="520" cy="230" r="1.2"/><circle class="tw d2" cx="860" cy="190" r="1.8"/>
+      <circle class="tw d3" cx="1330" cy="180" r="1.4"/><circle class="tw d1" cx="70" cy="560" r="1.3"/><circle class="tw d2" cx="1390" cy="560" r="1.6"/>
+      <circle class="tw" cx="700" cy="40" r="1.1"/><circle class="tw d3" cx="330" cy="300" r="1"/><circle class="tw d2" cx="1100" cy="380" r="1.1"/>
+    </g>
+    <path class="spark" d="M1110 230 l5 11 11 5 -11 5 -5 11 -5 -11 -11 -5 11 -5 Z"/>
+    <path class="spark" d="M60 690 l3.5 8 8 3.5 -8 3.5 -3.5 8 -3.5 -8 -8 -3.5 8 -3.5 Z" opacity=".7"/>
+  </svg>
+</div>
+
+<div class="nav-wrap">
+  <nav class="nav glass" aria-label="Main menu">
+    <a class="logo" href="/en/" aria-label="OutSky — home"><span class="tile">O<b>S</b></span><span class="word">Out<b>Sky</b></span></a>
+    <div class="links"><a href="#features">Features</a><a href="#platforms">Platforms</a><a href="#faq">FAQ</a><a href="https://t.me/OutSkyVPN_bot" class="vpn">OutSky VPN<i>service</i></a></div>
+    <div class="seg" role="group" aria-label="Language"><a href="/" hreflang="ru" lang="ru">RU</a><a class="on" href="/en/" hreflang="en" aria-current="true">EN</a></div>
+    <button class="burger" type="button" aria-label="Menu" aria-expanded="false"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+  </nav>
+</div>
+
+<main id="main">
+<div class="wrap">
+  <section class="hero">
+    <div>
+      <a class="pill glass" href="#platforms"><span class="dot">In development</span><span>The first alpha will be for Windows</span><span style="color:var(--a400)">→</span></a>
+      <h1>Simple by default.<br><span class="g">Powerful when needed.</span></h1>
+      <p class="lead"><b>OutSky</b> is a free VPN client for any provider’s subscription. One button and an honest connection status — and when you need it, routing, DNS and diagnostics.</p>
+      <div class="ctas">
+        <a class="btn btn-primary" href="https://t.me/outskyapp"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M21.9 4.6 18.7 19.7c-.2 1-.9 1.3-1.8.8l-4.9-3.6-2.4 2.3c-.3.3-.5.5-1 .5l.4-5 9-8.2c.4-.4-.1-.6-.6-.2L6.3 13.3l-4.8-1.5c-1-.3-1-1 .2-1.5l18.8-7.2c.9-.3 1.6.2 1.4 1.5z"/></svg>Follow development</a>
+        <a class="btn btn-neon" href="#features">Features<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      </div>
+      <div class="trust">
+        <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>No sign-up</span>
+        <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>No telemetry</span>
+        <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Any provider</span>
+      </div>
+    </div>
+    <div>
+      <div class="fan">
+        <div class="halo"></div>
+        <!-- left: servers -->
+        <div class="phone p-left" role="group" aria-label="Preview: servers screen"><div class="scr"><div class="isl"></div><div class="sb"><span>9:41</span><span class="vpn">VPN</span></div>
+          <div class="body">
+            <div class="ah"><div><div class="big" style="margin:0">Servers</div></div><div class="hb"><span class="sq"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 12a9 9 0 1 1-3-6.7L21 8M21 3v5h-5"/></svg></span><span class="sq add"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span></div></div>
+            <div class="sub2">12 servers · 1 subscription</div>
+            <div class="srch"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>Search servers…</div>
+            <div class="flt" id="flt"><span class="on" data-f="all">All</span><span data-f="v">VLESS</span><span class="hy" data-f="h">Hysteria2</span></div>
+            <div class="prov"><div class="pv-h"><b>My Provider</b><small>6h</small><span class="ib"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M13 2 4 14h7l-1 8 9-12h-7z"/></svg></span></div>
+              <div class="tbar"><span>12.4 GB</span><span class="b"><i></i></span><span>/ 50 GB</span></div>
+              <div id="srvList2"></div></div>
+          </div>
+          <div class="tabs"><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="6" cy="7" r="2"/><circle cx="18" cy="7" r="2"/><circle cx="12" cy="18" r="2.4"/><path d="M8 7h8M7 9l4 7M17 9l-4 7"/></svg></span><span class="on"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="18" height="7" rx="2"/><rect x="3" y="13" width="18" height="7" rx="2"/></svg></span><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M4.9 19.1 7 17M17 7l2.1-2.1"/></svg></span></div>
+        </div></div>
+        <!-- middle: home -->
+        <div class="phone p-mid"><div class="scr st-off" id="home"><div class="isl"></div><div class="sb"><span>9:41</span><span class="vpn">VPN</span></div>
+          <div class="body">
+            <div class="ah"><div class="wm">Out<b>Sky</b><span class="ver">preview</span></div><span class="sq" title="Diagnostics"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h4l3-8 4 16 3-8h4"/></svg></span></div>
+            <div class="stats"><span><i>↑</i> <b id="up">0</b> KB/s</span><span>⏱ <b id="tm">00:00:00</b></span><span><i>↓</i> <b id="dn">0</b> KB/s</span></div>
+            <div class="pw" id="pw" role="button" tabindex="0" aria-label="Connect">
+              <div class="ring"></div>
+              <div class="spin"><svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="49" fill="none" stroke="#d2cefd" stroke-width="1.6" stroke-linecap="round" stroke-dasharray="70 240"/></svg></div>
+              <div class="disc"><svg class="ic-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M12 3v8"/><path d="M6.4 6.6a8 8 0 1 0 11.2 0"/></svg>
+                <svg class="ic-on" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><path d="M12 3 4.5 6v5.5c0 4.6 3.1 8.3 7.5 9.5 4.4-1.2 7.5-4.9 7.5-9.5V6z"/></svg></div>
+            </div>
+            <div class="loc" id="loc">Tap to connect</div>
+            <div class="chk"><a>Check</a><span class="ok" id="okline"></span></div>
+            <div class="lbl">Current provider</div>
+            <div class="prov">
+              <div class="pv-h"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#9a9bb5" stroke-width="2.4"><path d="m6 9 6 6 6-6"/></svg><b>My Provider</b><small>6h</small>
+                <span class="ib"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M21 12a9 9 0 1 1-3-6.7L21 8M21 3v5h-5"/></svg></span><span class="ib"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M13 2 4 14h7l-1 8 9-12h-7z"/></svg></span></div>
+              <div class="tbar"><span>12.4 GB</span><span class="b"><i></i></span><span>/ 50 GB</span></div>
+              <div class="chips"><span class="ch"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M9.5 9a2.5 2.5 0 1 1 3.5 2.3c-.7.3-1 .9-1 1.7M12 17h.01"/></svg>Support</span><span class="ch"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg>Website</span></div>
+              <div id="srvList"></div>
+            </div>
+          </div>
+          <div class="tabs"><span class="on"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="6" cy="7" r="2"/><circle cx="18" cy="7" r="2"/><circle cx="12" cy="18" r="2.4"/><path d="M8 7h8M7 9l4 7M17 9l-4 7"/></svg>Connect</span><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="18" height="7" rx="2"/><rect x="3" y="13" width="18" height="7" rx="2"/></svg>Servers</span><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M4.9 19.1 7 17M17 7l2.1-2.1"/></svg>Settings</span></div>
+        </div></div>
+        <!-- right: settings -->
+        <div class="phone p-right" role="group" aria-label="Preview: settings"><div class="scr"><div class="isl"></div><div class="sb"><span>9:41</span><span class="vpn">VPN</span></div>
+          <div class="body">
+            <div class="big">Settings</div>
+            <div class="grp" style="margin-top:10px">
+              <div class="it"><span class="ico" style="background:rgba(181,171,252,.16);color:#b5abfc"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 3v12a3 3 0 0 0 3 3h9M15 15l3 3-3 3"/></svg></span><b>Routing<small>Russia direct</small></b><span class="val"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="m9 6 6 6-6 6"/></svg></span></div>
+              <div class="it"><span class="ico" style="background:rgba(103,232,249,.14);color:#67e8f9"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg></span><b>DNS<small>Smart split</small></b><span class="val"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="m9 6 6 6-6 6"/></svg></span></div>
+            </div>
+            <div class="gl" style="font-size:9px;letter-spacing:.12em;color:#6b6d88;font-weight:600;margin:10px 4px 5px">CONNECTION</div>
+            <div class="grp">
+              <div class="it"><span class="ico" style="background:rgba(250,204,21,.14);color:#facc15"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M13 2 4 14h7l-1 8 9-12h-7z"/></svg></span><b>Auto-connect</b><span class="tg on"></span></div>
+              <div class="it"><span class="ico" style="background:rgba(248,113,113,.14);color:#f87171"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2 4 5v6c0 5 3.4 9.4 8 11 4.6-1.6 8-6 8-11V5z"/></svg></span><b>Kill switch<small>Block traffic without VPN</small></b><span class="tg"></span></div>
+              <div class="it"><span class="ico" style="background:rgba(74,222,128,.14);color:#4ade80"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/></svg></span><b>Local network<small>Printers stay reachable</small></b><span class="tg on"></span></div>
+            </div>
+            <div class="gl" style="font-size:9px;letter-spacing:.12em;color:#6b6d88;font-weight:600;margin:10px 4px 5px">PRIVACY</div>
+            <div class="grp">
+              <div class="it"><span class="ico" style="background:rgba(244,114,208,.14);color:#f472d0"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="7" y="2" width="10" height="20" rx="2"/><path d="M11 18h2"/></svg></span><b>Device ID<small>Enabled per subscription</small></b><span class="val"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="m9 6 6 6-6 6"/></svg></span></div>
+              <div class="it"><span class="ico" style="background:rgba(181,171,252,.16);color:#b5abfc"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16v16H4z"/><path d="M8 9h8M8 13h6"/></svg></span><b>Log<small>On this device only</small></b><span class="val">Basic<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="m9 6 6 6-6 6"/></svg></span></div>
+            </div>
+          </div>
+          <div class="tabs"><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="6" cy="7" r="2"/><circle cx="18" cy="7" r="2"/><circle cx="12" cy="18" r="2.4"/><path d="M8 7h8M7 9l4 7M17 9l-4 7"/></svg></span><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="18" height="7" rx="2"/><rect x="3" y="13" width="18" height="7" rx="2"/></svg></span><span class="on"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M4.9 19.1 7 17M17 7l2.1-2.1"/></svg></span></div>
+        </div></div>
+      </div>
+      <div class="cap"><div class="glass">Interface preview on demo data · the app is in development <a href="https://t.me/outskyapp">News in the channel →</a></div></div>
+    </div>
+  </section>
+
+  <!-- features -->
+  <section class="sec" id="features">
+    <div class="sh reveal"><span class="kick">Features</span><h2>Everything you need,<br><span class="g">nothing you don’t</span></h2>
+      <p>This is how the app is designed — it’s in development now. One button for newcomers; routing, DNS and diagnostics for power users. No sign-up and no telemetry.</p></div>
+    <div class="bento">
+      <div class="card c3 reveal"><h3>Honest status</h3><p>“Connected” only when traffic actually flows. If something is wrong, you see the reason — not a vague “connection failed”.</p>
+        <div class="viz"><div class="states" id="states"><span class="s1">Not connected</span><span class="s2">Connecting</span><span class="s3">Connected</span><span class="s4">Server didn’t respond</span></div>
+          <div class="flow"><div><i>1</i>Tunnel up</div><span>→</span><div><i>2</i>Traffic verified</div><span>→</span><div class="ok"><i>✓</i>Connected</div></div>
+          <p class="fnote">A running process doesn’t mean the VPN works. So OutSky checks the traffic first and only then says “Connected”.</p></div></div>
+      <div class="card c3 reveal"><h3>One-tap diagnostics</h3><p>Checks DNS, the server, ports and your subscription — and tells you what to do.</p>
+        <div class="viz"><div class="diag">
+          <div><i class="y">✓</i><span>DNS responds</span><small>12 ms</small></div>
+          <div><i class="y">✓</i><span>Server reachable · TCP 443</span><small>38 ms</small></div>
+          <div><i class="w">!</i><span>UDP is blocked on this network</span><small>—</small></div>
+          <div class="hint">Hysteria2 won’t work here — pick a VLESS server. The server is fine — this network blocks UDP.</div>
+        </div></div></div>
+      <div class="card c2 reveal"><h3>Any provider’s subscription</h3><p>Paste your provider’s link — remaining traffic and expiry are picked up automatically if your provider sends them.</p>
+        <div class="viz"><div class="mini">
+          <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M20 6 9 17l-5-5"/></svg>Add by link</div>
+          <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M20 6 9 17l-5-5"/></svg>Several subscriptions at once</div>
+          <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M20 6 9 17l-5-5"/></svg>Servers stay if the provider is unreachable</div>
+        </div></div></div>
+      <div class="card c4 reveal"><h3>Protocols</h3><p>Almost any subscription will work — from VLESS Reality to AmneziaWG.</p>
+        <div class="viz"><div class="protos">
+          <span style="color:var(--p-vless)">VLESS · REALITY</span><span style="color:var(--p-vless)">VLESS · xHTTP</span><span style="color:var(--p-hy2)">Hysteria2</span><span style="color:var(--p-trojan)">Trojan</span>
+          <span style="color:var(--p-ss)">Shadowsocks</span><span style="color:var(--p-wg)">WireGuard</span><span style="color:var(--p-wg)">AmneziaWG</span><span style="color:var(--n300)">VMess</span><span style="color:var(--n300)">TUIC</span><span style="color:var(--n400)">SOCKS5 / HTTP</span>
+        </div></div></div>
+      <div class="card c3 reveal"><h3>Routing in plain words</h3><p>Choose by outcome, not by jargon. Need finer control? There’s a rule editor.</p>
+        <div class="viz"><div class="rts" id="rts">
+          <div class="rt on"><div><b>Russia direct</b><small>Russian sites go direct, the rest via VPN</small></div><span class="rd"></span></div>
+          <div class="rt"><div><b>Proxy everything</b><small>All traffic goes through the server</small></div><span class="rd"></span></div>
+          <div class="rt"><div><b>Custom rules</b><small>Domains, IPs, apps — in the editor</small></div><span class="rd"></span></div>
+        </div></div></div>
+      <div class="card c3 reveal"><h3>HWID — device limits</h3><p>If your provider limits the number of devices, OutSky will be able to send the device ID such providers require. It’s enabled per subscription.</p>
+        <div class="viz"><div class="hwid">
+          <div class="hw-top"><div><b>My Provider</b><small>Limit: 3 devices · 2 in use</small></div><span class="dots"><i class="on"></i><i class="on"></i><i></i></span></div>
+          <div class="hw-row"><span>Send device ID</span><span class="tg on" id="hwTg"></span></div>
+          <div class="hw-id" id="hwId"><code>7c1e9a40-2f6b-4d1e-9b83-…</code><button type="button" id="hwReset">Reset</button></div>
+          <p class="fnote">A random identifier, not a hardware fingerprint. Your provider will also see the OS, its version and the device name (you can change the name). Off by default; the ID can be reset at any time.</p>
+        </div></div></div>
+      <div class="card c2 reveal"><h3>Saves your traffic</h3><p>Ping is measured automatically and costs almost nothing. Speed tests run only on request, with a data-usage warning.</p>
+        <div class="viz"><div class="mini">
+          <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M20 6 9 17l-5-5"/></svg>No background speed tests</div>
+          <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M20 6 9 17l-5-5"/></svg>Favorites and server sorting</div>
+        </div></div></div>
+      <div class="card c2 reveal"><h3>Privacy</h3><p>No accounts, no telemetry. Logs stay on your device.</p>
+        <div class="viz"><div class="mini">
+          <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M20 6 9 17l-5-5"/></svg>Keys in the system’s secure storage</div>
+          <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M20 6 9 17l-5-5"/></svg>Log export with passwords hidden</div>
+        </div></div></div>
+      <div class="card c2 reveal"><h3>Whole system</h3><p>TUN mode for every app, plus a kill switch in case the connection drops.</p>
+        <div class="viz"><div class="mini">
+          <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M20 6 9 17l-5-5"/></svg>Reconnects after sleep and network changes</div>
+          <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M20 6 9 17l-5-5"/></svg>Local network stays reachable</div>
+        </div></div></div>
+    </div>
+    <p class="preview-note">The app is in development: features arrive as versions ship. Follow the news in the @outskyapp channel.</p>
+  </section>
+
+  <!-- platforms -->
+  <section class="sec" id="platforms">
+    <div class="sh reveal"><span class="kick">Platforms</span><h2>One OutSky —<br><span class="g">on all your devices</span></h2>
+      <p>Windows first, then phones and other systems. When a version ships, a “Download” button will appear here.</p></div>
+    <div class="plats" id="plats">
+      <div class="pl reveal" data-os="windows"><span class="pi"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 5.5 10 4.5v7H3zM11 4.4 21 3v8.5H11zM3 12.5h7v7l-7-1zM11 12.5h10V21l-10-1.4z"/></svg></span><div><b>Windows</b><small>Coming first</small></div><span class="st dev">In development</span></div>
+      <div class="pl reveal" data-os="android"><span class="pi"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 9h10v8a1 1 0 0 1-1 1h-1v3h-2v-3h-2v3H9v-3H8a1 1 0 0 1-1-1zM4 9h2v6H4zm14 0h2v6h-2zM8 8a4 4 0 0 1 8 0z"/></svg></span><div><b>Android</b><small>Phones</small></div><span class="st plan">Planned</span></div>
+      <div class="pl reveal" data-os="ios"><span class="pi"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M16.4 12.6c0-2.4 2-3.6 2.1-3.7-1.2-1.7-3-1.9-3.6-1.9-1.5-.2-3 .9-3.8.9-.8 0-2-.9-3.3-.9-1.7 0-3.2 1-4.1 2.5-1.8 3-.5 7.5 1.2 10 .8 1.2 1.8 2.6 3.1 2.5 1.2 0 1.7-.8 3.2-.8s1.9.8 3.2.8c1.3 0 2.2-1.2 3-2.4.9-1.4 1.3-2.7 1.3-2.8 0 0-2.4-.9-2.4-3.6zM14 5.4c.7-.8 1.1-1.9 1-3-1 0-2.1.7-2.8 1.5-.6.7-1.2 1.8-1 2.9 1.1.1 2.1-.6 2.8-1.4z"/></svg></span><div><b>iPhone</b><small>iOS</small></div><span class="st plan">Planned</span></div>
+      <div class="pl reveal" data-os="mac"><span class="pi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/></svg></span><div><b>macOS</b><small>Mac computers</small></div><span class="st plan">Planned</span></div>
+      <div class="pl reveal" data-os="linux"><span class="pi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 17l6-6-6-6M12 19h8"/></svg></span><div><b>Linux</b><small>A Linux build</small></div><span class="st plan">Planned</span></div>
+      <a class="pl reveal" data-os="browser" href="https://chromewebstore.google.com/detail/outsky-vpn/aacogocimaopagjjfhgmaefgbcmbjhci"><span class="pi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3.5"/><path d="M12 8.5h8.5M9 14l-4.3 5.6M15 14l-1.8 6.6"/></svg></span><div><b>Browser</b><small>Google Chrome · the extension works with OutSky VPN</small></div><span class="st av">Available</span></a>
+    </div>
+  </section>
+
+  <!-- OutSky VPN teaser -->
+  <section class="sec" id="vpn">
+    <div class="vpnb reveal"><div><span class="kick">OutSky VPN</span><h3 style="margin-top:14px">No subscription yet?</h3>
+      <p>OutSky is being built for any provider’s subscription. If you don’t have one, try our OutSky VPN service — a free trial in our Telegram bot.</p></div>
+      <a class="btn btn-neon" href="https://t.me/OutSkyVPN_bot">Try OutSky VPN<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></div>
+  </section>
+
+  <!-- faq -->
+  <section class="sec" id="faq">
+    <div class="sh reveal"><span class="kick">FAQ</span><h2>Frequently asked questions</h2></div>
+    <div class="faq">
+      <details class="reveal" open><summary>Is OutSky a VPN service?</summary><p>No. OutSky is a client: it doesn’t sell servers or subscriptions. You need a subscription from your provider or your own server.</p></details>
+      <details class="reveal"><summary>Where can I download it?</summary><p>Not yet — the app is in development. A public alpha for Windows comes first. Follow the news in the @outskyapp channel.</p></details>
+      <details class="reveal"><summary>Is it free?</summary><p>Yes, OutSky is free. You get the server subscription from your provider.</p></details>
+      <details class="reveal"><summary>Do I need to sign up?</summary><p>No. Add a subscription and connect.</p></details>
+      <details class="reveal"><summary>My provider limits the number of devices. Will it work?</summary><p>It should: OutSky will be able to send the device ID (HWID) such providers require. It’s a random identifier, not a hardware fingerprint; along with it your provider will see the OS, its version and the device name. The ID is enabled per subscription and can be reset at any time.</p></details>
+      <details class="reveal"><summary>Does OutSky collect data?</summary><p>There will be no telemetry. Logs stay on your device, and keys and passwords are masked when you export a log. The device ID is opt-in and set per subscription.</p></details>
+      <details class="reveal"><summary>Which platforms?</summary><p>Windows first, then Android and iPhone, later macOS and Linux. For browsers there is already an extension — it works with OutSky VPN.</p></details>
+      <details class="reveal"><summary>Will it be open source?</summary><p>We plan to open-source the code by the first public release.</p></details>
+    </div>
+  </section>
+</div>
+</main>
+<footer><div class="wrap"><div><a class="logo" href="/en/" style="display:inline-flex"><span class="tile">O<b>S</b></span><span class="word">Out<b>Sky</b></span></a><div style="margin-top:8px">Simple by default. Powerful when needed.</div></div>
+  <nav aria-label="Links"><a href="https://t.me/OutSkyVPN_bot">OutSky VPN</a><a href="https://t.me/outskyapp">@outskyapp channel</a><a href="/privacy.html#en">Privacy</a></nav><div>© 2026 OutSky</div></div></footer>
+<script src="/assets/js/site.js" defer></script>
+</body>
+</html>
