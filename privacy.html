@@ -43,7 +43,7 @@
   <!-- ============================== ENGLISH ============================== -->
   <section id="en">
     <h1>Privacy Policy</h1>
-    <div class="date">OutSky VPN browser extension · Effective October 13, 2026</div>
+    <div class="date">OutSky VPN browser extension · Effective October 15, 2026</div>
 
     <p>OutSky VPN (“OutSky”, “we”) is a browser extension that routes your browser traffic through OutSky proxy servers in the country you choose. This policy explains what information the extension handles, why, and what we never do with it. We keep it short because there isn't much to tell: <strong>the extension has no analytics, no advertising, and no trackers.</strong></p>
 
@@ -60,8 +60,8 @@
     <h2>2. Information sent to OutSky servers</h2>
     <ul>
       <li><strong>Subscription service</strong> (<code>sub.outsky.app</code>): when you activate the extension and periodically afterwards, it sends your subscription token to retrieve your proxy credentials, the server list, and your expiry date. This request is sent directly, not through the VPN. Nothing else is sent — no browsing history, no page content.</li>
-      <li><strong>Proxy servers</strong>: while the VPN is enabled, your browser traffic (all of it in <em>Full tunnel</em> mode; everything except Russian and local sites in <em>Smart</em> mode) is routed through the OutSky server you selected. The server necessarily sees the destinations you connect to in order to forward the connection. Encrypted (HTTPS) content stays encrypted end-to-end — the proxy cannot read it.</li>
-      <li><strong>Latency checks</strong>: when you open the extension popup or the location list, the extension sends a tiny request to OutSky servers to measure ping. No personal data is included.</li>
+      <li><strong>Proxy servers</strong>: while the VPN is enabled, your browser traffic (all of it in <em>Full tunnel</em> mode; everything except Russian and local sites and other OutSky servers in <em>Smart</em> mode) is routed through the OutSky server you selected. The server necessarily sees the destinations you connect to in order to forward the connection. Encrypted (HTTPS) content stays encrypted end-to-end — the proxy cannot read it.</li>
+      <li><strong>Latency checks</strong>: when you open the extension popup or the location list, or press re-check, the extension sends a few tiny empty requests to each OutSky server to measure ping. In <em>Smart</em> mode, requests to servers other than the one you are connected to go directly, not through the VPN; in <em>Full tunnel</em> mode they go through the VPN. No personal data is included.</li>
       <li><strong>Connection checks</strong>: when you connect, and if requests through the server start failing, the extension sends a small test request through the selected OutSky server to make sure the connection works. If the server stops responding or refuses the connection, the extension switches the VPN off and tells you; you reconnect whenever you choose. No personal data is included.</li>
     </ul>
 
@@ -113,7 +113,7 @@
   <!-- ============================== RUSSIAN ============================== -->
   <section id="ru" lang="ru">
     <h1>Политика конфиденциальности</h1>
-    <div class="date">Расширение OutSky VPN · Действует с 13 октября 2026 г.</div>
+    <div class="date">Расширение OutSky VPN · Действует с 15 октября 2026 г.</div>
 
     <p>OutSky VPN («OutSky», «мы») — расширение для браузера, которое направляет трафик браузера через прокси-серверы OutSky в выбранной вами стране. Здесь описано, какие данные обрабатывает расширение, зачем, и чего мы с ними никогда не делаем. Документ короткий, потому что рассказывать особо нечего: <strong>в расширении нет аналитики, рекламы и трекеров.</strong></p>
 
@@ -130,8 +130,8 @@
     <h2>2. Данные, которые отправляются на серверы OutSky</h2>
     <ul>
       <li><strong>Сервис подписок</strong> (<code>sub.outsky.app</code>): при активации и периодически после неё расширение отправляет токен подписки, чтобы получить учётные данные прокси, список серверов и дату окончания. Этот запрос идёт напрямую, не через VPN. Больше ничего не передаётся — ни история, ни содержимое страниц.</li>
-      <li><strong>Прокси-серверы</strong>: пока VPN включён, трафик браузера (весь — в режиме <em>Полный туннель</em>; всё, кроме российских и локальных сайтов, — в режиме <em>Smart</em>) идёт через выбранный сервер OutSky. Серверу неизбежно видны адреса назначения, чтобы установить соединение. Зашифрованный (HTTPS) контент остаётся зашифрованным насквозь — прокси его прочитать не может.</li>
-      <li><strong>Замер задержки</strong>: при открытии окна расширения и списка локаций расширение отправляет на серверы OutSky крошечный запрос, чтобы измерить пинг. Личных данных в нём нет.</li>
+      <li><strong>Прокси-серверы</strong>: пока VPN включён, трафик браузера (весь — в режиме <em>«Весь трафик»</em>; всё, кроме российских и локальных сайтов и других серверов OutSky, — в режиме <em>«Умный»</em>) идёт через выбранный сервер OutSky. Серверу неизбежно видны адреса назначения, чтобы установить соединение. Зашифрованный (HTTPS) контент остаётся зашифрованным насквозь — прокси его прочитать не может.</li>
+      <li><strong>Замер задержки</strong>: при открытии окна расширения или списка локаций, а также по кнопке перепроверки расширение отправляет на каждый сервер OutSky несколько крошечных пустых запросов, чтобы измерить пинг. В режиме <em>«Умный»</em> запросы к серверам, кроме текущего, идут напрямую, не через VPN; в режиме <em>«Весь трафик»</em> — через VPN. Личных данных в них нет.</li>
       <li><strong>Проверка соединения</strong>: при подключении и если запросы через сервер начинают сбоить, расширение отправляет через выбранный сервер OutSky небольшой тестовый запрос, чтобы убедиться, что соединение работает. Если сервер перестал отвечать или отклоняет подключение, расширение выключает VPN и сообщает об этом; подключиться снова можно в любой момент. Личных данных в запросе нет.</li>
     </ul>
 
