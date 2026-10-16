@@ -290,6 +290,7 @@ summary::-webkit-details-marker{display:none}
 summary::after{content:"+";color:var(--a400);font-size:20px;line-height:1;transition:transform .25s}
 details[open] summary::after{transform:rotate(45deg)}
 details p{margin:0 0 16px;color:var(--n400);line-height:1.6;font-size:14.5px}
+details p a{color:var(--a400);text-underline-offset:2px}
 footer{margin-top:120px;padding:40px 0 60px;border-top:1px solid rgba(181,171,252,.1);color:var(--n500);font-size:13.5px;position:relative;z-index:1}
 footer .wrap{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;align-items:center}
 footer nav{display:flex;gap:18px;flex-wrap:wrap}footer a{text-decoration:none;color:var(--n400)}footer a:hover{color:#fff}

@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Privacy Policy — OutSky VPN</title>
-<meta name="description" content="Privacy Policy for the OutSky VPN browser extension.">
+<title>Privacy Policy — OutSky</title>
+<meta name="description" content="Privacy Policy for the OutSky Telegram bot, VPN service, browser extension and website.">
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self'; font-src 'self'; connect-src 'self'; base-uri 'self'; form-action 'none'">
 <meta name="referrer" content="strict-origin-when-cross-origin">
 <meta name="theme-color" content="#0d0b20">
@@ -14,8 +14,8 @@
 <link rel="apple-touch-icon" href="/icon.png">
 <meta property="og:type" content="article">
 <meta property="og:site_name" content="OutSky">
-<meta property="og:title" content="Privacy Policy — OutSky VPN">
-<meta property="og:description" content="Privacy Policy for the OutSky VPN browser extension.">
+<meta property="og:title" content="Privacy Policy — OutSky">
+<meta property="og:description" content="Privacy Policy for the OutSky Telegram bot, VPN service, browser extension and website.">
 <meta property="og:url" content="https://outsky.app/privacy.html">
 <meta property="og:image" content="https://outsky.app/assets/img/og-en.png">
 <meta property="og:image:width" content="1200">
@@ -29,11 +29,11 @@
 <link rel="stylesheet" href="/assets/css/site.css">
 <style>
   /* Одна страница на двух языках. Меню и подвал — на языке раздела из адреса:
-     #ru → русский, иначе английский. Без JS, через :target и :has(). */
+     #ru или его раздел (#ru-bot…) → русский, иначе английский. Без JS, через :target и :has(). */
   .vh{position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap;border:0}
   @supports selector(body:has(a)){
-    body:not(:has(#ru:target)) .ui-ru{display:none!important}
-    body:has(#ru:target) .ui-en{display:none!important}
+    body:not(:has(#ru:target, #ru :target)) .ui-ru{display:none!important}
+    body:has(#ru:target, #ru :target) .ui-en{display:none!important}
   }
   @supports not selector(body:has(a)){.ui-ru{display:none!important}}
   /* текст политики */
@@ -101,69 +101,185 @@
   <!-- ============================== ENGLISH ============================== -->
   <section id="en">
     <h1>Privacy Policy</h1>
-    <div class="date">OutSky VPN browser extension · Effective October 15, 2026</div>
+    <div class="date">OutSky Telegram bot, VPN service, browser extension and website · Effective October 16, 2026</div>
 
-    <p>OutSky VPN (“OutSky”, “we”) is a browser extension that routes your browser traffic through OutSky proxy servers in the country you choose. This policy explains what information the extension handles, why, and what we never do with it. We keep it short because there isn't much to tell: <strong>the extension has no analytics, no advertising, and no trackers.</strong></p>
+    <p>This policy covers the OutSky Telegram bot <a href="https://t.me/OutSkyVPN_bot">@OutSkyVPN_bot</a>, the OutSky VPN service (our servers and the panel that manages them), the OutSky VPN browser extension and the website outsky.app. It describes how things work today: what data we collect and keep, why, where, for how long, and who else receives it.</p>
 
-    <h2>1. Information stored on your device</h2>
-    <p>The extension stores the following in your browser's local extension storage (<code>chrome.storage.local</code>). This data never leaves your device except as described in section 2.</p>
+    <p><strong>In short:</strong></p>
     <ul>
-      <li><strong>Subscription token</strong> — the identifier contained in the subscription link you paste during activation.</li>
-      <li><strong>Proxy credentials</strong> — the login and password the OutSky server issues for your subscription, so the browser can authenticate to the proxy.</li>
-      <li><strong>Account details</strong> — your subscription's account name and expiry date, shown in Settings.</li>
-      <li><strong>Preferences</strong> — selected location, routing mode, language, and toggles such as auto-connect.</li>
-    </ul>
-    <p>This data is deleted when you choose <strong>Change account</strong> in Settings or uninstall the extension.</p>
-
-    <h2>2. Information sent to OutSky servers</h2>
-    <ul>
-      <li><strong>Subscription service</strong> (<code>sub.outsky.app</code>): when you activate the extension and periodically afterwards, it sends your subscription token to retrieve your proxy credentials, the server list, and your expiry date. This request is sent directly, not through the VPN. Nothing else is sent — no browsing history, no page content.</li>
-      <li><strong>Proxy servers</strong>: while the VPN is enabled, your browser traffic (all of it in <em>Full tunnel</em> mode; everything except Russian sites, your local network and other OutSky servers in <em>Smart</em> mode) is routed through the OutSky server you selected. The server necessarily sees the destinations you connect to in order to forward the connection. Encrypted (HTTPS) content stays encrypted end-to-end — the proxy cannot read it.</li>
-      <li><strong>Latency checks</strong>: to measure ping, the extension sends a few tiny empty requests — to the selected server when you open the popup or connect, and to every OutSky server when you open the location list or press re-check. While the VPN is on in <em>Smart</em> mode, requests to servers other than the one you are connected to go directly, not through the VPN, so those servers see your real IP address; in <em>Full tunnel</em> mode they go through the VPN. When the VPN is off, they go directly. No account data is included.</li>
-      <li><strong>Connection checks</strong>: when you connect, and if requests through the server start failing, the extension sends a small test request through the selected OutSky server to make sure the connection works. If the server stops responding or refuses the connection, the extension switches the VPN off and tells you; you reconnect whenever you choose. No personal data is included.</li>
+      <li>To issue and run your subscription, we keep your Telegram ID, your name and username from Telegram, your subscription details and traffic usage, and the IP addresses and apps from which your subscription link is requested.</li>
+      <li>This data is stored on our servers; an encrypted backup of it is also kept in Telegram's cloud (section 8). Your account name (it contains your Telegram ID) and access key are also stored on all of our VPN servers.</li>
+      <li>At the moment, accounts are not deleted automatically. We delete them when you ask.</li>
+      <li>Our servers see your IP address and the addresses of the sites you open through the VPN; this data may end up in technical logs, and no retention period has been set for those logs yet. In the settings for INCY, the app we recommend, DNS queries go to Yandex DNS directly, with your IP address (section 3).</li>
+      <li>We do not record the content of your traffic, and we do not sell your data or use it for advertising.</li>
+      <li>Questions and requests: <a href="https://t.me/outsky_support">@outsky_support</a> or <a href="mailto:support@outsky.app">support@outsky.app</a>.</li>
     </ul>
 
-    <h2>3. What we do not do</h2>
-    <ul>
-      <li>We do <strong>not</strong> record or store your browsing history, the pages you visit, or the content of your traffic.</li>
-      <li>We do <strong>not</strong> sell, rent, or share any data with third parties for advertising or marketing.</li>
-      <li>We do <strong>not</strong> use analytics SDKs, tracking pixels, or fingerprinting in the extension.</li>
-      <li>We do <strong>not</strong> collect names, e-mail addresses, or payment details in the extension. You get your subscription link outside the extension (for example, from our Telegram bot <a href="https://t.me/OutSkyVPN_bot">@OutSkyVPN_bot</a>), and only that link is used here.</li>
-    </ul>
-    <p>Our servers keep the minimal technical logs needed to operate and protect the service (connection errors, aggregate traffic volume per subscription for fair use). These logs do not contain your browsing history and are retained for a short period only.</p>
+    <section id="en-contact">
+      <h2>1. Who we are and how to contact us</h2>
+      <p>OutSky is a project that includes the OutSky VPN service, a Telegram bot that issues subscriptions, a browser extension and this website. The project is run by its owner (referred to below as “the owner of the service”).</p>
+      <p>Contact: <a href="https://t.me/outsky_support">@outsky_support</a> on Telegram or <a href="mailto:support@outsky.app">support@outsky.app</a>. Use the same contacts for any question or request about your data (section 10).</p>
+    </section>
 
-    <h2>4. Third-party services the extension contacts</h2>
-    <p>The extension contacts a few third-party services. These providers receive a standard web request (including your IP address) but no data about your account:</p>
-    <ul>
-      <li><strong>api.ipify.org</strong> — when you connect and during connection checks, to confirm the connection works and to show you your new public IP address. The request goes through the VPN, so it comes from the VPN server's IP.</li>
-      <li><strong>fonts.googleapis.com / fonts.gstatic.com</strong> — the Inter font used by the interface, loaded only while the extension popup is open.</li>
-    </ul>
-    <p>Each provider's own privacy policy applies to these requests.</p>
+    <section id="en-bot">
+      <h2>2. The bot and your subscription</h2>
+      <p>Subscription links are issued by our Telegram bot <a href="https://t.me/OutSkyVPN_bot">@OutSkyVPN_bot</a>. At the moment it only issues a free trial. The bot runs on our server and stores:</p>
+      <ul>
+        <li><strong>Telegram account details</strong> — your Telegram ID, first and last name and username (as Telegram passes them to the bot), your language, and the dates you registered and were last active. The bot uses them to recognize you and link your subscription to you.</li>
+        <li><strong>Subscription</strong> — trial and subscription dates, traffic limit and usage, status, your subscription link and its identifier, and subscription events (for example, when it was issued and when it ended). The subscription link is a key to the VPN: do not share it.</li>
+        <li><strong>Channel check</strong> — the trial is available to subscribers of our channel @outskyapp. The bot asks Telegram whether you are subscribed and stores the result and the date of the check. If you leave the channel, the trial may be switched off.</li>
+        <li><strong>Button log</strong> — which menu button you pressed and when. Kept for 90 days.</li>
+        <li><strong>Technical logs of the bot</strong> — they include the text of your messages to the bot and subscription links. Kept for 7 days; their copy in the server's system log is limited in size and may be kept longer.</li>
+      </ul>
+      <p>When the bot issues a trial, it creates an account on the VPN service named <code>user_&lt;Telegram ID&gt;</code> (section 3). The owner of the service receives service notifications about issued trials in Telegram; they may include your name, username and Telegram ID.</p>
+      <p>Your messages to the bot pass through Telegram and are stored by Telegram under its own privacy policy. We do not collect your phone number, e-mail address or payment details; there are no paid plans yet.</p>
+    </section>
 
-    <h2>5. Browser permissions and why they are needed</h2>
-    <ul>
-      <li><strong>proxy</strong> — to configure the browser to route traffic through the OutSky server you selected. This is the core function of the extension.</li>
-      <li><strong>webRequest</strong> and <strong>webRequestAuthProvider</strong> — to answer the proxy server's authentication request with your subscription credentials automatically, so you are not prompted for a password on every site. The extension only handles proxy authentication challenges; it does not read or modify page requests.</li>
-      <li><strong>Access to all websites</strong> (<code>&lt;all_urls&gt;</code>) — proxy authentication challenges can occur for any website you visit while the VPN is on, so the browser requires this scope for the permission above; it also lets the popup measure ping to OutSky servers. The extension does not read, inject into, or alter web pages.</li>
-      <li><strong>storage</strong> — to save your subscription and preferences locally (section 1).</li>
-      <li><strong>notifications</strong> (optional) — requested only if you turn on <strong>Notifications</strong> in Settings, to tell you when the VPN was switched off because the connection was lost. Turning the option off removes the permission.</li>
-    </ul>
+    <section id="en-servers">
+      <h2>3. VPN servers and the panel</h2>
+      <p>The VPN service consists of a control panel and VPN servers in several locations; you choose a location in your VPN app or in the extension. VPN apps load their settings from your subscription link and connect to the VPN servers.</p>
+      <p>The panel stores:</p>
+      <ul>
+        <li><strong>Account</strong> — a name like <code>user_&lt;Telegram ID&gt;</code>, your Telegram ID, access keys, and the term and limits of your subscription.</li>
+        <li><strong>Subscription link requests</strong> — when an app or a browser loads your subscription link, the panel records the IP address, the app name and version (User-Agent) and the time. The most recent requests are kept.</li>
+        <li><strong>Devices</strong> — if an app sends device details (INCY and Happ, for example, do), the panel records the device identifier (HWID), model, OS version, app and IP address.</li>
+        <li><strong>Traffic</strong> — how much traffic you have used, in total and per server per day, the time of your first and last connection, and the server you last connected to. We use this to apply your plan's limit and to manage server load. We count the volume, not the content.</li>
+      </ul>
+      <p>The VPN servers receive the list of accounts from the panel — the account name (it contains your Telegram ID) and the access key — so this data is also stored on every VPN server.</p>
+      <p><strong>What the VPN servers see.</strong> While you are connected, the server necessarily sees your IP address and the addresses of the websites and services you connect to; without this the connection cannot work. It cannot read encrypted (HTTPS) content; unencrypted traffic (for example, HTTP pages) passes through it as is. On some connection types the server blocks advertising domains by site name and BitTorrent by the type of traffic. To find a site's address, the servers use a DNS resolver; Google Public DNS is set in their settings. The resolver sees the site name and our server's address, not your IP address.</p>
+      <p><strong>Technical logs.</strong> The software on our servers keeps technical logs. They may contain your IP address, account name, the address of a website and the time of a connection. We use them only to fix problems and protect the service. No retention period has been set for these logs yet; some of them are limited in size.</p>
+      <p><strong>Settings for VPN apps.</strong> The settings the panel gives to apps specify which DNS resolvers the app uses to look up site names. In the Xray format, which INCY and some other apps receive, this is Yandex DNS. Requests to it go directly, not through the VPN, so Yandex sees the site names your device looks up and your IP address. In the sing-box format, most lookups go to your device's system DNS (usually your internet provider's), also directly, so whoever runs that DNS sees the site names; some go to Cloudflare DNS through the VPN. The Clash/mihomo format uses Cloudflare DNS, Yandex DNS, Mullvad DNS and the system DNS. Some formats download rule lists and icons from GitHub and jsDelivr. These services have their own privacy policies.</p>
+      <p>We recommend the third-party app INCY for connecting. It is not ours and has its own privacy policy.</p>
+    </section>
 
-    <h2>6. Data retention and your choices</h2>
-    <ul>
-      <li>Locally stored data is kept until you remove the subscription (<strong>Change account</strong>) or uninstall the extension.</li>
-      <li>Your subscription record on our side is kept for the life of your subscription and deleted after it expires and is not renewed.</li>
-      <li>You can stop all traffic routing at any time by switching the VPN off; the extension then clears its proxy settings immediately. It also clears them by itself if the connection to the server is lost, and each time the browser starts (with Auto-connect on, it then reconnects).</li>
-    </ul>
+    <section id="en-extension">
+      <h2>4. The browser extension</h2>
+      <p>The OutSky VPN extension routes your browser traffic through our proxy servers in the country you choose. It has no analytics, no advertising and no trackers, and it does not read or change web pages.</p>
+      <p><strong>Stored on your device</strong> (in the browser's extension storage):</p>
+      <ul>
+        <li>your subscription token — the identifier from the subscription link you paste;</li>
+        <li>the proxy login and password issued for your subscription;</li>
+        <li>your account name, the subscription end date and the server list. For subscriptions from our bot, the account name looks like <code>user_&lt;Telegram ID&gt;</code>, so it contains your Telegram ID;</li>
+        <li>your settings: location, mode, language, auto-connect and notifications.</li>
+      </ul>
+      <p><strong>Change account</strong> in Settings deletes the token, the proxy login and password and the account details. Settings stay until you uninstall the extension; uninstalling deletes everything.</p>
+      <p><strong>What leaves your device:</strong></p>
+      <ul>
+        <li><strong>To our subscription service</strong> (<code>sub.outsky.app</code>) — your subscription token: when you activate the extension, when you open its window, when the browser starts and from time to time. In return the extension gets the proxy login and password, the account name, the end date and the server list. This request goes directly, not through the VPN, so the service sees your IP address. The service does not keep a log of these requests.</li>
+        <li><strong>To our proxy servers</strong> — the proxy login and password when connecting, and your browser traffic: in <em>Full tunnel</em> mode everything except your local network and the subscription service; in <em>Smart</em> mode everything except Russian sites, your local network, the subscription service and other OutSky servers. The proxy sees your IP address and the addresses of the sites you open through the VPN: for HTTPS pages, the site name but not the content; for unencrypted HTTP pages, the full page address and the content. We do not count traffic that goes through the extension. Technical logs — as in section 3.</li>
+        <li><strong>Latency checks (ping)</strong> — a few empty requests to our servers: to the selected server when you open the extension window, connect or change mode, to one server when you press its ping button, and to every server when you open the location list or press re-check all. When the VPN is off, and in <em>Smart</em> mode for every server except the one you are connected to, these requests go directly, so our servers see your real IP address. In <em>Full tunnel</em> mode they go through the VPN. They contain no account data.</li>
+        <li><strong>Connection checks</strong> — when you connect, when you open the extension window while the VPN is on, and if connections through the server start failing, the extension sends small service requests through the selected server: to the server itself and to api.ipify.org.</li>
+      </ul>
+      <p><strong>Third-party services:</strong></p>
+      <ul>
+        <li><strong>api.ipify.org</strong> — to check the connection and show your new IP address. The request goes through the VPN, so the service sees our server's address, not yours.</li>
+        <li><strong>Google Fonts</strong> (<code>fonts.googleapis.com</code>, <code>fonts.gstatic.com</code>) — the Inter font for the extension window. Google sees your IP address, or our server's address if the VPN is on.</li>
+      </ul>
+      <p><strong>Permissions:</strong></p>
+      <ul>
+        <li><strong>proxy</strong> — to route browser traffic through the selected OutSky server.</li>
+        <li><strong>webRequest</strong> and <strong>webRequestAuthProvider</strong> — to answer the proxy server's login request with your proxy login and password automatically. The extension handles only these requests; it does not read or change any other requests.</li>
+        <li><strong>Access to all websites</strong> (<code>&lt;all_urls&gt;</code>) — a proxy login request can come up on any site while the VPN is on, and the extension can answer it only with access to all sites; the same access lets it measure ping and check the connection. The extension does not read, inject into or change web pages.</li>
+        <li><strong>storage</strong> — to keep your subscription and settings on your device.</li>
+        <li><strong>notifications</strong> (optional) — requested only if you turn on notifications in Settings, to tell you that the VPN switched off because the connection was lost.</li>
+      </ul>
+    </section>
 
-    <h2>7. Children</h2>
-    <p>OutSky is not directed at children under 13, and we do not knowingly collect information from them.</p>
+    <section id="en-site">
+      <h2>5. The website</h2>
+      <p>outsky.app is hosted on GitHub Pages. GitHub sees visitors' IP addresses and may keep logs under its own privacy policy. The site itself uses no cookies, analytics or counters and loads nothing from third-party services: fonts and images are served from the site itself.</p>
+    </section>
 
-    <h2>8. Changes to this policy</h2>
-    <p>If we change how the extension handles data, we will update this page and the effective date above. Material changes will also be announced in our Telegram channel.</p>
+    <section id="en-not-recorded">
+      <h2>6. What we do not record</h2>
+      <ul>
+        <li><strong>The content of your traffic</strong> — what you read, write, send or download. Our servers pass it on without saving it.</li>
+        <li><strong>Extension requests to the subscription service</strong> — no log of them (IP addresses, tokens) is kept.</li>
+        <li><strong>E-mail, phone number and payment details</strong> — we do not collect them.</li>
+        <li><strong>Data for advertising</strong> — there are no advertising or analytics trackers in the extension or on the website, and we do not use your data for advertising.</li>
+      </ul>
+      <p>Website addresses and connection IP addresses are not on this list. The extension does not keep a list of the pages you visit on your device and does not read pages, but site addresses pass through our proxy and VPN servers (sections 3 and 4) and may end up in their technical logs. Your DNS queries are seen by the DNS resolver set in your app (section 3).</p>
+    </section>
 
-    <h2>9. Contact</h2>
-    <p>Questions about privacy: <a href="https://t.me/outsky_support">@outsky_support</a> on Telegram or <a href="mailto:support@outsky.app">support@outsky.app</a>.</p>
+    <section id="en-data">
+      <h2>7. What we keep, why, where, for how long, and who receives it</h2>
+      <ul>
+        <li><strong>Your Telegram details and subscription in the bot</strong> (section 2). Why: to issue and show your subscription and not to issue a second trial. Where: the bot's server. How long: no set period — not deleted automatically; we delete them on request (sections 9 and 10).</li>
+        <li><strong>Button log.</strong> Why: menu statistics. Where: the bot's server. How long: 90 days.</li>
+        <li><strong>Technical logs of the bot</strong> (messages to the bot, subscription links). Why: to find errors. Where: the bot's server. How long: 7 days; the copy in the system log is limited in size and may be kept longer.</li>
+        <li><strong>Service notifications about issued trials</strong> (may include your name, username and Telegram ID). Why: so the owner can see that the bot works. Where: the owner's chat in Telegram. How long: no period set.</li>
+        <li><strong>Your account on the VPN service</strong> (name with Telegram ID, access keys, term, limits). Why: so that you can connect. Where: the panel; the account name and key also on every VPN server. How long: not deleted automatically; we delete it on request.</li>
+        <li><strong>Subscription link requests and devices</strong> (IP address, app, time; device identifier, model, OS). Why: to see which apps and devices use a subscription and to help with connection problems. Where: the panel. How long: the most recent requests while the account exists; devices are not deleted automatically.</li>
+        <li><strong>Traffic statistics.</strong> Why: to apply your plan's limit and manage server load. Where: the panel. How long: not deleted automatically.</li>
+        <li><strong>Technical logs of the servers</strong> (may contain IP address, account name, site address, time). Why: to fix problems and protect the service. Where: our servers. How long: no period set yet.</li>
+        <li><strong>Extension data on your device</strong> (section 4). Where: your browser. How long: until you use <strong>Change account</strong> or uninstall the extension.</li>
+        <li><strong>Support conversations.</strong> Why: to answer you. Where: Telegram (@outsky_support) or our e-mail. How long: no period set; we delete them on request.</li>
+        <li><strong>Backups</strong> — section 8.</li>
+      </ul>
+      <p><strong>Who else receives data:</strong></p>
+      <ul>
+        <li><strong>Hosting providers</strong> of our servers (the panel, the bot, the subscription service and the VPN servers).</li>
+        <li><strong>Telegram</strong> — the bot, support, our channel, service notifications to the owner and the latest encrypted backup in the owner's chat.</li>
+        <li><strong>The e-mail provider</strong> behind support@outsky.app — messages to support.</li>
+        <li><strong>GitHub</strong> — hosts the website and sees visitors' IP addresses.</li>
+        <li><strong>api.ipify.org</strong> and <strong>Google Fonts</strong> — requests from the extension (section 4).</li>
+        <li><strong>DNS resolvers</strong> — Yandex DNS, Cloudflare DNS, Mullvad DNS and your device's system DNS in the settings for VPN apps; Google Public DNS on our servers (section 3).</li>
+        <li><strong>GitHub and jsDelivr</strong> — rule lists and icons in some app setting formats.</li>
+        <li><strong>INCY</strong> — the third-party app we recommend for connecting. It is not ours and has its own privacy policy.</li>
+      </ul>
+      <p>We do not sell your data or use it for advertising.</p>
+    </section>
+
+    <section id="en-backups">
+      <h2>8. Backups</h2>
+      <p>Once a day we make one backup: the bot and panel databases together with the server settings, in a single encrypted archive. Only the owner of the service has the key to decrypt it. Backups are kept on our server for 7 days and then deleted automatically. Each new backup is also sent to the owner's private Telegram chat and stored in Telegram's cloud; the previous one is then deleted from the chat, so only the latest backup is kept there. If the previous backup cannot be deleted automatically, the owner receives a warning and deletes it manually.</p>
+      <p>So data that we delete from the bot and the panel remains in the backups on our server for up to 7 days, and in the backup in the owner's chat until the next backup replaces it.</p>
+    </section>
+
+    <section id="en-retention">
+      <h2>9. Retention</h2>
+      <ul>
+        <li>At the moment, accounts in the bot and on the VPN service are not deleted automatically, including after your subscription ends. We delete them at your request (section 10).</li>
+        <li>If you have not used the bot for 6 months and have had no subscription during that time, the bot marks your account as deleted, and you can get a trial again. The record with your data stays in the bot's database.</li>
+        <li>Button log — 90 days; technical logs of the bot — 7 days (their copy in the system log is limited in size and may be kept longer).</li>
+        <li>Technical logs of the servers — no period set yet; some of them are limited in size.</li>
+        <li>Backups — 7 days on our server; in the owner's Telegram chat, only the latest backup (section 8).</li>
+        <li>Extension data on your device — until you use <strong>Change account</strong> or uninstall the extension.</li>
+        <li>Blocking the bot, deleting the chat with it or uninstalling the extension does not delete data on our servers. To have it deleted, write to us.</li>
+      </ul>
+    </section>
+
+    <section id="en-rights">
+      <h2>10. Your rights and requests</h2>
+      <p>You can ask us to give you a copy of your data, tell you what data we process, why and who else receives it, correct it or delete it. Write to <a href="https://t.me/outsky_support">@outsky_support</a> or <a href="mailto:support@outsky.app">support@outsky.app</a>. We reply within 10 business days.</p>
+      <p>To make sure we do not hand your data to someone else, we may ask you to confirm that the account is yours — for example, by writing from the Telegram account you use with the bot.</p>
+      <p>After deletion your subscription stops working. Deleted data remains in the backups on our server for up to 7 days and in the backup in the owner's chat until the next backup replaces it (section 8). You can delete your chats with the bot and with support in Telegram yourself.</p>
+    </section>
+
+    <section id="en-children">
+      <h2>11. Children</h2>
+      <p>The service is not intended for children under 13. If you believe a child has given us data, contact us and we will delete it.</p>
+    </section>
+
+    <section id="en-limited-use">
+      <h2>12. Chrome Web Store: Limited Use</h2>
+      <p>The use of information received by the extension adheres to the Chrome Web Store User Data Policy, including the Limited Use requirements.</p>
+    </section>
+
+    <section id="en-dnt">
+      <h2>13. Do Not Track</h2>
+      <p>We do not track your activity across third-party websites for advertising or profiling, and our website and extension contain no third-party trackers, so Do Not Track signals do not change how the service works.</p>
+    </section>
+
+    <section id="en-changes">
+      <h2>14. Changes to this policy</h2>
+      <p>If we change what data we collect or how we use it, we will update this page and its effective date and announce the change in advance in our Telegram channel <a href="https://t.me/outskyapp">@outskyapp</a>.</p>
+      <p>Change log:</p>
+      <ul>
+        <li><strong>October 16, 2026</strong> — one policy for the bot, the VPN service, the extension and the website: what we keep, where, for how long and who else receives it; backups; your rights. The previous version was inaccurate in places: it said that our record of a subscription is deleted after it expires (in fact, accounts are not deleted automatically), that we do not record the addresses of the pages you visit, and that server logs are kept for a short time (in fact, site addresses may end up in technical logs, and no retention period has been set for them).</li>
+        <li><strong>October 15, 2026</strong> — previous version (extension only).</li>
+      </ul>
+    </section>
   </section>
 
   <hr>
@@ -171,69 +287,185 @@
   <!-- ============================== RUSSIAN ============================== -->
   <section id="ru" lang="ru">
     <h1>Политика конфиденциальности</h1>
-    <div class="date">Расширение OutSky VPN · Действует с 15 октября 2026 г.</div>
+    <div class="date">Telegram-бот, VPN-сервис, расширение для браузера и сайт OutSky · Действует с 16 октября 2026 г.</div>
 
-    <p>OutSky VPN («OutSky», «мы») — расширение для браузера, которое направляет трафик браузера через прокси-серверы OutSky в выбранной вами стране. Здесь описано, какие данные обрабатывает расширение, зачем, и чего мы с ними никогда не делаем. Документ короткий, потому что рассказывать особо нечего: <strong>в расширении нет аналитики, рекламы и трекеров.</strong></p>
+    <p>Эта политика охватывает Telegram-бота <a href="https://t.me/OutSkyVPN_bot">@OutSkyVPN_bot</a>, VPN-сервис OutSky (наши серверы и панель, которая ими управляет), браузерное расширение OutSky VPN и сайт outsky.app. Здесь описано, как всё устроено сейчас: какие данные мы собираем и храним, зачем, где, как долго и кто ещё их получает.</p>
 
-    <h2>1. Данные, которые хранятся на вашем устройстве</h2>
-    <p>Расширение хранит в локальном хранилище браузера (<code>chrome.storage.local</code>) следующее. Эти данные не покидают устройство, кроме случаев из раздела 2.</p>
+    <p><strong>Коротко:</strong></p>
     <ul>
-      <li><strong>Токен подписки</strong> — идентификатор из ссылки подписки, которую вы вставляете при активации.</li>
-      <li><strong>Учётные данные прокси</strong> — логин и пароль, которые сервер OutSky выдаёт для вашей подписки, чтобы браузер мог авторизоваться на прокси.</li>
-      <li><strong>Данные аккаунта</strong> — имя аккаунта подписки и дата её окончания, показываются в настройках.</li>
-      <li><strong>Настройки</strong> — выбранная локация, режим маршрутизации, язык и переключатели вроде автоподключения.</li>
-    </ul>
-    <p>Эти данные удаляются при нажатии <strong>«Сменить аккаунт»</strong> в настройках или при удалении расширения.</p>
-
-    <h2>2. Данные, которые отправляются на серверы OutSky</h2>
-    <ul>
-      <li><strong>Сервис подписок</strong> (<code>sub.outsky.app</code>): при активации и периодически после неё расширение отправляет токен подписки, чтобы получить учётные данные прокси, список серверов и дату окончания. Этот запрос идёт напрямую, не через VPN. Больше ничего не передаётся — ни история, ни содержимое страниц.</li>
-      <li><strong>Прокси-серверы</strong>: пока VPN включён, трафик браузера (весь — в режиме <em>«Весь трафик»</em>; всё, кроме российских сайтов, локальной сети и других серверов OutSky, — в режиме <em>«Умный»</em>) идёт через выбранный сервер OutSky. Серверу неизбежно видны адреса назначения, чтобы установить соединение. Зашифрованный (HTTPS) контент остаётся зашифрованным насквозь — прокси его прочитать не может.</li>
-      <li><strong>Замер задержки</strong>: чтобы измерить пинг, расширение отправляет несколько крошечных пустых запросов — при открытии окна и после подключения — до выбранного сервера, а в списке локаций и по кнопке перепроверки — до каждого сервера OutSky. Пока VPN включён, в режиме <em>«Умный»</em> запросы к серверам, кроме текущего, идут напрямую, не через VPN, поэтому эти серверы видят ваш реальный IP-адрес; в режиме <em>«Весь трафик»</em> — через VPN. При выключенном VPN запросы идут напрямую. Данных аккаунта в них нет.</li>
-      <li><strong>Проверка соединения</strong>: при подключении и если запросы через сервер начинают сбоить, расширение отправляет через выбранный сервер OutSky небольшой тестовый запрос, чтобы убедиться, что соединение работает. Если сервер перестал отвечать или отклоняет подключение, расширение выключает VPN и сообщает об этом; подключиться снова можно в любой момент. Личных данных в запросе нет.</li>
+      <li>Чтобы выдать и обслуживать подписку, мы храним ваш Telegram ID, имя и username из Telegram, данные подписки и расход трафика, а также IP-адреса и приложения, с которых запрашивается ссылка подписки.</li>
+      <li>Эти данные хранятся на наших серверах; их зашифрованная резервная копия — ещё и в облаке Telegram (раздел 8). Имя аккаунта (в нём есть ваш Telegram ID) и ключ доступа хранятся также на всех наших VPN-серверах.</li>
+      <li>Сейчас аккаунты автоматически не удаляются. Мы удаляем их по вашему запросу.</li>
+      <li>Наши серверы видят ваш IP-адрес и адреса сайтов, которые вы открываете через VPN; эти данные могут попадать в технические журналы, срок хранения которых пока не установлен. В настройках для INCY — приложения, которое мы рекомендуем, — DNS-запросы идут в Яндекс DNS напрямую, с вашим IP-адресом (раздел 3).</li>
+      <li>Мы не записываем содержимое вашего трафика, не продаём данные и не используем их для рекламы.</li>
+      <li>Вопросы и запросы: <a href="https://t.me/outsky_support">@outsky_support</a> или <a href="mailto:support@outsky.app">support@outsky.app</a>.</li>
     </ul>
 
-    <h2>3. Чего мы не делаем</h2>
-    <ul>
-      <li>Мы <strong>не</strong> записываем и не храним историю посещений, адреса страниц и содержимое трафика.</li>
-      <li>Мы <strong>не</strong> продаём, не сдаём и не передаём данные третьим лицам для рекламы или маркетинга.</li>
-      <li>Мы <strong>не</strong> используем в расширении аналитические SDK, пиксели и фингерпринтинг.</li>
-      <li>Мы <strong>не</strong> собираем в расширении имена, e-mail и платёжные данные. Ссылку подписки вы получаете вне расширения (например, в нашем Telegram-боте <a href="https://t.me/OutSkyVPN_bot">@OutSkyVPN_bot</a>), а здесь используется только она.</li>
-    </ul>
-    <p>Серверы ведут минимальные технические логи, необходимые для работы и защиты сервиса (ошибки соединений, суммарный объём трафика по подписке для контроля добросовестного использования). Эти логи не содержат истории посещений и хранятся недолго.</p>
+    <section id="ru-contact">
+      <h2>1. Кто мы и как связаться</h2>
+      <p>OutSky — проект, в который входят VPN-сервис OutSky VPN, Telegram-бот для выдачи подписок, браузерное расширение и этот сайт. Проект ведёт его владелец (далее — «владелец сервиса»).</p>
+      <p>Связь: <a href="https://t.me/outsky_support">@outsky_support</a> в Telegram или <a href="mailto:support@outsky.app">support@outsky.app</a>. По этим же адресам — любые вопросы и запросы о ваших данных (раздел 10).</p>
+    </section>
 
-    <h2>4. Сторонние сервисы, к которым обращается расширение</h2>
-    <p>Расширение обращается к нескольким сторонним сервисам. Они получают обычный веб-запрос (включая ваш IP-адрес), но никаких данных о вашем аккаунте:</p>
-    <ul>
-      <li><strong>api.ipify.org</strong> — при подключении и при проверке соединения, чтобы убедиться, что соединение работает, и показать ваш новый публичный IP. Запрос идёт через VPN, поэтому приходит с IP сервера VPN.</li>
-      <li><strong>fonts.googleapis.com / fonts.gstatic.com</strong> — шрифт Inter для интерфейса; загружается, только пока открыто окно расширения.</li>
-    </ul>
-    <p>К этим запросам применяются политики конфиденциальности соответствующих провайдеров.</p>
+    <section id="ru-bot">
+      <h2>2. Бот и подписка</h2>
+      <p>Ссылку подписки выдаёт наш Telegram-бот <a href="https://t.me/OutSkyVPN_bot">@OutSkyVPN_bot</a>. Сейчас он выдаёт только бесплатный пробный период. Бот работает на нашем сервере и хранит:</p>
+      <ul>
+        <li><strong>Данные Telegram-аккаунта</strong> — Telegram ID, имя, фамилию и username (в том виде, в каком Telegram передаёт их боту), язык, даты регистрации и последней активности. По ним бот узнаёт вас и связывает с вами подписку.</li>
+        <li><strong>Подписку</strong> — даты пробного периода и подписки, лимит и расход трафика, статус, ссылку подписки и её идентификатор, события подписки (например, когда она выдана и когда закончилась). Ссылка подписки — это ключ к VPN: не передавайте её другим.</li>
+        <li><strong>Проверку подписки на канал</strong> — пробный период доступен подписчикам нашего канала @outskyapp. Бот спрашивает у Telegram, подписаны ли вы, и хранит результат и дату проверки. Если отписаться от канала, пробный период может отключиться.</li>
+        <li><strong>Журнал нажатий кнопок</strong> — какую кнопку меню и когда вы нажали. Хранится 90 дней.</li>
+        <li><strong>Технические журналы бота</strong> — в них попадают тексты ваших сообщений боту и ссылки подписок. Хранятся 7 дней; их копия в системном журнале сервера ограничена по размеру и может храниться дольше.</li>
+      </ul>
+      <p>Выдавая пробный период, бот создаёт аккаунт в VPN-сервисе с именем вида <code>user_&lt;Telegram ID&gt;</code> (раздел 3). Владельцу сервиса в Telegram приходят служебные уведомления о выдаче пробного периода; в них могут быть ваше имя, username и Telegram ID.</p>
+      <p>Сообщения боту проходят через Telegram и хранятся у Telegram по его политике конфиденциальности. Номер телефона, e-mail и платёжные данные мы не собираем; платных тарифов пока нет.</p>
+    </section>
 
-    <h2>5. Разрешения браузера и зачем они нужны</h2>
-    <ul>
-      <li><strong>proxy</strong> — чтобы настроить браузер на маршрутизацию трафика через выбранный сервер OutSky. Это основная функция расширения.</li>
-      <li><strong>webRequest</strong> и <strong>webRequestAuthProvider</strong> — чтобы автоматически отвечать на запрос авторизации прокси-сервера вашими учётными данными и не спрашивать пароль на каждом сайте. Расширение обрабатывает только запросы авторизации прокси; оно не читает и не изменяет запросы страниц.</li>
-      <li><strong>Доступ ко всем сайтам</strong> (<code>&lt;all_urls&gt;</code>) — запрос авторизации прокси может возникнуть на любом сайте, пока VPN включён, поэтому браузер требует такую область для разрешения выше; она же позволяет окну расширения измерять пинг до серверов OutSky. Расширение не читает, не внедряет код и не изменяет веб-страницы.</li>
-      <li><strong>storage</strong> — чтобы локально сохранять подписку и настройки (раздел 1).</li>
-      <li><strong>notifications</strong> (необязательное) — запрашивается, только если вы включите <strong>«Уведомления»</strong> в настройках, чтобы сообщить, что VPN выключился из-за потери соединения. Если выключить эту опцию, разрешение отзывается.</li>
-    </ul>
+    <section id="ru-servers">
+      <h2>3. VPN-серверы и панель</h2>
+      <p>VPN-сервис — это панель управления и VPN-серверы в нескольких локациях; локацию вы выбираете в приложении для VPN или в расширении. Приложения для VPN загружают настройки по ссылке подписки и подключаются к VPN-серверам.</p>
+      <p>Панель хранит:</p>
+      <ul>
+        <li><strong>Аккаунт</strong> — имя вида <code>user_&lt;Telegram ID&gt;</code>, ваш Telegram ID, ключи доступа, срок и лимиты подписки.</li>
+        <li><strong>Запросы ссылки подписки</strong> — когда приложение или браузер загружает ссылку подписки, панель записывает IP-адрес, название и версию приложения (User-Agent) и время. Хранятся последние такие запросы.</li>
+        <li><strong>Устройства</strong> — если приложение передаёт данные устройства (так делают, например, INCY и Happ), панель записывает идентификатор устройства (HWID), модель, версию ОС, приложение и IP-адрес.</li>
+        <li><strong>Трафик</strong> — сколько трафика вы израсходовали, всего и по дням на каждом сервере, время первого и последнего подключения и сервер последнего подключения. Это нужно, чтобы применять лимит подписки и следить за нагрузкой на серверы. Мы считаем объём, а не содержимое.</li>
+      </ul>
+      <p>VPN-серверы получают из панели список аккаунтов — имя аккаунта (в нём есть Telegram ID) и ключ доступа, поэтому эти данные хранятся и на каждом VPN-сервере.</p>
+      <p><strong>Что видят VPN-серверы.</strong> Пока вы подключены, сервер технически видит ваш IP-адрес и адреса сайтов и сервисов, к которым вы обращаетесь, — без этого соединение невозможно. Зашифрованное содержимое (HTTPS) сервер прочитать не может; незашифрованный трафик (например, HTTP-страницы) проходит через него как есть. На части типов подключения сервер блокирует рекламные домены — по имени сайта, а BitTorrent — по типу трафика. Чтобы узнать адрес сайта, серверы обращаются к DNS-резолверу; в их настройках указан Google Public DNS. Резолвер видит имя сайта и адрес нашего сервера, но не ваш IP-адрес.</p>
+      <p><strong>Технические журналы.</strong> Программы на наших серверах ведут технические журналы. В них могут попадать ваш IP-адрес, имя аккаунта, адрес сайта и время соединения. Мы используем их только для устранения неполадок и защиты сервиса. Срок хранения этих журналов пока не установлен; часть из них ограничена по размеру.</p>
+      <p><strong>Настройки для приложений.</strong> В настройках, которые панель выдаёт приложениям, указано, к каким DNS-резолверам приложение обращается, чтобы узнавать адреса сайтов. В формате Xray, который получают INCY и некоторые другие приложения, это Яндекс DNS. Запросы к нему идут напрямую, не через VPN, поэтому Яндекс видит имена сайтов, которые запрашивает устройство, и ваш IP-адрес. В формате sing-box большая часть запросов идёт в системный DNS вашего устройства (обычно это DNS интернет-провайдера) — тоже напрямую, поэтому имена сайтов видит тот, кто обслуживает этот DNS; часть запросов идёт в Cloudflare DNS через VPN. В формате Clash/mihomo используются Cloudflare DNS, Яндекс DNS, Mullvad DNS и системный DNS. Некоторые форматы загружают списки правил и значки с GitHub и jsDelivr. У этих сервисов свои политики конфиденциальности.</p>
+      <p>Для подключения мы рекомендуем стороннее приложение INCY. Оно не наше и работает по своей политике конфиденциальности.</p>
+    </section>
 
-    <h2>6. Сроки хранения и ваш выбор</h2>
-    <ul>
-      <li>Локальные данные хранятся, пока вы не удалите подписку (<strong>«Сменить аккаунт»</strong>) или само расширение.</li>
-      <li>Запись о подписке на нашей стороне хранится в течение срока подписки и удаляется после истечения, если подписка не продлена.</li>
-      <li>Вы можете в любой момент остановить маршрутизацию, выключив VPN; расширение сразу же сбрасывает настройки прокси. Оно также сбрасывает их само, если соединение с сервером потеряно, и при каждом запуске браузера (с автоподключением — затем подключается заново).</li>
-    </ul>
+    <section id="ru-extension">
+      <h2>4. Браузерное расширение</h2>
+      <p>Расширение OutSky VPN направляет трафик браузера через наши прокси-серверы в выбранной стране. В нём нет аналитики, рекламы и трекеров; оно не читает и не изменяет веб-страницы.</p>
+      <p><strong>На вашем устройстве</strong> (в хранилище расширения в браузере) хранятся:</p>
+      <ul>
+        <li>токен подписки — идентификатор из ссылки подписки, которую вы вставляете;</li>
+        <li>логин и пароль прокси, выданные для вашей подписки;</li>
+        <li>имя аккаунта, дата окончания подписки и список серверов. У подписок из нашего бота имя аккаунта имеет вид <code>user_&lt;Telegram ID&gt;</code>, то есть содержит ваш Telegram ID;</li>
+        <li>настройки: локация, режим, язык, автоподключение и уведомления.</li>
+      </ul>
+      <p><strong>«Сменить аккаунт»</strong> в настройках удаляет токен, логин и пароль прокси и данные аккаунта. Настройки остаются до удаления расширения; при удалении расширения стирается всё.</p>
+      <p><strong>Что уходит с устройства:</strong></p>
+      <ul>
+        <li><strong>На наш сервис подписок</strong> (<code>sub.outsky.app</code>) — токен подписки: при активации, при открытии окна расширения, при запуске браузера и время от времени. В ответ расширение получает логин и пароль прокси, имя аккаунта, дату окончания и список серверов. Запрос идёт напрямую, не через VPN, поэтому сервис видит ваш IP-адрес. Журнал этих запросов сервис не ведёт.</li>
+        <li><strong>На наши прокси-серверы</strong> — логин и пароль прокси при подключении и трафик браузера: в режиме <em>«Весь трафик»</em> — всё, кроме локальной сети и сервиса подписок; в режиме <em>«Умный»</em> — всё, кроме российских сайтов, локальной сети, сервиса подписок и других серверов OutSky. Прокси видит ваш IP-адрес и адреса сайтов, которые вы открываете через VPN: у HTTPS-страниц — имя сайта, но не содержимое; у незашифрованных HTTP-страниц — полный адрес и содержимое. Трафик через расширение мы не считаем. Технические журналы — как в разделе 3.</li>
+        <li><strong>Замер задержки (пинг)</strong> — несколько пустых запросов к нашим серверам: к выбранному — при открытии окна расширения, при подключении и при смене режима, к одному — по кнопке пинга у строки, ко всем — в списке локаций и по кнопке перепроверки всех. При выключенном VPN, а в режиме <em>«Умный»</em> — ко всем серверам, кроме текущего, запросы идут напрямую, поэтому наши серверы видят ваш реальный IP-адрес. В режиме <em>«Весь трафик»</em> они идут через VPN. Данных аккаунта в них нет.</li>
+        <li><strong>Проверка соединения</strong> — при подключении, при открытии окна расширения с включённым VPN и при сбоях расширение отправляет через выбранный сервер небольшие служебные запросы: к самому серверу и к api.ipify.org.</li>
+      </ul>
+      <p><strong>Сторонние сервисы:</strong></p>
+      <ul>
+        <li><strong>api.ipify.org</strong> — чтобы проверить соединение и показать ваш новый IP-адрес. Запрос идёт через VPN, поэтому сервис видит адрес нашего сервера, а не ваш.</li>
+        <li><strong>Google Fonts</strong> (<code>fonts.googleapis.com</code>, <code>fonts.gstatic.com</code>) — шрифт Inter для окна расширения. Google видит ваш IP-адрес, а если VPN включён, — адрес нашего сервера.</li>
+      </ul>
+      <p><strong>Разрешения:</strong></p>
+      <ul>
+        <li><strong>proxy</strong> — чтобы направлять трафик браузера через выбранный сервер OutSky.</li>
+        <li><strong>webRequest</strong> и <strong>webRequestAuthProvider</strong> — чтобы автоматически отвечать на запрос входа от прокси-сервера логином и паролем прокси. Расширение обрабатывает только такие запросы; другие запросы оно не читает и не изменяет.</li>
+        <li><strong>Доступ ко всем сайтам</strong> (<code>&lt;all_urls&gt;</code>) — запрос входа от прокси может прийти на любом сайте, пока VPN включён, и ответить на него расширение может, только если у него есть доступ ко всем сайтам; этот же доступ позволяет измерять пинг и проверять соединение. Расширение не читает веб-страницы, не внедряет в них код и не изменяет их.</li>
+        <li><strong>storage</strong> — чтобы хранить подписку и настройки на вашем устройстве.</li>
+        <li><strong>notifications</strong> (необязательное) — запрашивается, только если вы включите уведомления в настройках, чтобы сообщить, что VPN выключился из-за потери соединения.</li>
+      </ul>
+    </section>
 
-    <h2>7. Дети</h2>
-    <p>OutSky не предназначен для детей младше 13 лет, и мы сознательно не собираем их данные.</p>
+    <section id="ru-site">
+      <h2>5. Сайт</h2>
+      <p>Сайт outsky.app размещён на GitHub Pages. GitHub видит IP-адреса посетителей и может вести журналы по своей политике конфиденциальности. Сам сайт не использует cookie, аналитику и счётчики и ничего не загружает со сторонних сервисов: шрифты и картинки отдаются с самого сайта.</p>
+    </section>
 
-    <h2>8. Изменения политики</h2>
-    <p>Если порядок обработки данных изменится, мы обновим эту страницу и дату вступления в силу. О существенных изменениях мы также сообщим в Telegram-канале.</p>
+    <section id="ru-not-recorded">
+      <h2>6. Что мы не записываем</h2>
+      <ul>
+        <li><strong>Содержимое вашего трафика</strong> — что вы читаете, пишете, отправляете и скачиваете. Наши серверы передают его дальше, не сохраняя.</li>
+        <li><strong>Запросы расширения к сервису подписок</strong> — журнал этих запросов (IP-адреса, токены) не ведётся.</li>
+        <li><strong>E-mail, номер телефона и платёжные данные</strong> — мы их не собираем.</li>
+        <li><strong>Данные для рекламы</strong> — в расширении и на сайте нет рекламных и аналитических трекеров, и мы не используем ваши данные для рекламы.</li>
+      </ul>
+      <p>Адресов сайтов и IP-адресов подключений в этом списке нет. Расширение не ведёт на устройстве список посещённых страниц и не читает страницы, но адреса сайтов проходят через наши прокси- и VPN-серверы (разделы 3 и 4) и могут попадать в их технические журналы. Ваши DNS-запросы видит DNS-резолвер, указанный в настройках вашего приложения (раздел 3).</p>
+    </section>
 
-    <h2>9. Контакты</h2>
-    <p>Вопросы о конфиденциальности: <a href="https://t.me/outsky_support">@outsky_support</a> в Telegram или <a href="mailto:support@outsky.app">support@outsky.app</a>.</p>
+    <section id="ru-data">
+      <h2>7. Что храним, зачем, где, сколько и кому передаём</h2>
+      <ul>
+        <li><strong>Данные Telegram-аккаунта и подписка в боте</strong> (раздел 2). Зачем: выдать и показать подписку, не выдавать пробный период повторно. Где: сервер бота. Сколько: без срока — автоматически не удаляются; удалим по запросу (разделы 9 и 10).</li>
+        <li><strong>Журнал нажатий кнопок.</strong> Зачем: статистика меню. Где: сервер бота. Сколько: 90 дней.</li>
+        <li><strong>Технические журналы бота</strong> (сообщения боту, ссылки подписок). Зачем: поиск ошибок. Где: сервер бота. Сколько: 7 дней; копия в системном журнале ограничена по размеру и может храниться дольше.</li>
+        <li><strong>Служебные уведомления о выдаче пробного периода</strong> (могут содержать ваше имя, username и Telegram ID). Зачем: чтобы владелец видел, что бот работает. Где: чат владельца в Telegram. Сколько: срок не установлен.</li>
+        <li><strong>Аккаунт в VPN-сервисе</strong> (имя с Telegram ID, ключи доступа, срок, лимиты). Зачем: чтобы вы могли подключаться. Где: панель; имя аккаунта и ключ — ещё и на каждом VPN-сервере. Сколько: автоматически не удаляется; удалим по запросу.</li>
+        <li><strong>Запросы ссылки подписки и устройства</strong> (IP-адрес, приложение, время; идентификатор устройства, модель, ОС). Зачем: видеть, какие приложения и устройства пользуются подпиской, и помогать с проблемами подключения. Где: панель. Сколько: последние запросы — пока существует аккаунт; устройства автоматически не удаляются.</li>
+        <li><strong>Статистика трафика.</strong> Зачем: применять лимит подписки и следить за нагрузкой. Где: панель. Сколько: автоматически не удаляется.</li>
+        <li><strong>Технические журналы серверов</strong> (могут содержать IP-адрес, имя аккаунта, адрес сайта, время). Зачем: устранение неполадок и защита сервиса. Где: наши серверы. Сколько: срок пока не установлен.</li>
+        <li><strong>Данные расширения на устройстве</strong> (раздел 4). Где: ваш браузер. Сколько: до нажатия кнопки <strong>«Сменить аккаунт»</strong> или удаления расширения.</li>
+        <li><strong>Переписка с поддержкой.</strong> Зачем: ответить вам. Где: Telegram (@outsky_support) или наша почта. Сколько: срок не установлен; удалим по запросу.</li>
+        <li><strong>Резервные копии</strong> — раздел 8.</li>
+      </ul>
+      <p><strong>Кто ещё получает данные:</strong></p>
+      <ul>
+        <li><strong>Хостинг-провайдеры</strong> наших серверов (панель, бот, сервис подписок и VPN-серверы).</li>
+        <li><strong>Telegram</strong> — бот, поддержка, наш канал, служебные уведомления владельцу и последняя зашифрованная резервная копия в чате владельца.</li>
+        <li><strong>Почтовый сервис</strong>, через который работает адрес support@outsky.app, — письма в поддержку.</li>
+        <li><strong>GitHub</strong> — хостинг сайта; видит IP-адреса посетителей.</li>
+        <li><strong>api.ipify.org</strong> и <strong>Google Fonts</strong> — запросы расширения (раздел 4).</li>
+        <li><strong>DNS-резолверы</strong> — Яндекс DNS, Cloudflare DNS, Mullvad DNS и системный DNS вашего устройства в настройках для приложений; Google Public DNS на наших серверах (раздел 3).</li>
+        <li><strong>GitHub и jsDelivr</strong> — списки правил и значки в некоторых форматах настроек для приложений.</li>
+        <li><strong>INCY</strong> — стороннее приложение, которое мы рекомендуем для подключения. Оно не наше и работает по своей политике конфиденциальности.</li>
+      </ul>
+      <p>Мы не продаём данные и не используем их для рекламы.</p>
+    </section>
+
+    <section id="ru-backups">
+      <h2>8. Резервные копии</h2>
+      <p>Раз в сутки мы делаем одну резервную копию: базы бота и панели вместе с настройками серверов в одном зашифрованном архиве. Ключ для расшифровки есть только у владельца сервиса. На нашем сервере копии хранятся 7 дней, затем удаляются автоматически. Каждая новая копия также отправляется в личный чат владельца в Telegram и хранится в облаке Telegram; предыдущая копия из чата при этом удаляется, так что в чате хранится только последняя. Если предыдущую копию не удалось удалить автоматически, владелец получает предупреждение и удаляет её вручную.</p>
+      <p>Поэтому данные, которые мы удалили из бота и панели, остаются в копиях на сервере ещё до 7 дней, а в копии в чате владельца — пока её не заменит следующая.</p>
+    </section>
+
+    <section id="ru-retention">
+      <h2>9. Сроки</h2>
+      <ul>
+        <li>Сейчас аккаунты в боте и в VPN-сервисе автоматически не удаляются, в том числе после окончания подписки. Мы удаляем их по вашему запросу (раздел 10).</li>
+        <li>Если вы 6 месяцев не пользовались ботом и всё это время у вас не было подписки, бот помечает ваш аккаунт как удалённый, и вы снова можете получить пробный период. Запись с вашими данными в базе бота при этом остаётся.</li>
+        <li>Журнал нажатий кнопок — 90 дней; технические журналы бота — 7 дней (их копия в системном журнале ограничена по размеру и может храниться дольше).</li>
+        <li>Технические журналы серверов — срок пока не установлен; часть из них ограничена по размеру.</li>
+        <li>Резервные копии — 7 дней на сервере; в чате владельца в Telegram — только последняя копия (раздел 8).</li>
+        <li>Данные расширения на устройстве — до нажатия кнопки <strong>«Сменить аккаунт»</strong> или удаления расширения.</li>
+        <li>Если вы заблокируете бота, удалите чат с ним или удалите расширение, данные на наших серверах не удалятся. Чтобы удалить их, напишите нам.</li>
+      </ul>
+    </section>
+
+    <section id="ru-rights">
+      <h2>10. Ваши права и запросы</h2>
+      <p>Вы можете попросить копию своих данных; узнать, какие данные мы обрабатываем, зачем и кто ещё их получает; исправить их или удалить. Напишите в <a href="https://t.me/outsky_support">@outsky_support</a> или на <a href="mailto:support@outsky.app">support@outsky.app</a>. Мы ответим в течение 10 рабочих дней.</p>
+      <p>Чтобы не отдать ваши данные другому человеку, мы можем попросить подтвердить, что аккаунт ваш, — например, написать с того Telegram-аккаунта, которым вы пользуетесь в боте.</p>
+      <p>После удаления подписка перестанет работать. Удалённые данные остаются в копиях на сервере ещё до 7 дней, а в копии в чате владельца — пока её не заменит следующая (раздел 8). Переписку с ботом и с поддержкой в Telegram вы можете удалить сами.</p>
+    </section>
+
+    <section id="ru-children">
+      <h2>11. Дети</h2>
+      <p>Сервис не предназначен для детей младше 13 лет. Если вы считаете, что ребёнок передал нам данные, напишите нам, и мы их удалим.</p>
+    </section>
+
+    <section id="ru-limited-use">
+      <h2>12. Chrome Web Store: ограниченное использование</h2>
+      <p>Использование данных, полученных расширением, соответствует правилам Chrome Web Store о пользовательских данных (Chrome Web Store User Data Policy), включая требования об ограниченном использовании (Limited Use).</p>
+    </section>
+
+    <section id="ru-dnt">
+      <h2>13. Do Not Track</h2>
+      <p>Мы не отслеживаем ваши действия на сторонних сайтах для рекламы или профилирования, а на сайте и в расширении нет сторонних трекеров. Поэтому сигнал Do Not Track ничего не меняет в работе сервиса.</p>
+    </section>
+
+    <section id="ru-changes">
+      <h2>14. Изменения политики</h2>
+      <p>Если мы изменим, какие данные собираем или как их используем, мы обновим эту страницу и дату редакции и заранее сообщим об изменениях в Telegram-канале <a href="https://t.me/outskyapp">@outskyapp</a>.</p>
+      <p>Журнал изменений:</p>
+      <ul>
+        <li><strong>16 октября 2026 г.</strong> — единая политика для бота, VPN-сервиса, расширения и сайта: что храним, где, сколько и кто ещё получает данные; резервные копии; ваши права. Прежняя редакция была местами неточной: в ней говорилось, что запись о подписке удаляется после её окончания (на деле аккаунты автоматически не удаляются), что мы не записываем адреса посещённых страниц и что журналы серверов хранятся недолго (на деле адреса сайтов могут попадать в технические журналы, а срок их хранения пока не установлен).</li>
+        <li><strong>15 октября 2026 г.</strong> — предыдущая редакция (только расширение).</li>
+      </ul>
+    </section>
   </section>
 </article>
 </div>
