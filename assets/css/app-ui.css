@@ -1,0 +1,428 @@
+/* Макет приложения OutSky на демо-данных: окно Windows (.osw) и телефон (.osp). Логика — /assets/js/app-ui.js.
+   .os-ui — токены и база интерфейса приложения. Фон и стекло в тон сайта, кольцо кнопки — градиентная дуга со свечением,
+   залитые кнопки фильтра и режима (#5B3BEF → #6D4CFF → край #8D42E8), выбор — неоновый контур, график светится.
+   Компоненты — из расширения (циферблат, строки серверов, пинг-таблетки, сегменты). */
+.os-ui{
+  --bg:#0c0820; --side:#0e0a27; --title:#08061a; --surface:#120d2b; --surface-2:#19143a;
+  --line:rgb(152 140 255/.17); --div:rgb(160 150 255/.09); --text:#f3f5fe;
+  --n200:#e4e7f5; --n300:#cfd3e5; --n400:#b4b8d2; --n500:#a0a3c6; --n600:#9295ba; --n700:#6f7299; --n800:#352c6e; --n900:#1d1747;
+  --a300:#d0c8ff; --a400:#b5abfc;
+  --ok:#4ade80; --warn:#facc15; --err:#f87171;
+  --glow-rgb:128 84 255; --bloom-rgb:113 61 255; --frame-rgb:150 128 255;
+  --ring-on:#c4b9ff; --spin:#a594ff; --seg-on-text:#fff;
+  --seg-fill:linear-gradient(120deg,#5b3bef 0%,#6d4cff 58%,#8d42e8 100%);      /* залитая кнопка (под белым ≥ 5.09:1) */
+  --chart:#ad9cff; --chart-fill-rgb:113 61 255; --net:#6450d6; --net-op:.5; --pill:rgb(255 255 255/.04);
+  --sel:linear-gradient(90deg,rgb(123 97 255/.28),rgb(123 97 255/.1) 60%,rgb(123 97 255/.04)),#140e33;
+  --halo:139 92 255;                                                           /* ореол за кнопкой; при ошибке — красный */
+  --glass:linear-gradient(180deg,rgb(170 160 255/.065),rgb(170 160 255/.02)),rgb(18 13 43/.9);
+  --rim:inset 0 1px 0 rgb(235 230 255/.075);
+  color:var(--text); font:400 13px/1.4 "Inter",system-ui,-apple-system,"Segoe UI",sans-serif;
+  text-align:left; letter-spacing:0; font-variant-numeric:tabular-nums; -webkit-font-smoothing:antialiased; user-select:none;
+}
+.os-ui.st-err{--halo:248 113 113}
+.os-ui *,.os-ui *::before,.os-ui *::after{box-sizing:border-box}
+.os-ui svg{display:block}
+.os-ui [role=button],.os-ui [role=radio]{cursor:pointer}
+.os-ui :focus-visible{outline:2px solid var(--a400); outline-offset:2px}
+
+/* ===== окно Windows: шапка · боковое меню (сворачивается до иконок) · серверы · главный ===== */
+.osw{
+  --rail-w:208px;
+  position:relative; width:1080px; height:680px; display:grid; grid-template-rows:38px minmax(0,1fr);
+  background:var(--bg); border-radius:12px; overflow:hidden; isolation:isolate;
+  box-shadow:0 0 0 1px rgb(var(--frame-rgb)/.34), inset 0 1px 0 rgb(255 255 255/.07),
+    0 0 80px -22px rgb(123 97 255/.6), 0 34px 90px -10px rgb(3 2 12/.75);
+}
+.osw.mini{--rail-w:64px}
+
+/* ---- шапка окна: круглые кнопки слева, знак по центру ---- */
+.osw-tb{position:relative; display:flex; align-items:center; gap:8px; padding:0 14px; background:linear-gradient(180deg,#0d0927,var(--title)); border-bottom:1px solid var(--div)}
+.osw-dots{display:flex; gap:8px}
+.osw-dots i{width:12px; height:12px; border-radius:50%; box-shadow:inset 0 0 0 .5px rgb(0 0 0/.25)}
+.osw-dots i:nth-child(1){background:#ff5f57} .osw-dots i:nth-child(2){background:#febc2e} .osw-dots i:nth-child(3){background:#28c840}
+.osw-wm{position:absolute; left:50%; top:50%; translate:-50% -50%; display:flex; align-items:center; gap:7px; font-size:12px; font-weight:600; color:var(--n300); letter-spacing:.01em}
+.osw-wm img{width:18px; height:18px; border-radius:5px}
+.osw-wm b{color:var(--ring-on); font-weight:600}
+.osw-badge{margin-left:auto; font-size:9.5px; letter-spacing:.14em; text-transform:uppercase; color:#cfc6ff; border:1px solid rgb(165 148 255/.65); border-radius:4px; padding:1px 5px; font-weight:600;
+  box-shadow:0 0 9px -1px rgb(123 97 255/.6), inset 0 0 6px rgb(123 97 255/.25)}
+
+.osw-body{display:grid; grid-template-columns:var(--rail-w) 320px minmax(0,1fr); min-height:0; transition:grid-template-columns .28s cubic-bezier(.17,.25,.3,1)}
+
+/* ---- боковое меню ---- */
+.osw-rail{display:flex; flex-direction:column; gap:3px; padding:12px 10px; border-right:1px solid var(--div); min-width:0; overflow:hidden;
+  background:radial-gradient(140% 36% at 0% 100%,rgb(123 97 255/.16),transparent 70%),linear-gradient(180deg,transparent 48%,rgb(91 59 239/.10)),var(--side)}
+.osw-navs{display:flex; flex-direction:column; gap:3px}
+.osw-nav{position:relative; display:flex; align-items:center; gap:11px; height:36px; padding:0 11px; border-radius:9px; white-space:nowrap;
+  color:var(--n400); font-size:13px; font-weight:500; transition:color .15s, background .15s}
+.osw-nav svg{width:18px; height:18px; flex-shrink:0}
+.osw-nav .t,.osw-mode .t{transition:opacity .18s}
+.osw-nav:hover{color:var(--n200); background:rgb(123 97 255/.1)}
+/* активный пункт — неоновый контур */
+.osw-nav.on{color:#fff; font-weight:600; background:linear-gradient(90deg,rgb(123 97 255/.3),rgb(123 97 255/.12));
+  box-shadow:inset 0 0 0 1px rgb(190 178 255/.82), inset 0 0 16px rgb(123 97 255/.38), 0 0 18px -2px rgb(123 97 255/.75)}
+.osw-nav.on svg{color:#ebe8ff; filter:drop-shadow(0 0 4px rgb(139 125 255))}
+.osw-nav.on::before{content:""; position:absolute; left:-10px; top:8px; bottom:8px; width:3px; border-radius:0 3px 3px 0;
+  background:linear-gradient(180deg,#e2ddff,#8b7dff); box-shadow:0 0 5px rgb(150 134 255), 0 0 14px 1px rgb(123 97 255/.9)}
+.osw-nav .dot{position:absolute; top:7px; left:24px; width:7px; height:7px; border-radius:50%; background:var(--warn); box-shadow:0 0 0 2px var(--side); opacity:0; transition:opacity .25s}
+.st-err .osw-nav[data-k=diag]{color:var(--n200)}
+.st-err .osw-nav[data-k=diag] .dot{opacity:1}
+.osw-rail .sp{flex:1}
+.osw-rail>.osw-nav[data-k=set]{margin-bottom:6px}   /* «Настройки» — внизу, над «Прокси | Туннель» */
+/* режим подключения: системный прокси или TUN на всё устройство */
+.osw-mode{display:flex; gap:3px; padding:3px; margin-bottom:6px; border:1px solid var(--line); border-radius:10px;
+  background:rgb(6 4 18/.6); box-shadow:inset 0 1px 2px rgb(0 0 0/.35), 0 1px 0 rgb(235 230 255/.035)}
+.osw-mode>span{flex:1; display:flex; align-items:center; justify-content:center; gap:5px; height:30px; padding:0 4px; border-radius:7px; white-space:nowrap;
+  font-size:11.5px; font-weight:500; color:var(--n400); transition:background .15s, color .15s}
+.osw-mode>span svg{width:14px; height:14px; flex-shrink:0}
+.osw-mode>span:not(.on):hover{color:var(--n200); background:var(--n900)}
+.osw-fold svg{transition:rotate .28s}
+/* свёрнуто: только иконки, режим — столбиком */
+.mini .osw-nav{padding:0; justify-content:center; gap:0}
+.mini .osw-nav .t,.mini .osw-mode .t{opacity:0; width:0; overflow:hidden}
+.mini .osw-nav .dot{left:auto; right:9px}
+.mini .osw-mode{flex-direction:column}
+.mini .osw-mode>span{flex:none; height:32px; padding:0; gap:0}
+.mini .osw-fold svg{rotate:180deg}
+
+/* залитые кнопки: активный сегмент режима и фильтра */
+.osw-mode>span.on,.osw-seg span.on{background:var(--seg-fill); color:var(--seg-on-text);
+  box-shadow:inset 0 1px 0 rgb(255 255 255/.22), inset 0 0 0 1px rgb(181 171 252/.18), 0 0 14px -2px rgb(139 92 255/.75)}
+
+/* ---- колонка серверов ---- */
+.osw-side{position:relative; display:flex; flex-direction:column; gap:10px; padding:14px; border-right:1px solid var(--div); min-height:0;
+  background:radial-gradient(90% 30% at 50% 104%,rgb(123 97 255/.12),transparent 70%),linear-gradient(180deg,transparent 48%,rgb(91 59 239/.08)),var(--side)}
+.osw-h{display:flex; align-items:center; gap:6px; padding:0 2px 0 4px; min-height:30px}
+.osw-h h3{margin:0; flex:1; font-size:15px; font-weight:600; letter-spacing:-.005em}
+.osw-ib{width:30px; height:30px; display:grid; place-items:center; border-radius:8px; color:var(--n400); transition:background .15s, color .15s}
+.osw-ib:hover{background:var(--n900); color:var(--n200)}
+.osw-ib svg{width:15px; height:15px}
+
+/* стеклянные поверхности */
+.osw-sub,.osw-row,.osw-strip,.osw-chart,.osw-card{background:var(--glass); box-shadow:var(--rim)}
+.osw-sub{padding:11px 12px 12px; border:1px solid var(--line); border-radius:10px}
+.osw-sub-h{display:flex; align-items:center; gap:10px}
+.osw-av{width:28px; height:28px; border-radius:8px; display:grid; place-items:center; flex-shrink:0; font-size:12px; font-weight:700; color:#f3f1ff;
+  background:linear-gradient(135deg,rgb(123 97 255/.46),rgb(123 97 255/.12)); box-shadow:inset 0 0 0 1px rgb(190 178 255/.7), 0 0 12px -2px rgb(123 97 255/.65)}
+.osw-g{flex:1; min-width:0}
+.osw-g b{display:block; font-size:13px; font-weight:500; color:var(--n200); white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+.osw-g small{display:block; font-size:11px; color:var(--n500); margin-top:1px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+.osw-sub .osw-ib{width:26px; height:26px; margin-right:-4px}
+.osw-quota{display:flex; justify-content:space-between; margin-top:11px; font-size:11.5px; color:var(--n500)}
+.osw-quota b{color:var(--n200); font-weight:600}
+.osw-bar{height:4px; margin-top:6px; border-radius:4px; background:var(--n900); overflow:hidden}
+.osw-bar i{display:block; height:100%; width:58%; border-radius:inherit; background:linear-gradient(90deg,#6d4cff,#8b74ff 70%,#b5abfc); box-shadow:0 0 8px rgb(139 92 255/.55)}
+
+.osw-seg{display:flex; gap:3px; padding:3px; border:1px solid var(--line); border-radius:9px;
+  background:rgb(6 4 18/.6); box-shadow:inset 0 1px 2px rgb(0 0 0/.35), 0 1px 0 rgb(235 230 255/.035)}
+.osw-seg span{flex:1; text-align:center; padding:6px 4px; border-radius:6px; font-size:11.5px; font-weight:500; color:var(--n400); transition:background .15s, color .15s}
+.osw-seg span:not(.on):hover{color:var(--n200); background:var(--n900)}
+
+.osw-list{flex:1; min-height:0; display:flex; flex-direction:column; gap:5px; overflow:hidden}
+#oswRows{flex:1; min-height:0; display:flex; flex-direction:column; gap:5px; overflow-y:auto; scrollbar-width:none;
+  -webkit-mask-image:linear-gradient(#000 calc(100% - 26px),transparent); mask-image:linear-gradient(#000 calc(100% - 26px),transparent)}
+#oswRows::-webkit-scrollbar{display:none}
+#oswRows>.osw-row{flex-shrink:0; height:51px}
+/* Списки серверов (здесь и .osp-rows) отдают колесо и свайп странице, когда докручены до конца: поэтому без overscroll-behavior:contain
+   и с целой высотой строк — при дробной (50,6px) у прокрутки оставался хвост меньше пикселя, и колесо над списком «застревало». */
+.osw-gl{font-size:10px; letter-spacing:.14em; text-transform:uppercase; color:var(--n600); font-weight:600; padding:6px 4px 0; display:flex; justify-content:space-between}
+.osw-row{display:flex; align-items:center; gap:11px; padding:7px 10px 7px 11px; border-radius:10px; border:1px solid var(--line); transition:border-color .15s, background .15s}
+.osw-row:hover{border-color:rgb(139 125 255/.55)}
+.osw-row[hidden]{display:none}
+/* «Самая быстрая» — спокойнее выбранной строки */
+.osw-row.osw-fast{border-color:rgb(150 135 255/.30); background:linear-gradient(90deg,rgb(91 59 239/.22),rgb(91 59 239/.04)),rgb(18 13 43/.9)}
+.osw-fast .bolt{width:24px; display:grid; place-items:center; color:#b3a6ff}
+.osw-fast .bolt svg{width:16px; height:16px; filter:drop-shadow(0 0 5px rgb(113 61 255/.95))}
+/* выбранный сервер — неоновая грань: светлое ядро слева, к правому краю гаснет в пурпур */
+.osw-row.sel{position:relative; border-color:rgb(150 134 255/.35); background:var(--sel);
+  box-shadow:0 0 22px -4px rgb(123 97 255/.85), inset 0 0 20px rgb(123 97 255/.16)}
+.osw-row.sel::before{content:""; position:absolute; inset:-1px; border-radius:inherit; padding:1px; pointer-events:none;
+  background:linear-gradient(90deg,#ebe8ff,#a594ff 30%,rgb(123 97 255/.7) 72%,rgb(162 75 240/.8));
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0); -webkit-mask-composite:xor;
+          mask:linear-gradient(#000 0 0) content-box exclude,linear-gradient(#000 0 0)}
+.osw-row.sel .osw-g b{color:#fff}
+.osw-fl{width:24px; height:18px; border-radius:3px; overflow:hidden; flex-shrink:0; background:var(--n800); box-shadow:0 0 0 1px rgb(0 0 0/.2)}
+.osw-fl svg{width:100%; height:100%}
+.osw-row .osw-g small i{font-style:normal; color:var(--n400); font-weight:500}
+/* одна таблетка справа: пинг или скорость — что мерили последним (кнопки «Пинг» / «Скорость» сверху).
+   Ширина фиксирована (влезают «640 мс», «117 Мбит/с», «нет ответа»): при смене ничего не съезжает.
+   Цвет пинга = качество: < 60 — лавандовый, < 150 — обычный, 150–500 — жёлтый, > 500 — красный со свечением */
+.osw-ping{position:relative; flex-shrink:0; display:flex; align-items:center; justify-content:center; width:82px; padding:1px 6px; margin-right:-2px; line-height:16px; white-space:nowrap;
+  border:1px solid var(--line); border-radius:999px; background:var(--pill); font-size:11.5px; color:var(--n400); transition:border-color .15s, color .2s}
+.osw-ping.sp{color:var(--n200)}
+.osw-ping.wait{color:var(--n700)}
+/* наведение на сервер: в таблетке «другое» значение (пинг ↔ скорость) — грань чуть светится, чтобы было видно подмену */
+.osw-ping.alt{border-color:rgb(190 178 255/.7); box-shadow:inset 0 0 8px rgb(123 97 255/.25), 0 0 10px -3px rgb(123 97 255/.6)}
+.osw-row.sel .osw-ping{border-color:rgb(165 148 255/.55); background:rgb(14 10 40/.55)}
+.osw-ping.q1{color:var(--a300)}
+.osw-ping.q3{color:var(--warn)}
+.osw-ping.q4,.osw-row.sel .osw-ping.q4{color:var(--err); border-color:rgb(248 113 113/.55); background:rgb(248 113 113/.10);
+  box-shadow:0 0 12px -2px rgb(248 113 113/.6), inset 0 0 8px rgb(248 113 113/.15)}
+.osw-ping.na{color:var(--n600)}
+/* идёт замер: число прячется, крутится маленькое кольцо */
+.osw-ping.busy{color:transparent}
+.osw-ping.busy::after{content:""; position:absolute; left:50%; top:50%; width:10px; height:10px; margin:-5px 0 0 -5px; border-radius:50%;
+  border:1.5px solid var(--a400); border-right-color:transparent; animation:osw-spin .7s linear infinite}
+
+/* кнопки над списком: «Пинг» (все серверы) и «Скорость» (тест всех) */
+.osw-tool{position:relative; overflow:hidden; display:inline-flex; align-items:center; gap:5px; height:26px; padding:0 10px 0 8px; border-radius:999px; white-space:nowrap;
+  border:1px solid var(--line); background:var(--pill); color:var(--n300); font-size:11.5px; font-weight:500; transition:border-color .15s, color .15s, box-shadow .15s}
+.osw-tool svg{width:13px; height:13px; flex-shrink:0; color:var(--a400)}
+.osw-tool:hover,.osw-tool.busy{border-color:rgb(165 148 255/.6); color:#fff; box-shadow:0 0 12px -3px rgb(123 97 255/.6)}
+.osw-tool[data-act=reping].busy svg{animation:osw-spin .8s linear infinite}
+/* что сейчас в таблетках — пинг или скорость: эта кнопка в неоновом контуре */
+.osw-tool.on{color:#fff; border-color:rgb(190 178 255/.82); background:linear-gradient(90deg,rgb(123 97 255/.28),rgb(123 97 255/.12));
+  box-shadow:inset 0 0 10px rgb(123 97 255/.3), 0 0 12px -2px rgb(123 97 255/.7)}
+.osw-tool.on svg{color:#ebe8ff}
+/* после теста скорость держится 20 с: отсчёт — тающая полоска внизу кнопки «Скорость» (пауза, пока курсор в списке) */
+.osw-tool.hold::after{content:""; position:absolute; left:10px; right:10px; bottom:3px; height:2px; border-radius:2px; transform-origin:left;
+  background:linear-gradient(90deg,#b5abfc,#7b61ff); box-shadow:0 0 6px rgb(123 97 255/.9); animation:osw-hold var(--hold,20s) linear forwards}
+.osw-tool.hold.paused::after{animation-play-state:paused}
+@keyframes osw-hold{from{transform:scaleX(1)}to{transform:scaleX(0)}}
+/* вопрос перед тестом скорости: тест тратит трафик подписки */
+.osw-ask{position:absolute; top:52px; left:14px; right:14px; z-index:5; padding:12px 12px 10px; border-radius:10px;
+  background:linear-gradient(180deg,rgb(170 160 255/.08),rgb(170 160 255/.03)),#151034; border:1px solid rgb(190 178 255/.45);
+  box-shadow:0 0 18px -4px rgb(123 97 255/.6), 0 14px 30px -8px rgb(3 2 12/.85)}
+.osw-ask[hidden]{display:none}
+.osw-ask p{margin:0 0 10px; font-size:12px; line-height:1.45; color:var(--n300)}
+.osw-ask p b{color:#fff; font-weight:600}
+.osw-ask div{display:flex; gap:8px; justify-content:flex-end}
+
+/* ---- главный: снизу фиолетовый свет, маджента краем, звёзды светятся ---- */
+.osw-home{position:relative; display:flex; flex-direction:column; align-items:center; padding:22px 28px 20px; min-width:0; overflow:hidden; z-index:0}
+.osw-net{position:absolute; inset:0; width:100%; height:100%; pointer-events:none; z-index:-1}
+.osw-net g.l{fill:none; stroke:var(--net); stroke-width:1; opacity:var(--net-op)}
+.osw-net g.s{fill:#d4ccff; filter:drop-shadow(0 0 3px rgb(181 171 252/.95))}
+.osw-home::before{content:""; position:absolute; inset:0; z-index:-1; pointer-events:none; background:
+  radial-gradient(52% 38% at 50% 27%,rgb(var(--bloom-rgb)/.16),transparent 70%),
+  radial-gradient(110% 40% at 50% 112%,rgb(123 97 255/.36),rgb(109 76 255/.10) 45%,transparent 70%),
+  radial-gradient(36% 24% at 96% 104%,rgb(162 75 240/.18),transparent 70%)}
+.st-on .osw-home::before{background:
+  radial-gradient(52% 38% at 50% 27%,rgb(var(--bloom-rgb)/.26),transparent 70%),
+  radial-gradient(110% 40% at 50% 112%,rgb(123 97 255/.40),rgb(109 76 255/.12) 45%,transparent 70%),
+  radial-gradient(36% 24% at 96% 104%,rgb(162 75 240/.20),transparent 70%)}
+
+/* статус — классический: работает или нет. Цвет точки = статус, контур светится своим цветом */
+.osw-kick{display:inline-flex; align-items:center; gap:8px; font-size:11px; font-weight:600; letter-spacing:.14em; text-transform:uppercase; border-radius:999px; padding:5px 13px 5px 11px;
+  color:var(--n300); background:var(--pill); border:1px solid var(--n800); transition:color .3s, background .3s, border-color .3s}
+.osw-kick .led{width:7px; height:7px; border-radius:50%; background:var(--n600); transition:background .3s, box-shadow .3s}
+.st-connecting .osw-kick{color:#efedff; background:rgb(123 97 255/.18); border-color:rgb(190 178 255/.65); box-shadow:0 0 14px -2px rgb(123 97 255/.7), inset 0 0 8px rgb(123 97 255/.24)}
+.st-connecting .osw-kick .led{background:var(--a400); box-shadow:0 0 8px rgb(var(--glow-rgb)/.9)}
+.st-on .osw-kick{color:#dcfce7; background:rgb(74 222 128/.10); border-color:rgb(74 222 128/.55); box-shadow:0 0 14px -2px rgb(74 222 128/.45), inset 0 0 8px rgb(74 222 128/.14)}
+.st-on .osw-kick .led{background:var(--ok); box-shadow:0 0 8px rgb(74 222 128/.9)}
+.st-err .osw-kick{color:#fee2e2; background:rgb(248 113 113/.10); border-color:rgb(248 113 113/.55); box-shadow:0 0 14px -2px rgb(248 113 113/.45), inset 0 0 8px rgb(248 113 113/.14)}
+.st-err .osw-kick .led{background:var(--err); box-shadow:0 0 8px rgb(248 113 113/.8)}
+
+/* ---- кнопка-циферблат: круглый ореол, градиентная дуга, свет изнутри снизу ---- */
+.osw-dial{position:relative; width:156px; height:156px; margin:18px 0 0; border-radius:50%; flex-shrink:0}
+.osw-dial>i{position:absolute; border-radius:50%; pointer-events:none}
+.osw-dial .bloom{inset:-64px; opacity:.3; transition:opacity .5s;
+  background:radial-gradient(circle,rgb(var(--halo)/.55) 0%,rgb(var(--halo)/.22) 36%,rgb(var(--halo)/.06) 54%,transparent 68%)}
+.osw-dial .track{inset:0; border:1px solid var(--n800)}
+.osw-dial .ring{inset:0; border:1px solid var(--n700); transition:border-color .3s, box-shadow .3s}
+.osw-dial .ring::before,.osw-dial .ring::after{content:""; position:absolute; border-radius:50%; pointer-events:none; opacity:0; transition:opacity .3s}
+.osw-dial .ring::before{inset:-1.5px; padding:2.5px;   /* градиентная дуга 2.5px поверх 1px-рамки, без сдвига */
+  background:conic-gradient(from 0deg,#e1dbff 0deg,#a594ff 45deg,#7b61ff 100deg,#8b5cff 140deg,#a24bf0 172deg,#a24bf0 186deg,#8b5cff 214deg,#7b61ff 262deg,#a594ff 318deg,#e1dbff 360deg);
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0); -webkit-mask-composite:xor;
+          mask:linear-gradient(#000 0 0) content-box exclude,linear-gradient(#000 0 0)}
+.osw-dial .ring::after{inset:-1px;
+  box-shadow:0 0 7px 1px rgb(150 110 255/.95), 0 0 24px 3px rgb(123 97 255/.55), 7px 9px 26px -4px rgb(162 75 240/.38), inset 0 0 10px rgb(139 92 255/.4)}
+.osw-dial .spin{position:absolute; inset:0; width:100%; height:100%; opacity:0; color:var(--spin); transition:opacity .2s}
+.osw-pb{position:absolute; inset:14px; border-radius:50%; border:1px solid var(--n800); display:grid; place-items:center; color:var(--n300);
+  box-shadow:inset 0 1px 0 rgb(255 255 255/.07); transition:transform .12s, filter .12s, color .3s;
+  background:radial-gradient(70% 40% at 50% 106%,rgb(139 125 255/.15),transparent 70%),radial-gradient(circle at 50% 30%,var(--surface-2),var(--bg) 80%)}
+.osw-pb svg{width:40px; height:40px}
+.osw-dial:hover .osw-pb{filter:brightness(1.18)}
+.osw-dial:active .osw-pb{transform:scale(.96)}
+/* подключение: дуга светится */
+.st-connecting .osw-dial .track{border-color:rgb(139 125 255/.26)}
+.st-connecting .osw-dial .ring{border-color:transparent; box-shadow:0 0 34px rgb(var(--glow-rgb)/.2)}
+.st-connecting .osw-dial .spin{opacity:1; animation:osw-spin 1.1s linear infinite; filter:drop-shadow(0 0 4px rgb(170 156 255/.9)) drop-shadow(0 0 10px rgb(113 61 255/.75))}
+.st-connecting .osw-pb{color:var(--a300);
+  background:radial-gradient(70% 42% at 50% 106%,rgb(139 125 255/.30),transparent 70%),radial-gradient(circle at 50% 30%,var(--surface-2),var(--bg) 80%)}
+.st-connecting .osw-dial .bloom{opacity:.6}
+/* подключено: градиентная дуга, широкий дышащий ореол, кнопка «не до конца закрашена» — свет снизу */
+.st-on .osw-dial .ring{border-color:transparent; box-shadow:0 0 72px 4px rgb(var(--glow-rgb)/.46); animation:osw-glow 3.2s ease-in-out infinite}
+.st-on .osw-dial .ring::before,.st-on .osw-dial .ring::after{opacity:1}
+.st-on .osw-pb{color:#fff; border-color:rgb(175 162 255/.55);
+  background:
+    radial-gradient(62% 42% at 50% 104%,rgb(205 196 255/.42),transparent 72%),
+    radial-gradient(110% 80% at 50% 118%,rgb(113 61 255/.88),rgb(91 59 239/.34) 45%,transparent 75%),
+    radial-gradient(circle at 50% 26%,#24185f,#110a33 78%);
+  box-shadow:inset 0 1px 0 rgb(255 255 255/.22), inset 0 0 20px rgb(113 61 255/.4)}
+.st-on .osw-pb svg{filter:drop-shadow(0 0 6px rgb(190 178 255/.9))}
+.st-on .osw-dial .bloom{opacity:1}
+/* нет соединения: честно красное — кольцо и ореол */
+.st-err .osw-dial .ring{border-color:rgb(248 113 113/.6); box-shadow:0 0 30px rgb(248 113 113/.16)}
+.st-err .osw-dial .bloom{opacity:.45}
+.st-err .osw-pb{color:var(--n300)}
+@keyframes osw-spin{to{transform:rotate(360deg)}}
+@keyframes osw-glow{0%,100%{box-shadow:0 0 48px rgb(var(--glow-rgb)/.26)}50%{box-shadow:0 0 72px rgb(var(--glow-rgb)/.46)}}
+
+/* под кнопкой — выбранный сервер, под ним протокол и пинг */
+.osw-title{margin-top:16px; display:flex; align-items:center; gap:9px; font-size:20px; font-weight:600; letter-spacing:-.01em; text-align:center}
+.osw-title .osw-fl{width:24px; height:18px}
+.osw-subt{margin-top:4px; min-height:19px; font-size:13px; color:var(--n500); text-align:center}
+/* действия при ошибке — поверх полосы ПИНГ/ВРЕМЯ/ТРАФИК (там всё равно прочерки), того же размера: ничего не прыгает */
+.osw-acts{position:absolute; inset:-1px; z-index:1; display:flex; align-items:center; justify-content:center; gap:10px; border-radius:inherit;
+  background:linear-gradient(180deg,rgb(170 160 255/.065),rgb(170 160 255/.02)),#120d2b; border:1px solid rgb(248 113 113/.34);
+  box-shadow:inset 0 0 14px rgb(248 113 113/.07); opacity:0; visibility:hidden; transition:opacity .2s, visibility .2s}
+.st-err .osw-acts{opacity:1; visibility:visible}
+.osw-btn{display:inline-flex; align-items:center; gap:6px; padding:6px 12px; border-radius:8px; font-size:12.5px; font-weight:500; color:#cfc6ff; border:1px solid transparent; transition:background .15s}
+.osw-btn.pri{color:#ebe8ff; border-color:rgb(176 162 255/.95); background:rgb(123 97 255/.14); box-shadow:0 0 14px -1px rgb(123 97 255/.6), inset 0 0 10px rgb(123 97 255/.3)}
+.osw-btn:hover{background:rgb(123 97 255/.2)}
+
+.osw-strip{position:relative; display:grid; grid-template-columns:repeat(3,1fr); width:100%; max-width:480px; margin-top:20px; padding:9px 0;
+  border:1px solid var(--line); border-radius:10px}
+.osw-strip>div{text-align:center}
+.osw-strip>div+div{border-left:1px solid var(--div)}
+.osw-k{font-size:9.5px; letter-spacing:.1em; text-transform:uppercase; color:var(--n600); font-weight:600}
+.osw-v{margin-top:3px; font-size:14px; font-weight:500; color:var(--n200)}
+.osw-v small{font-size:11px; font-weight:400; color:var(--n500)}
+.osw-v.q3{color:var(--warn)} .osw-v.q4{color:var(--err)}
+
+/* график: свечение на svg (CSS filter на path Chrome не рисует) */
+.osw-chart{width:100%; max-width:480px; margin-top:10px; padding:10px 14px 8px; border:1px solid var(--line); border-radius:10px}
+.osw-ch-h{display:flex; align-items:baseline; gap:14px}
+.osw-big{font-size:22px; font-weight:300; color:var(--n200); letter-spacing:-.01em}
+.osw-big small{font-size:11px; font-weight:400; color:var(--n500); margin-left:3px}
+.osw-big.up{font-size:16px; color:var(--n400)}
+.osw-ch-h .sp{flex:1}
+.osw-ch-h .lg{font-size:10.5px; color:var(--n600); display:flex; gap:10px}
+.osw-ch-h .lg i{display:inline-block; width:10px; height:2px; border-radius:2px; vertical-align:middle; margin-right:5px; background:var(--chart); box-shadow:0 0 6px rgb(113 61 255/.9)}
+.osw-ch-h .lg i.u{background:var(--n600); box-shadow:none}
+.osw-chart svg{width:100%; height:58px; margin-top:6px; overflow:visible; filter:drop-shadow(0 0 3px rgb(113 61 255/.9)) drop-shadow(0 0 9px rgb(113 61 255/.45))}
+.osw-chart .gr{stroke:rgb(233 233 237/.07); stroke-dasharray:2 6}
+.osw-chart .dn{fill:none; stroke:var(--chart); stroke-width:1.6; stroke-linejoin:round}
+.osw-chart .up{fill:none; stroke:var(--n600); stroke-width:1.1; stroke-linejoin:round}
+.osw-chart .ar{fill:url(#oswArea)}
+.osw-chart .c0{stop-color:rgb(var(--chart-fill-rgb)); stop-opacity:.40} .osw-chart .c1{stop-color:rgb(var(--chart-fill-rgb)); stop-opacity:0}
+.osw-chart .now{fill:#fff}
+.os-ui:not(.st-on) .osw-chart .now{display:none}
+.os-ui:not(.st-on) .osw-chart svg{opacity:.3; transition:opacity .4s}
+.osw-ax{display:flex; justify-content:space-between; margin-top:3px; font-size:9.5px; color:var(--n600)}
+
+.osw-cards{display:grid; grid-template-columns:1fr 1fr; gap:10px; width:100%; max-width:480px; margin-top:10px}
+.osw-card{display:flex; align-items:center; gap:10px; padding:10px 12px; border:1px solid var(--line); border-radius:10px; transition:border-color .15s}
+.osw-card:hover{border-color:rgb(139 125 255/.55)}
+.osw-card .ci{width:28px; height:28px; border-radius:8px; display:grid; place-items:center; color:#e2ddff; background:rgb(123 97 255/.16);
+  box-shadow:inset 0 0 0 1px rgb(176 162 255/.55), 0 0 12px -2px rgb(123 97 255/.55)}
+.osw-card .ci svg{width:15px; height:15px}
+.osw-card .osw-g b{font-size:12.5px}
+.osw-card .osw-g small{font-size:10px; letter-spacing:.1em; text-transform:uppercase; color:var(--n600); font-weight:600; margin:0 0 1px}
+.osw-card .chev{color:var(--n600)} .osw-card .chev svg{width:12px; height:12px}
+
+/* ===== телефон: «Текущий провайдер» со списком серверов, плашка подключения с переключателем внизу, плавающие вкладки ===== */
+.osp{
+  position:relative; width:292px; height:600px; padding:7px; border-radius:44px; flex-shrink:0;
+  background:linear-gradient(160deg,#2a2350,#0d0a22 40%,#151032);
+  box-shadow:inset 0 0 0 1px rgb(var(--frame-rgb)/.38), inset 0 1px 0 rgb(255 255 255/.12),
+    0 0 70px -20px rgb(123 97 255/.6), 0 30px 70px -12px rgb(3 2 12/.8);
+}
+.osp-scr{position:relative; height:100%; border-radius:37px; overflow:hidden; isolation:isolate; display:flex; flex-direction:column;
+  background:var(--bg); box-shadow:inset 0 0 0 1px rgb(0 0 0/.5)}
+.osp-scr::before{content:""; position:absolute; inset:0; z-index:-1; pointer-events:none; background:
+  radial-gradient(90% 26% at 50% 0%,rgb(var(--bloom-rgb)/.16),transparent 70%),
+  radial-gradient(120% 30% at 50% 104%,rgb(123 97 255/.30),transparent 70%),
+  radial-gradient(50% 20% at 100% 100%,rgb(162 75 240/.14),transparent 70%)}
+
+/* строка состояния и «островок» */
+.osp-sb{position:relative; display:flex; align-items:center; justify-content:space-between; height:34px; padding:0 22px 0 26px; font-size:12px; font-weight:600; color:var(--n200)}
+.osp-isl{position:absolute; left:50%; top:9px; width:84px; height:22px; translate:-50% 0; border-radius:12px; background:#000}
+.osp-sbi{display:flex; gap:5px; align-items:center}
+.osp-sbi svg{width:15px; height:11px}
+.osp-vpn{display:none; font-size:9.5px; font-weight:700; letter-spacing:.04em; padding:0 4px; border:1.2px solid currentColor; border-radius:4px; line-height:12px}
+.st-on .osp-vpn{display:inline-block}
+
+/* шапка: знак, версия, кнопка диагностики */
+.osp-h{display:flex; align-items:center; gap:8px; padding:8px 14px 4px 18px}
+.osp-wm{display:flex; align-items:center; gap:7px; font-size:16px; font-weight:700; color:var(--n200); letter-spacing:-.01em}
+.osp-wm img{width:20px; height:20px; border-radius:6px}
+.osp-wm b{color:var(--ring-on); font-weight:700}
+.osp-ver{font-size:11px; color:var(--n600); font-variant-numeric:tabular-nums}
+.osp-h .osw-ib{margin-left:auto; width:32px; height:32px; border-radius:10px; border:1px solid var(--line); background:var(--pill)}
+.osp-h .osw-ib svg{width:16px; height:16px}
+
+/* «Текущий провайдер»: подписка + список серверов (прокручивается, выбранный подтягивается в видимую часть — app-ui.js) */
+.osp-lbl{padding:8px 18px 6px; font-size:9.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--n600); font-weight:600}
+.osp-prov{position:relative; display:flex; flex-direction:column; flex:1; min-height:0; margin:0 10px; padding:9px 8px 0; border:1px solid var(--line); border-radius:16px; background:var(--glass); box-shadow:var(--rim); overflow:hidden}
+.osp-prov::after{content:""; position:absolute; left:0; right:0; bottom:0; height:46px; pointer-events:none; background:linear-gradient(transparent,var(--surface))}   /* список уходит под край */
+.osp-ph{display:flex; align-items:center; gap:6px; padding:0 2px 0 4px}
+.osp-ph .chev{color:var(--n500)} .osp-ph .chev svg{width:12px; height:12px}
+.osp-ph b{flex:1; font-size:13px; font-weight:600; color:var(--n200)}
+.osp-ph small{font-size:10px; color:var(--n600)}
+.osp-rb{width:26px; height:26px; display:grid; place-items:center; border-radius:50%; background:rgb(255 255 255/.05); color:var(--n400)}
+.osp-rb svg{width:13px; height:13px}
+.osp-q{display:flex; align-items:center; gap:8px; margin:8px 6px 2px; font-size:10px; color:var(--n500); font-variant-numeric:tabular-nums}
+.osp-q .osw-bar{flex:1; margin:0}
+.osp-q b{color:var(--n200); font-weight:600}
+.osp-rows{flex:1; min-height:0; margin-top:6px; padding-bottom:30px; overflow-y:auto; scrollbar-width:none}
+.osp-rows::-webkit-scrollbar{display:none}
+.osp-row{display:flex; align-items:center; gap:9px; height:46px; padding:6px 7px; border-radius:11px; border:1px solid transparent}   /* целая высота — см. #oswRows */
+.osp-row .osw-fl{width:20px; height:15px}
+.osp-row .g{flex:1; min-width:0}
+.osp-row .g b{display:block; font-size:12.5px; font-weight:500; color:var(--n200); white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+.osp-row .g small{display:block; margin-top:1px; font-size:9.5px; color:var(--n500); white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+/* цвета частей протокола */
+.osp-row .pv{color:#b5abfc} .osp-row .pr{color:#c9b8ff} .osp-row .ph{color:#f0abfc} .osp-row .pt{color:#86efac}
+.osp-row .po{color:#67e8f9} .osp-row .ps{color:#fbbf24} .osp-row .pw{color:#6ee7b7}
+/* выбранный — неоновый контур, как в окне */
+.osp-row.sel{border-color:rgb(190 178 255/.6); background:linear-gradient(90deg,rgb(123 97 255/.24),rgb(123 97 255/.06));
+  box-shadow:0 0 16px -4px rgb(123 97 255/.8), inset 0 0 14px rgb(123 97 255/.14)}
+.osp-row.sel .g b{color:#fff}
+/* пинг: точка + число, цвет = качество (как в окне) */
+.osp-pg{display:flex; align-items:center; gap:5px; font-size:10.5px; color:var(--n400); white-space:nowrap; font-variant-numeric:tabular-nums}
+.osp-pg::before{content:""; width:5px; height:5px; border-radius:50%; background:currentColor}
+.osp-pg.q1{color:var(--a300)} .osp-pg.q3{color:var(--warn)} .osp-pg.q4{color:var(--err)} .osp-pg.q4::before{box-shadow:0 0 6px rgb(248 113 113/.95)}
+.osp-pg.na,.osp-pg.wait{color:var(--n600)} .osp-pg.na::before,.osp-pg.wait::before{display:none}
+.osp-pg.sp{color:var(--n200)}
+.osp-pg.busy{color:var(--a300); opacity:.55}
+
+/* плашка подключения внизу: переключатель + сервер, скорость, время */
+.osp-cb{display:flex; align-items:center; gap:11px; margin:10px 10px 0; padding:9px 12px 9px 9px; border-radius:18px;
+  border:1px solid var(--line); background:var(--glass); box-shadow:var(--rim); transition:border-color .3s, box-shadow .3s}
+.osp-tg{position:relative; flex-shrink:0; width:58px; height:34px; border-radius:999px; background:rgb(6 4 18/.7); box-shadow:inset 0 0 0 1px var(--line), inset 0 1px 3px rgb(0 0 0/.4); transition:background .3s, box-shadow .3s}
+.osp-tg i{position:absolute; left:3px; top:3px; width:28px; height:28px; border-radius:50%; display:grid; place-items:center;
+  background:radial-gradient(circle at 50% 30%,var(--surface-2),var(--bg) 85%); box-shadow:inset 0 0 0 1px var(--n800); color:var(--n400); transition:transform .35s var(--e-expo,cubic-bezier(.16,1,.3,1)), background .3s, color .3s}
+.osp-tg svg{width:15px; height:15px}
+/* подключение — кружок сразу уходит вправо, но не светится; внутри крутится загрузка. Светится только «Подключено» */
+.osp-tg i::after{content:""; position:absolute; inset:2px; border-radius:50%; border:2px solid var(--a400); border-right-color:transparent; border-bottom-color:transparent; opacity:0}
+.st-connecting .osp-tg i{transform:translateX(24px); color:var(--a300)}
+.st-connecting .osp-tg i::after{opacity:1; animation:osw-spin .8s linear infinite}
+.st-connecting .osp-tg i svg{opacity:.45}
+.st-on .osp-tg{background:var(--seg-fill); box-shadow:inset 0 1px 0 rgb(255 255 255/.22), 0 0 16px -2px rgb(139 92 255/.8)}
+.st-on .osp-tg i{transform:translateX(24px); background:#fff; color:#5b3bef; box-shadow:0 1px 4px rgb(0 0 0/.35)}
+.st-err .osp-tg{box-shadow:inset 0 0 0 1px rgb(248 113 113/.55)}
+.st-err .osp-tg i{color:var(--err)}
+.st-on .osp-cb{border-color:rgb(190 178 255/.5); box-shadow:var(--rim), 0 0 18px -6px rgb(123 97 255/.8)}
+.st-err .osp-cb{border-color:rgb(248 113 113/.45)}
+.osp-ci{flex:1; min-width:0}
+.osp-ct{display:flex; align-items:center; gap:7px; font-size:14px; font-weight:600; color:var(--n200); white-space:nowrap; overflow:hidden}
+.osp-ct .osw-fl{width:20px; height:15px}
+.osp-cs{display:flex; gap:8px; margin-top:2px; font-size:10.5px; color:var(--n500); white-space:nowrap; font-variant-numeric:tabular-nums}
+.osp-cs>span{display:inline-flex; align-items:center; gap:3px}
+.osp-cs svg{display:inline-block; width:10px; height:10px}
+.osp-cs b{font-weight:500; color:var(--n300)}
+.osp:not(.st-on) .osp-cs{display:none}
+.osp:not(.st-on) .osp-ct{font-weight:500; color:var(--n400)}
+.st-err .osp-ct{color:#fecaca}
+
+/* плавающие вкладки */
+.osp-tabs{display:grid; grid-template-columns:repeat(3,1fr); gap:4px; margin:10px 22px 14px; padding:4px; border-radius:999px;
+  border:1px solid var(--line); background:rgb(14 10 39/.85); box-shadow:0 10px 24px -10px rgb(0 0 0/.8)}
+.osp-tab{display:flex; flex-direction:column; align-items:center; justify-content:center; gap:2px; height:44px; border-radius:999px; font-size:9.5px; font-weight:500; color:var(--n500)}
+.osp-tab svg{width:19px; height:19px}
+.osp-tab.on{color:#fff; background:linear-gradient(90deg,rgb(123 97 255/.34),rgb(123 97 255/.16)); box-shadow:inset 0 0 0 1px rgb(190 178 255/.7), 0 0 14px -3px rgb(123 97 255/.8)}
+.osp-tab.on svg{color:#ebe8ff; filter:drop-shadow(0 0 4px rgb(139 125 255))}
+
+/* режимы */
+@media (prefers-reduced-motion:reduce){
+  .os-ui,.os-ui *,.os-ui *::before,.os-ui *::after{animation:none !important; transition:none !important}
+}
+.shot .os-ui,.shot .os-ui *,.shot .os-ui *::before,.shot .os-ui *::after{animation:none !important; transition:none !important}
+@media (prefers-reduced-transparency:reduce){
+  .os-ui{--glass:#120d2b; --sel:#1c1446}
+}
+@media (forced-colors:active){
+  .os-ui,.osw-row,.osw-sub,.osw-strip,.osw-chart,.osw-card,.osw-seg,.osw-mode,.osw-kick,.osw-ping,.osw-tool,.osw-ask{border:1px solid CanvasText}
+  .osw-net,.osw-dial .bloom,.osw-row.sel::before,.osw-dial .ring::before,.osw-dial .ring::after,.osp-scr::before,.osp-prov::after{display:none}
+}

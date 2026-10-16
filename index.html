@@ -7,7 +7,7 @@
 <meta name="description" content="OutSky — бесплатный VPN-клиент для подписки любого провайдера, сейчас в разработке. В планах: честный статус соединения, диагностика одной кнопкой, понятная маршрутизация и поддержка HWID. Без регистрации и телеметрии.">
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self'; font-src 'self'; connect-src 'self'; base-uri 'self'; form-action 'none'">
 <meta name="referrer" content="strict-origin-when-cross-origin">
-<meta name="theme-color" content="#0d0b20">
+<meta name="theme-color" content="#07081c">
 <link rel="canonical" href="https://outsky.app/">
 <link rel="alternate" hreflang="ru" href="https://outsky.app/">
 <link rel="alternate" hreflang="en" href="https://outsky.app/en/">
@@ -29,224 +29,473 @@
 <link rel="preload" href="/assets/fonts/inter-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="/assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/assets/css/fonts.css">
-<link rel="stylesheet" href="/assets/css/site.css">
+<link rel="stylesheet" href="/assets/css/app-ui.css">
+<link rel="stylesheet" href="/assets/css/home.css">
 <script src="/assets/js/early.js"></script>
+<script src="/assets/js/core.js" defer></script>
+<script src="/assets/js/app-ui.js" defer></script>
 </head>
 <body>
 <a class="skip" href="#main">К содержимому</a>
-<div class="sky" aria-hidden="true">
-  <svg id="sky" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice">
-    <g class="const" id="constA">
-      <polyline points="60,170 230,110 410,160 600,90 780,140 1010,70 1230,120 1400,80"/>
-      <polyline points="40,760 260,700 470,790 720,720 960,800 1200,730 1420,770"/>
-      <polyline points="1180,300 1290,250 1360,330 1300,410"/>
-      <polyline points="120,420 200,360 300,400"/>
-      <circle cx="230" cy="110" r="2.2"/><circle cx="600" cy="90" r="1.8"/><circle cx="1010" cy="70" r="2.4"/><circle cx="1230" cy="120" r="1.8"/>
-      <circle cx="470" cy="790" r="2"/><circle cx="960" cy="800" r="2.2"/><circle cx="1290" cy="250" r="2"/><circle cx="1360" cy="330" r="1.6"/><circle cx="200" cy="360" r="1.8"/>
-    </g>
-    <g class="const lit" id="constB"></g>
-    <g fill="#b7aff2">
-      <circle class="tw" cx="110" cy="88" r="1.6"/><circle class="tw d1" cx="520" cy="230" r="1.2"/><circle class="tw d2" cx="860" cy="190" r="1.8"/>
-      <circle class="tw d3" cx="1330" cy="180" r="1.4"/><circle class="tw d1" cx="70" cy="560" r="1.3"/><circle class="tw d2" cx="1390" cy="560" r="1.6"/>
-      <circle class="tw" cx="700" cy="40" r="1.1"/><circle class="tw d3" cx="330" cy="300" r="1"/><circle class="tw d2" cx="1100" cy="380" r="1.1"/>
-    </g>
-    <path class="spark" d="M1110 230 l5 11 11 5 -11 5 -5 11 -5 -11 -11 -5 11 -5 Z"/>
-    <path class="spark" d="M60 690 l3.5 8 8 3.5 -8 3.5 -3.5 8 -3.5 -8 -8 -3.5 8 -3.5 Z" opacity=".7"/>
-  </svg>
-</div>
+<!-- свечение у курсора: один фиксированный слой под содержимым (fx-home.js; только мышь, без RM и ?shot) -->
+<div class="cglow" aria-hidden="true"></div>
+<!-- плёночное зерно: фиксированный неподвижный слой поверх всего, только декор -->
+<div class="grain" aria-hidden="true"><i></i></div>
 
-<div class="nav-wrap">
-  <nav class="nav glass" aria-label="Главное меню">
-    <a class="logo" href="/" aria-label="OutSky — на главную"><span class="tile">O<b>S</b></span><span class="word">Out<b>Sky</b></span></a>
-    <div class="links"><a href="#features">Возможности</a><a href="#platforms">Платформы</a><a href="#faq">Вопросы</a><a href="/roadmap/">Роадмап</a><a href="/vpn/" class="vpn">OutSky VPN<i>сервис</i></a></div>
-    <div class="seg" role="group" aria-label="Язык"><a class="on" href="/" hreflang="ru" aria-current="true">RU</a><a href="/en/" hreflang="en" lang="en">EN</a></div>
-    <button class="burger" type="button" aria-label="Меню" aria-expanded="false"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+<!-- ===== шапка: закреплена всегда, под ней матовая полоса в цвет фона ===== -->
+<header class="hd" id="hd">
+  <span class="hd-frost" aria-hidden="true"></span>
+  <a class="logo" href="/" aria-label="OutSky — на главную"><img class="mark" src="/assets/img/favicon.svg" alt="" width="30" height="30"><span class="word">Out<b>Sky</b></span></a>
+  <nav class="hd-nav" aria-label="Главное меню">
+    <a href="#features">Возможности</a><a href="#platforms">Платформы</a><a href="#faq">Вопросы</a><a href="/roadmap/">Роадмап</a><a href="/vpn/" class="vpn">OutSky VPN<i>сервис</i></a>
   </nav>
-</div>
+  <div class="lang" role="group" aria-label="Язык"><a class="on" href="/" hreflang="ru" aria-current="true">RU</a><a href="/en/" hreflang="en" lang="en">EN</a></div>
+  <!-- мобильное меню — Popover API (работает без JS); где Popover API нет — ссылка на ссылки в подвале -->
+  <button class="menu-btn" type="button" popovertarget="menu"><span>Меню</span><i aria-hidden="true"></i></button>
+  <a class="menu-btn menu-fb" href="#links"><span>Меню</span><i aria-hidden="true"></i></a>
+</header>
+<nav class="menu" id="menu" popover aria-label="Меню">
+  <div class="neb" aria-hidden="true"><i class="tr"></i><i class="bl ind"></i></div>
+  <ol class="menu-list">
+    <li><a href="#features"><span class="ix" aria-hidden="true">(01)</span>Возможности</a></li>
+    <li><a href="#platforms"><span class="ix" aria-hidden="true">(02)</span>Платформы</a></li>
+    <li><a href="#faq"><span class="ix" aria-hidden="true">(03)</span>Вопросы</a></li>
+    <li><a href="/roadmap/"><span class="ix" aria-hidden="true">(04)</span>Роадмап</a></li>
+    <li><a href="/vpn/"><span class="ix" aria-hidden="true">(05)</span>OutSky VPN <i>сервис</i></a></li>
+  </ol>
+  <div class="lang" role="group" aria-label="Язык"><a class="on" href="/" hreflang="ru" aria-current="true">RU</a><a href="/en/" hreflang="en" lang="en">EN</a></div>
+</nav>
 
 <main id="main">
-<div class="wrap">
-  <section class="hero">
-    <div>
-      <a class="pill glass" href="#platforms"><span class="dot">В разработке</span><span>Первая альфа выйдет для Windows</span><span style="color:var(--a400)">→</span></a>
-      <h1>Просто по умолчанию.<br><span class="g">Мощно, когда нужно.</span></h1>
+
+<!-- ===== 1. первый экран: текст слева (7/12), справа глобус-созвездие, перед ним окно Windows и телефон ===== -->
+<section class="hero" data-live data-fx="/assets/js/fx-home.js" aria-labelledby="hero-h">
+  <div class="neb" data-glow="tr bl" aria-hidden="true"><i class="tr"></i><i class="bl mag"></i><i class="tl ind"></i></div>
+  <!-- созвездия: по 1–2 на экран, только в пустых полях; где какое — home.css -->
+  <svg class="cst c-per" viewBox="-4 -4 56 108" aria-hidden="true"><use href="/assets/img/home/constellations.svg#per"/></svg>
+  <div class="hero-in">
+    <div class="hero-top hole">
+      <a class="tag" href="#platforms"><span class="dot">В разработке</span><span>Первая альфа выйдет для Windows</span><span class="ar" aria-hidden="true">→</span></a>
+      <h1 class="h1" id="hero-h"><span class="ln" style="--i:0">Просто</span> <span class="ln l2" style="--i:1">по умолчанию.</span> <span class="ln l3" style="--i:2">Мощно, когда нужно.</span></h1>
+    </div>
+    <div class="hero-bot hole">
       <p class="lead"><b>OutSky</b> — бесплатный VPN-клиент для подписки любого провайдера. Одна кнопка и честный статус соединения, а когда нужно — маршруты, DNS и диагностика.</p>
       <div class="ctas">
-        <a class="btn btn-primary" href="https://t.me/outskyapp"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M21.9 4.6 18.7 19.7c-.2 1-.9 1.3-1.8.8l-4.9-3.6-2.4 2.3c-.3.3-.5.5-1 .5l.4-5 9-8.2c.4-.4-.1-.6-.6-.2L6.3 13.3l-4.8-1.5c-1-.3-1-1 .2-1.5l18.8-7.2c.9-.3 1.6.2 1.4 1.5z"/></svg>Следить за разработкой</a>
-        <a class="btn btn-neon" href="#features">Возможности<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+        <a class="pill pill-main" href="https://t.me/outskyapp"><span class="comet" aria-hidden="true"><i></i></span><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21.9 4.6 18.7 19.7c-.2 1-.9 1.3-1.8.8l-4.9-3.6-2.4 2.3c-.3.3-.5.5-1 .5l.4-5 9-8.2c.4-.4-.1-.6-.6-.2L6.3 13.3l-4.8-1.5c-1-.3-1-1 .2-1.5l18.8-7.2c.9-.3 1.6.2 1.4 1.5z"/></svg><span>Следить за разработкой</span></a>
+        <a class="pill pill-line" href="#features"><span class="comet" aria-hidden="true"><i></i></span><span>Возможности</span><svg class="arr" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
       </div>
-      <div class="trust">
-        <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Без регистрации</span>
-        <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Без телеметрии</span>
-        <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Любой провайдер</span>
+      <ul class="checks">
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Без регистрации</li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Без телеметрии</li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Любой провайдер</li>
+      </ul>
+    </div>
+    <!-- сцена: глобус (Canvas 2D; без JS — globe.svg), окно Windows (главное), телефон (зеркало окна) -->
+    <div class="stage">
+      <div class="globe" aria-hidden="true"><canvas width="640" height="640"></canvas></div>
+      <div class="w-box">
+<!-- ===== окно приложения ===== -->
+<div class="os-ui osw st-on" role="group" aria-label="Превью: OutSky для Windows, главный экран">
+  <div class="osw-tb">
+    <div class="osw-dots" aria-hidden="true"><i></i><i></i><i></i></div>
+    <div class="osw-wm"><img src="/assets/img/favicon.svg" alt=""><span>Out<b>Sky</b></span></div>
+    <span class="osw-badge">preview</span>
+  </div>
+  <div class="osw-body">
+
+    <nav class="osw-rail" aria-label="Разделы приложения">
+      <div class="osw-navs">
+        <span class="osw-nav on" data-k="home" title="Главная"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 11.5 12 5l7.5 6.5M6 10v9h12v-9"/></svg><span class="t">Главная</span></span>
+        <span class="osw-nav" data-k="subs" title="Подписки"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4 3.5 8.5 12 13l8.5-4.5z"/><path d="M3.5 12.5 12 17l8.5-4.5"/><path d="M3.5 16.5 12 21l8.5-4.5"/></svg><span class="t">Подписки</span></span>
+        <span class="osw-nav" data-k="route" title="Маршрутизация"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 17c6.5 0 6.5-10 13-10M4 7c6.5 0 6.5 10 13 10M17 4l3 3-3 3M17 14l3 3-3 3"/></svg><span class="t">Маршрутизация</span></span>
+        <span class="osw-nav" data-k="dns" title="DNS"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8"/><path d="M4 12h16M12 4c-4.5 4.5-4.5 11.5 0 16M12 4c4.5 4.5 4.5 11.5 0 16"/></svg><span class="t">DNS</span></span>
+        <span class="osw-nav" data-k="stat" title="Статистика"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4v16h16"/><path d="M8 15l3.5-4 3 2.5L20 7"/></svg><span class="t">Статистика</span></span>
+        <span class="osw-nav" data-k="diag" title="Диагностика"><i class="dot"></i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h4l2-5 4 10 2-5h6"/></svg><span class="t">Диагностика</span></span>
+        <span class="osw-nav" data-k="log" title="Журнал"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="3.5" width="14" height="17" rx="2.5"/><path d="M9 8.5h6M9 12h6M9 15.5h3.5"/></svg><span class="t">Журнал</span></span>
       </div>
-    </div>
-    <div>
-      <div class="fan">
-        <div class="halo"></div>
-        <!-- left: servers -->
-        <div class="phone p-left" role="group" aria-label="Превью: экран серверов"><div class="scr"><div class="isl"></div><div class="sb"><span>9:41</span><span class="vpn">VPN</span></div>
-          <div class="body">
-            <div class="ah"><div><div class="big" style="margin:0">Серверы</div></div><div class="hb"><span class="sq"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 12a9 9 0 1 1-3-6.7L21 8M21 3v5h-5"/></svg></span><span class="sq add"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span></div></div>
-            <div class="sub2">12 серверов · 1 подписка</div>
-            <div class="srch"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>Поиск серверов…</div>
-            <div class="flt" id="flt"><span class="on" data-f="all">Все</span><span data-f="v">VLESS</span><span class="hy" data-f="h">Hysteria2</span></div>
-            <div class="prov"><div class="pv-h"><b>My Provider</b><small>6ч</small><span class="ib"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M13 2 4 14h7l-1 8 9-12h-7z"/></svg></span></div>
-              <div class="tbar"><span>12.4 ГБ</span><span class="b"><i></i></span><span>/ 50 ГБ</span></div>
-              <div id="srvList2"></div></div>
-          </div>
-          <div class="tabs"><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="6" cy="7" r="2"/><circle cx="18" cy="7" r="2"/><circle cx="12" cy="18" r="2.4"/><path d="M8 7h8M7 9l4 7M17 9l-4 7"/></svg></span><span class="on"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="18" height="7" rx="2"/><rect x="3" y="13" width="18" height="7" rx="2"/></svg></span><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M4.9 19.1 7 17M17 7l2.1-2.1"/></svg></span></div>
-        </div></div>
-        <!-- middle: home -->
-        <div class="phone p-mid"><div class="scr st-off" id="home"><div class="isl"></div><div class="sb"><span>9:41</span><span class="vpn">VPN</span></div>
-          <div class="body">
-            <div class="ah"><div class="wm">Out<b>Sky</b><span class="ver">preview</span></div><span class="sq" title="Диагностика"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h4l3-8 4 16 3-8h4"/></svg></span></div>
-            <div class="stats"><span><i>↑</i> <b id="up">0</b> КБ/с</span><span>⏱ <b id="tm">00:00:00</b></span><span><i>↓</i> <b id="dn">0</b> КБ/с</span></div>
-            <div class="pw" id="pw" role="button" tabindex="0" aria-label="Подключить">
-              <div class="ring"></div>
-              <div class="spin"><svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="49" fill="none" stroke="#d2cefd" stroke-width="1.6" stroke-linecap="round" stroke-dasharray="70 240"/></svg></div>
-              <div class="disc"><svg class="ic-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M12 3v8"/><path d="M6.4 6.6a8 8 0 1 0 11.2 0"/></svg>
-                <svg class="ic-on" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><path d="M12 3 4.5 6v5.5c0 4.6 3.1 8.3 7.5 9.5 4.4-1.2 7.5-4.9 7.5-9.5V6z"/></svg></div>
-            </div>
-            <div class="loc" id="loc">Нажмите для подключения</div>
-            <div class="chk"><a>Проверить</a><span class="ok" id="okline"></span></div>
-            <div class="lbl">Текущий провайдер</div>
-            <div class="prov">
-              <div class="pv-h"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#9a9bb5" stroke-width="2.4"><path d="m6 9 6 6 6-6"/></svg><b>My Provider</b><small>6ч</small>
-                <span class="ib"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M21 12a9 9 0 1 1-3-6.7L21 8M21 3v5h-5"/></svg></span><span class="ib"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M13 2 4 14h7l-1 8 9-12h-7z"/></svg></span></div>
-              <div class="tbar"><span>12.4 ГБ</span><span class="b"><i></i></span><span>/ 50 ГБ</span></div>
-              <div class="chips"><span class="ch"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M9.5 9a2.5 2.5 0 1 1 3.5 2.3c-.7.3-1 .9-1 1.7M12 17h.01"/></svg>Поддержка</span><span class="ch"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg>Сайт</span></div>
-              <div id="srvList"></div>
-            </div>
-          </div>
-          <div class="tabs"><span class="on"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="6" cy="7" r="2"/><circle cx="18" cy="7" r="2"/><circle cx="12" cy="18" r="2.4"/><path d="M8 7h8M7 9l4 7M17 9l-4 7"/></svg>Подключение</span><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="18" height="7" rx="2"/><rect x="3" y="13" width="18" height="7" rx="2"/></svg>Серверы</span><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M4.9 19.1 7 17M17 7l2.1-2.1"/></svg>Настройки</span></div>
-        </div></div>
-        <!-- right: settings -->
-        <div class="phone p-right" role="group" aria-label="Превью: настройки"><div class="scr"><div class="isl"></div><div class="sb"><span>9:41</span><span class="vpn">VPN</span></div>
-          <div class="body">
-            <div class="big">Настройки</div>
-            <div class="grp" style="margin-top:10px">
-              <div class="it"><span class="ico" style="background:rgba(181,171,252,.16);color:#b5abfc"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 3v12a3 3 0 0 0 3 3h9M15 15l3 3-3 3"/></svg></span><b>Маршрутизация<small>Россия напрямую</small></b><span class="val"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="m9 6 6 6-6 6"/></svg></span></div>
-              <div class="it"><span class="ico" style="background:rgba(103,232,249,.14);color:#67e8f9"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg></span><b>DNS<small>Умное разделение</small></b><span class="val"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="m9 6 6 6-6 6"/></svg></span></div>
-            </div>
-            <div class="gl" style="font-size:9px;letter-spacing:.12em;color:#6b6d88;font-weight:600;margin:10px 4px 5px">СОЕДИНЕНИЕ</div>
-            <div class="grp">
-              <div class="it"><span class="ico" style="background:rgba(250,204,21,.14);color:#facc15"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M13 2 4 14h7l-1 8 9-12h-7z"/></svg></span><b>Автоподключение</b><span class="tg on"></span></div>
-              <div class="it"><span class="ico" style="background:rgba(248,113,113,.14);color:#f87171"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2 4 5v6c0 5 3.4 9.4 8 11 4.6-1.6 8-6 8-11V5z"/></svg></span><b>Kill switch<small>Блокировать сеть без VPN</small></b><span class="tg"></span></div>
-              <div class="it"><span class="ico" style="background:rgba(74,222,128,.14);color:#4ade80"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/></svg></span><b>Локальная сеть<small>Принтеры остаются доступны</small></b><span class="tg on"></span></div>
-            </div>
-            <div class="gl" style="font-size:9px;letter-spacing:.12em;color:#6b6d88;font-weight:600;margin:10px 4px 5px">ПРИВАТНОСТЬ</div>
-            <div class="grp">
-              <div class="it"><span class="ico" style="background:rgba(244,114,208,.14);color:#f472d0"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="7" y="2" width="10" height="20" rx="2"/><path d="M11 18h2"/></svg></span><b>ID устройства<small>Включается для каждой подписки</small></b><span class="val"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="m9 6 6 6-6 6"/></svg></span></div>
-              <div class="it"><span class="ico" style="background:rgba(181,171,252,.16);color:#b5abfc"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16v16H4z"/><path d="M8 9h8M8 13h6"/></svg></span><b>Журнал<small>Только на устройстве</small></b><span class="val">Базовый<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="m9 6 6 6-6 6"/></svg></span></div>
-            </div>
-          </div>
-          <div class="tabs"><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="6" cy="7" r="2"/><circle cx="18" cy="7" r="2"/><circle cx="12" cy="18" r="2.4"/><path d="M8 7h8M7 9l4 7M17 9l-4 7"/></svg></span><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="18" height="7" rx="2"/><rect x="3" y="13" width="18" height="7" rx="2"/></svg></span><span class="on"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M4.9 19.1 7 17M17 7l2.1-2.1"/></svg></span></div>
-        </div></div>
+      <span class="sp"></span>
+      <span class="osw-nav" data-k="set" title="Настройки"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/><circle cx="9" cy="7" r="1.9" fill="currentColor"/><circle cx="15" cy="12" r="1.9" fill="currentColor"/><circle cx="7" cy="17" r="1.9" fill="currentColor"/></svg><span class="t">Настройки</span></span>
+      <div class="osw-mode" id="oswMode" role="radiogroup" aria-label="Режим подключения">
+        <span class="on" data-m="0" role="radio" tabindex="0" aria-checked="true" title="Прокси: системный прокси — через VPN идут программы, которые его поддерживают"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 12h12M11.5 7.5 16 12l-4.5 4.5"/><path d="M20 5v14"/></svg><span class="t">Прокси</span></span>
+        <span data-m="1" role="radio" tabindex="0" aria-checked="false" title="Туннель (TUN): весь трафик устройства"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 20v-8a8.5 8.5 0 0 1 17 0v8"/><path d="M8 20v-7a4 4 0 0 1 8 0v7"/><path d="M2.5 20h19"/></svg><span class="t">Туннель</span></span>
       </div>
-      <div class="cap"><div class="glass">Превью интерфейса на демо-данных · приложение в разработке <a href="https://t.me/outskyapp">Новости в канале →</a></div></div>
-    </div>
-  </section>
+      <span class="osw-nav osw-fold" role="button" tabindex="0" data-act="fold" aria-expanded="true" title="Свернуть меню"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="4.5" width="17" height="15" rx="3"/><path d="M9.5 4.5v15M15.5 10l-2 2 2 2"/></svg><span class="t">Свернуть</span></span>
+    </nav>
 
-  <!-- features -->
-  <section class="sec" id="features">
-    <div class="sh reveal"><span class="kick">Возможности</span><h2>Всё, что нужно,<br><span class="g">и ничего лишнего</span></h2>
-      <p>Так будет устроено приложение — сейчас оно в разработке. Новичку — одна кнопка. Тому, кто разбирается, — маршруты, DNS и диагностика. Без регистрации и без телеметрии.</p></div>
-    <div class="bento">
-      <div class="card c3 reveal"><h3>Честный статус</h3><p>«Подключено» — только когда трафик действительно идёт. Если что-то не так, вы увидите причину, а не «ошибку соединения».</p>
-        <div class="viz"><div class="states" id="states"><span class="s1">Не подключено</span><span class="s2">Подключение</span><span class="s3">Подключено</span><span class="s4">Сервер не ответил</span></div>
-          <div class="flow"><div><i>1</i>Туннель поднят</div><span>→</span><div><i>2</i>Трафик проверен</div><span>→</span><div class="ok"><i>✓</i>Подключено</div></div>
-          <p class="fnote">Запуск программы ещё не значит, что VPN работает. Поэтому OutSky сначала проверяет трафик и только потом пишет «Подключено».</p></div></div>
-      <div class="card c3 reveal"><h3>Диагностика одной кнопкой</h3><p>Проверит DNS, сервер, порты и подписку — и подскажет, что делать.</p>
-        <div class="viz"><div class="diag">
-          <div><i class="y">✓</i><span>DNS отвечает</span><small>12 мс</small></div>
-          <div><i class="y">✓</i><span>Сервер доступен · TCP 443</span><small>38 мс</small></div>
-          <div><i class="w">!</i><span>UDP блокируется в этой сети</span><small>—</small></div>
-          <div class="hint">Hysteria2 здесь не заработает — выберите сервер VLESS. Сервер в порядке, ограничивает сеть.</div>
-        </div></div></div>
-      <div class="card c2 reveal"><h3>Подписка любого провайдера</h3><p>Вставьте ссылку от своего провайдера — остаток трафика и срок подтянутся сами, если провайдер их передаёт.</p>
-        <div class="viz"><div class="mini">
-          <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M20 6 9 17l-5-5"/></svg>Добавление по ссылке</div>
-          <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M20 6 9 17l-5-5"/></svg>Несколько подписок сразу</div>
-          <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M20 6 9 17l-5-5"/></svg>Серверы не пропадут, если провайдер недоступен</div>
-        </div></div></div>
-      <div class="card c4 reveal"><h3>Протоколы</h3><p>Подойдёт почти любая подписка — от VLESS Reality до AmneziaWG.</p>
-        <div class="viz"><div class="protos">
-          <span style="color:var(--p-vless)">VLESS · REALITY</span><span style="color:var(--p-vless)">VLESS · xHTTP</span><span style="color:var(--p-hy2)">Hysteria2</span><span style="color:var(--p-trojan)">Trojan</span>
-          <span style="color:var(--p-ss)">Shadowsocks</span><span style="color:var(--p-wg)">WireGuard</span><span style="color:var(--p-wg)">AmneziaWG</span><span style="color:var(--n300)">VMess</span><span style="color:var(--n300)">TUIC</span><span style="color:var(--n400)">SOCKS5 / HTTP</span>
-        </div></div></div>
-      <div class="card c3 reveal"><h3>Маршрутизация человеческим языком</h3><p>Выбирайте по последствиям, а не по терминам. Нужно тоньше — редактор правил.</p>
-        <div class="viz"><div class="rts" id="rts">
-          <div class="rt on"><div><b>Россия напрямую</b><small>Российские сайты — напрямую, остальное — через VPN</small></div><span class="rd"></span></div>
-          <div class="rt"><div><b>Всё через VPN</b><small>Весь трафик идёт через сервер</small></div><span class="rd"></span></div>
-          <div class="rt"><div><b>Свои правила</b><small>Домены, IP, приложения — в редакторе</small></div><span class="rd"></span></div>
-        </div></div></div>
-      <div class="card c3 reveal"><h3>HWID — лимит устройств у провайдера</h3><p>Если провайдер ограничивает число устройств, OutSky сможет передавать ID устройства, который такие провайдеры требуют. Включается отдельно для каждой подписки.</p>
-        <div class="viz"><div class="hwid">
-          <div class="hw-top"><div><b>My Provider</b><small>Лимит: 3 устройства · используется 2</small></div><span class="dots"><i class="on"></i><i class="on"></i><i></i></span></div>
-          <div class="hw-row"><span>Отправлять ID устройства</span><span class="tg on" id="hwTg"></span></div>
-          <div class="hw-id" id="hwId"><code>7c1e9a40-2f6b-4d1e-9b83-…</code><button type="button" id="hwReset">Сбросить</button></div>
-          <p class="fnote">Случайный идентификатор, а не отпечаток железа. Вместе с ним провайдер увидит ОС, её версию и имя устройства (его можно изменить). Выключено по умолчанию, ID можно сбросить в любой момент.</p>
-        </div></div></div>
-      <div class="card c2 reveal"><h3>Бережёт трафик</h3><p>Пинг меряется сам и почти ничего не стоит. Замер скорости — только по кнопке и с предупреждением о расходе.</p>
-        <div class="viz"><div class="mini">
-          <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M20 6 9 17l-5-5"/></svg>Без фоновых спидтестов</div>
-          <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M20 6 9 17l-5-5"/></svg>Избранное и сортировка серверов</div>
-        </div></div></div>
-      <div class="card c2 reveal"><h3>Приватность</h3><p>Без аккаунтов и телеметрии. Подписки, настройки и логи — только на устройстве.</p>
-        <div class="viz"><div class="mini">
-          <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M20 6 9 17l-5-5"/></svg>Ключи — в защищённом хранилище системы</div>
-          <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M20 6 9 17l-5-5"/></svg>Экспорт лога со скрытыми паролями</div>
-        </div></div></div>
-      <div class="card c2 reveal"><h3>Вся система</h3><p>Режим TUN для всех программ и kill switch на случай обрыва.</p>
-        <div class="viz"><div class="mini">
-          <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M20 6 9 17l-5-5"/></svg>Переподключение после сна и смены сети</div>
-          <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M20 6 9 17l-5-5"/></svg>Локальная сеть остаётся доступна</div>
-        </div></div></div>
-    </div>
-    <p class="preview-note">Приложение в разработке: функции появятся по мере выхода версий. Следите за новостями в канале @outskyapp.</p>
-  </section>
+    <aside class="osw-side" aria-label="Серверы">
+      <div class="osw-h"><h3>Серверы</h3>
+        <span class="osw-tool on" role="button" tabindex="0" data-act="reping" aria-pressed="true" title="Показать и перепроверить пинг всех серверов"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 11a8 8 0 1 0-2.3 5.3"/><path d="M20 4v6h-6"/></svg><span>Пинг</span></span>
+        <span class="osw-tool" role="button" tabindex="0" data-act="speed" aria-haspopup="dialog" title="Тест скорости всех серверов — в таблетках появится скорость"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 17.5a8.5 8.5 0 1 1 15 0"/><path d="M12 14.5 16 9"/><circle cx="12" cy="14.5" r="1.3" fill="currentColor" stroke="none"/></svg><span id="oswSpeedLbl">Скорость</span></span>
+        <span class="osw-ib" role="button" tabindex="0" aria-label="Добавить подписку" title="Добавить подписку"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span>
+      </div>
+      <!-- тест скорости тратит трафик подписки — сначала спрашиваем -->
+      <div class="osw-ask" id="oswAsk" role="dialog" aria-label="Тест скорости" hidden>
+        <p>Тест скорости всех серверов потратит около <b>150 МБ</b> трафика подписки.</p>
+        <div><span class="osw-btn" role="button" tabindex="0" data-act="speed-cancel">Отмена</span><span class="osw-btn pri" role="button" tabindex="0" data-act="speed-run">Запустить</span></div>
+      </div>
+      <div class="osw-sub">
+        <div class="osw-sub-h"><span class="osw-av">M</span><div class="osw-g"><b>My Provider</b><small>Обновлено 5 мин назад</small></div>
+          <span class="osw-ib" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 11a8 8 0 1 0-2.3 5.3"/><path d="M20 4v6h-6"/></svg></span></div>
+        <div class="osw-quota"><span><b>42,1 ГБ</b> осталось</span><span>21 день</span></div>
+        <div class="osw-bar"><i></i></div>
+      </div>
+      <div class="osw-seg" id="oswFlt"><span class="on" data-f="all">Все</span><span data-f="v">VLESS</span><span data-f="h">Hysteria2</span><span data-f="o">Другие</span></div>
+      <div class="osw-list">
+        <div class="osw-row osw-fast" role="button" tabindex="0" data-fast><span class="bolt"><svg viewBox="0 0 24 24"><path d="M13 2 4 14h6l-1 8 9-12h-6l1-8z" fill="currentColor"/></svg></span><div class="osw-g"><b>Самая быстрая</b><small id="oswFastSub">Сейчас: Япония</small></div><span class="osw-ping q1" id="oswFastPing">38 мс</span></div>
+        <div class="osw-gl"><span>My Provider</span><span>11 серверов</span></div>
+        <div id="oswRows">
+          <div class="osw-row sel"><span class="osw-fl"><svg viewBox="0 0 30 20"><rect width="30" height="20" fill="#fff"/><circle cx="15" cy="10" r="6" fill="#bc002d"/></svg></span><div class="osw-g"><b>Япония</b><small><i>VLESS</i> · TCP · REALITY</small></div><span class="osw-ping q1">38 мс</span></div>
+          <div class="osw-row"><span class="osw-fl"><svg viewBox="0 0 30 20"><rect width="30" height="20" fill="#fff"/><circle cx="15" cy="10" r="6" fill="#bc002d"/></svg></span><div class="osw-g"><b>Япония HY2</b><small><i>Hysteria2</i> · TLS</small></div><span class="osw-ping q1">41 мс</span></div>
+          <div class="osw-row"><span class="osw-fl"><svg viewBox="0 0 30 20"><rect width="30" height="20" fill="#fff"/><rect width="7.5" height="20" fill="#d52b1e"/><rect x="22.5" width="7.5" height="20" fill="#d52b1e"/><path d="M15 5l1.4 3 2.6-1-1 3.6 2-.6-2 3h-2.2v2.5h-1.6V13H12l-2-3 2 .6-1-3.6 2.6 1z" fill="#d52b1e"/></svg></span><div class="osw-g"><b>Канада</b><small><i>VLESS</i> · XHTTP · REALITY</small></div><span class="osw-ping q2">64 мс</span></div>
+          <div class="osw-row"><span class="osw-fl"><svg viewBox="0 0 30 20"><rect width="30" height="10" fill="#fff"/><rect y="10" width="30" height="10" fill="#dc143c"/></svg></span><div class="osw-g"><b>Польша</b><small><i>AmneziaWG</i> · UDP</small></div><span class="osw-ping q4">640 мс</span></div>
+          <div class="osw-row"><span class="osw-fl"><svg viewBox="0 0 30 20"><rect width="30" height="10" fill="#ef3340"/><rect y="10" width="30" height="10" fill="#fff"/><circle cx="7" cy="5" r="3" fill="#fff"/><circle cx="8.2" cy="5" r="3" fill="#ef3340"/></svg></span><div class="osw-g"><b>Сингапур</b><small><i>Trojan</i> · WS · TLS</small></div><span class="osw-ping q3">212 мс</span></div>
+          <div class="osw-row"><span class="osw-fl"><svg viewBox="0 0 30 20"><rect width="30" height="20" fill="#ed2939"/><rect y="6.7" width="30" height="6.6" fill="#fff"/></svg></span><div class="osw-g"><b>Австрия</b><small><i>Shadowsocks</i> · 2022</small></div><span class="osw-ping na">н/д</span></div>
+          <div class="osw-row"><span class="osw-fl"><svg viewBox="0 0 30 20"><rect width="10" height="20" fill="#009246"/><rect x="10" width="10" height="20" fill="#fff"/><rect x="20" width="10" height="20" fill="#ce2b37"/></svg></span><div class="osw-g"><b>Италия</b><small><i>VLESS</i> · TCP · REALITY</small></div><span class="osw-ping q1">57 мс</span></div>
+          <div class="osw-row"><span class="osw-fl"><svg viewBox="0 0 30 20"><rect width="30" height="20" fill="#aa151b"/><rect y="5" width="30" height="10" fill="#f1bf00"/></svg></span><div class="osw-g"><b>Испания</b><small><i>Hysteria2</i> · TLS</small></div><span class="osw-ping q2">83 мс</span></div>
+          <div class="osw-row"><span class="osw-fl"><svg viewBox="0 0 30 20"><rect width="30" height="20" fill="#009c3b"/><path d="M15 3 27 10 15 17 3 10z" fill="#ffdf00"/><circle cx="15" cy="10" r="4.2" fill="#002776"/></svg></span><div class="osw-g"><b>Бразилия</b><small><i>VLESS</i> · gRPC · REALITY</small></div><span class="osw-ping q3">188 мс</span></div>
+          <div class="osw-row"><span class="osw-fl"><svg viewBox="0 0 30 20"><rect width="30" height="20" fill="#fff"/><rect width="30" height="6.67" fill="#ff9933"/><rect y="13.33" width="30" height="6.67" fill="#138808"/><circle cx="15" cy="10" r="2.6" fill="none" stroke="#000080" stroke-width=".8"/></svg></span><div class="osw-g"><b>Индия</b><small><i>Trojan</i> · WS · TLS</small></div><span class="osw-ping q2">134 мс</span></div>
+          <div class="osw-row"><span class="osw-fl"><svg viewBox="0 0 30 20"><rect width="30" height="20" fill="#74acdf"/><rect y="6.67" width="30" height="6.67" fill="#fff"/><circle cx="15" cy="10" r="2" fill="#f6b40e"/></svg></span><div class="osw-g"><b>Аргентина</b><small><i>Shadowsocks</i> · 2022</small></div><span class="osw-ping q3">233 мс</span></div>
+        </div>
+      </div>
+    </aside>
 
-  <!-- platforms -->
-  <section class="sec" id="platforms">
-    <div class="sh reveal"><span class="kick">Платформы</span><h2>Один OutSky —<br><span class="g">на всех ваших устройствах</span></h2>
-      <p>Сначала Windows, затем телефоны и другие системы. Когда версия выйдет, здесь появится кнопка «Скачать».</p></div>
-    <div class="plats" id="plats">
-      <div class="pl reveal" data-os="windows"><span class="pi"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 5.5 10 4.5v7H3zM11 4.4 21 3v8.5H11zM3 12.5h7v7l-7-1zM11 12.5h10V21l-10-1.4z"/></svg></span><div><b>Windows</b><small>Выйдет первой</small></div><span class="st dev">В разработке</span></div>
-      <div class="pl reveal" data-os="android"><span class="pi"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 9h10v8a1 1 0 0 1-1 1h-1v3h-2v-3h-2v3H9v-3H8a1 1 0 0 1-1-1zM4 9h2v6H4zm14 0h2v6h-2zM8 8a4 4 0 0 1 8 0z"/></svg></span><div><b>Android</b><small>Телефоны</small></div><span class="st plan">Запланировано</span></div>
-      <div class="pl reveal" data-os="ios"><span class="pi"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M16.4 12.6c0-2.4 2-3.6 2.1-3.7-1.2-1.7-3-1.9-3.6-1.9-1.5-.2-3 .9-3.8.9-.8 0-2-.9-3.3-.9-1.7 0-3.2 1-4.1 2.5-1.8 3-.5 7.5 1.2 10 .8 1.2 1.8 2.6 3.1 2.5 1.2 0 1.7-.8 3.2-.8s1.9.8 3.2.8c1.3 0 2.2-1.2 3-2.4.9-1.4 1.3-2.7 1.3-2.8 0 0-2.4-.9-2.4-3.6zM14 5.4c.7-.8 1.1-1.9 1-3-1 0-2.1.7-2.8 1.5-.6.7-1.2 1.8-1 2.9 1.1.1 2.1-.6 2.8-1.4z"/></svg></span><div><b>iPhone</b><small>iOS</small></div><span class="st plan">Запланировано</span></div>
-      <div class="pl reveal" data-os="mac"><span class="pi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/></svg></span><div><b>macOS</b><small>Компьютеры Mac</small></div><span class="st plan">Запланировано</span></div>
-      <div class="pl reveal" data-os="linux"><span class="pi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 17l6-6-6-6M12 19h8"/></svg></span><div><b>Linux</b><small>Сборка для Linux</small></div><span class="st plan">Запланировано</span></div>
-      <a class="pl reveal" data-os="browser" href="/vpn/guide/#chrome"><span class="pi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3.5"/><path d="M12 8.5h8.5M9 14l-4.3 5.6M15 14l-1.8 6.6"/></svg></span><div><b>Браузер</b><small>Google Chrome · расширение работает с OutSky VPN</small></div><span class="st av">Доступно</span></a>
-    </div>
-  </section>
+    <section class="osw-home" aria-label="Подключение">
+      <svg class="osw-net" viewBox="0 0 640 620" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+        <g class="l">
+          <path vector-effect="non-scaling-stroke" d="M-10 70 L110 22 L250 58 L400 10 L540 46 L650 24"/>
+          <path vector-effect="non-scaling-stroke" d="M-10 150 L96 116 L236 140 L392 94 L528 128 L650 112"/>
+          <path vector-effect="non-scaling-stroke" d="M110 22 L96 116M250 58 L236 140M400 10 L392 94M540 46 L528 128"/>
+          <path vector-effect="non-scaling-stroke" d="M-10 70 L96 116M110 22 L236 140M400 10 L528 128"/>
+          <path vector-effect="non-scaling-stroke" d="M-10 572 L130 534 L290 574 L446 528 L590 552 L650 544"/>
+          <path vector-effect="non-scaling-stroke" d="M130 534 L120 640M290 574 L282 640M446 528 L438 640M590 552 L584 640"/>
+        </g>
+        <g class="s">
+          <circle cx="110" cy="22" r="2" opacity=".7"/><circle cx="392" cy="94" r="2" opacity=".7"/><circle cx="290" cy="574" r="2" opacity=".7"/>
+          <circle cx="400" cy="10" r="2.5" opacity=".85"/><circle cx="130" cy="534" r="2.5" opacity=".8"/><circle cx="528" cy="128" r="1.6" opacity=".6"/>
+        </g>
+      </svg>
 
-  <!-- OutSky VPN teaser -->
-  <section class="sec" id="vpn">
-    <div class="vpnb reveal"><div><span class="kick">OutSky VPN</span><h3 style="margin-top:14px">Нет подписки?</h3>
-      <p>OutSky рассчитан на подписку любого провайдера. Если своей подписки нет — попробуйте наш сервис OutSky VPN: бесплатный пробный период в нашем Telegram-боте.</p></div>
-      <a class="btn btn-neon" href="/vpn/">Подробнее об OutSky VPN<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></div>
-  </section>
+      <span class="osw-kick" role="status"><i class="led"></i><span id="oswKick">Подключено</span></span>
+      <div class="osw-dial" id="oswPw" role="button" tabindex="0" aria-label="Отключить">
+        <i class="bloom"></i><i class="track"></i>
+        <svg class="spin" viewBox="0 0 124 124" aria-hidden="true"><circle cx="62" cy="62" r="61" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-dasharray="80 304"/></svg>
+        <i class="ring"></i>
+        <span class="osw-pb"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M12 3v9"/><path d="M6.6 6.6a8 8 0 1 0 10.8 0"/></svg></span>
+      </div>
+      <div class="osw-title" id="oswTitle"><span class="osw-fl"><svg viewBox="0 0 30 20"><rect width="30" height="20" fill="#fff"/><circle cx="15" cy="10" r="6" fill="#bc002d"/></svg></span>Япония</div>
+      <div class="osw-subt" id="oswSub">VLESS · TCP · REALITY · 38 мс</div>
+      <!-- полоса и действия при ошибке занимают одно место: при смене состояния ничего не сдвигается -->
+      <div class="osw-strip">
+        <div><div class="osw-k">Пинг</div><div class="osw-v" id="oswPing">38 <small>мс</small></div></div>
+        <div><div class="osw-k">Время</div><div class="osw-v" id="oswTm">00:42:17</div></div>
+        <div><div class="osw-k">Трафик</div><div class="osw-v" id="oswTr">1,2 <small>ГБ</small></div></div>
+        <span class="osw-acts"><span class="osw-btn pri" role="button" tabindex="0" data-act="retry">Повторить</span><span class="osw-btn" role="button" tabindex="0" data-act="another">Другой сервер</span></span>
+      </div>
 
-  <!-- faq -->
-  <section class="sec" id="faq">
-    <div class="sh reveal"><span class="kick">Вопросы</span><h2>Частые вопросы</h2></div>
-    <div class="faq">
-      <details class="reveal" open><summary>OutSky — это VPN-сервис?</summary><p>Нет. OutSky — клиент: серверов и подписок он не продаёт. Нужна подписка вашего провайдера или собственный сервер.</p></details>
-      <details class="reveal"><summary>Где скачать?</summary><p>Пока нигде — приложение в разработке. Первой выйдет публичная альфа для Windows. Следите за новостями в канале @outskyapp.</p></details>
-      <details class="reveal"><summary>Это бесплатно?</summary><p>Да, OutSky бесплатный. Подписку на серверы вы получаете у своего провайдера.</p></details>
-      <details class="reveal"><summary>Нужна регистрация?</summary><p>Нет. Добавили подписку — и подключились.</p></details>
-      <details class="reveal"><summary>Мой провайдер ограничивает число устройств. Подойдёт?</summary><p>Должен подойти: OutSky сможет передавать ID устройства (HWID), который требуют такие провайдеры. Это случайный идентификатор, а не отпечаток железа; вместе с ним провайдер увидит ОС, её версию и имя устройства. ID включается отдельно для каждой подписки, и его можно сбросить в любой момент.</p></details>
-      <details class="reveal"><summary>Собирает ли приложение OutSky данные?</summary><p>Само приложение — нет. В нём не будет телеметрии, аналитики и аккаунтов: оно не будет собирать сведения о вас и о том, как вы им пользуетесь. Подписки, настройки и логи останутся на вашем устройстве, а ключи, пароли и ID устройства будут храниться в защищённом хранилище системы в зашифрованном виде. Логи сами никуда не будут отправляться: выгрузить их сможете только вы, и ключи с паролями при этом будут скрыты. За подпиской и для подключения приложение будет обращаться к серверам вашего провайдера. Как и с любым VPN-клиентом, они видят ваш IP-адрес и адреса сайтов, которые вы открываете через VPN, и могут записывать эти данные вместе с названием и версией приложения. ID устройства — вместе с ОС, её версией и именем устройства — провайдер получит, только если вы включите его для этой подписки. Если подписка от OutSky VPN, этот провайдер — мы: что мы записываем и какие данные обрабатывают наш бот и расширение, написано в <a href="/privacy.html#ru">политике конфиденциальности</a>.</p></details>
-      <details class="reveal"><summary>Какие платформы?</summary><p>Сначала Windows, затем Android и iPhone, позже macOS и Linux. Для браузера уже есть расширение — оно работает с OutSky VPN.</p></details>
-      <details class="reveal"><summary>Будет ли открытый код?</summary><p>Планируем открыть исходный код к первому публичному релизу.</p></details>
-    </div>
-  </section>
+      <div class="osw-chart">
+        <div class="osw-ch-h"><span class="osw-big"><span id="oswDn">84</span><small>Мбит/с ↓</small></span><span class="osw-big up"><span id="oswUp">23</span><small>↑</small></span><span class="sp"></span>
+          <span class="lg"><span><i></i>Загрузка</span><span><i class="u"></i>Отдача</span></span></div>
+        <svg viewBox="0 0 452 58" preserveAspectRatio="none" aria-hidden="true">
+          <defs><linearGradient id="oswArea" x1="0" y1="0" x2="0" y2="1"><stop offset="0" class="c0"/><stop offset="1" class="c1"/></linearGradient></defs>
+          <path class="gr" vector-effect="non-scaling-stroke" d="M0 14.5H452M0 34H452"/>
+          <path class="ar" d="M0 22.4L9.6 16.3L19.2 20L28.9 16.7L38.5 19.6L48.1 23.3L57.7 27.5L67.3 34.4L76.9 35L86.6 32.3L96.2 26.2L105.8 23.3L115.4 24.6L125 19.3L134.6 20.7L144.3 22.6L153.9 18L163.5 17.7L173.1 13.4L182.7 14L192.3 13.2L202 18.7L211.6 23.5L221.2 29.3L230.8 32.8L240.4 31.1L250 28.4L259.7 29.8L269.3 28.9L278.9 28.3L288.5 25.7L298.1 26.1L307.7 25.2L317.4 19.5L327 16.2L336.6 11.8L346.2 10.4L355.8 14.2L365.4 21L375.1 22.4L384.7 24.6L394.3 22.5L403.9 25L413.5 27.4L423.1 27.1L432.8 26.6L442.4 25.2L452 23.2L452 58L0 58Z"/>
+          <path class="up" vector-effect="non-scaling-stroke" d="M0 49.9L9.6 48.7L19.2 51.1L28.9 50.5L38.5 51.1L48.1 51.1L57.7 50.6L67.3 51.3L76.9 50.5L86.6 49.5L96.2 47.9L105.8 47.5L115.4 48.2L125 45.9L134.6 45.8L144.3 46.2L153.9 45.1L163.5 46.2L173.1 46L182.7 47.1L192.3 46.7L202 47.8L211.6 48.3L221.2 49.5L230.8 50.7L240.4 50.8L250 50.8L259.7 52L269.3 51.6L278.9 50.9L288.5 49.3L298.1 49.3L307.7 49.6L317.4 48.7L327 48.4L336.6 47L346.2 45.6L355.8 45.4L365.4 46.1L375.1 45.4L384.7 46L394.3 45.6L403.9 47.1L413.5 48.2L423.1 47.9L432.8 48.4L442.4 48.9L452 48.5"/>
+          <path class="dn" vector-effect="non-scaling-stroke" d="M0 22.4L9.6 16.3L19.2 20L28.9 16.7L38.5 19.6L48.1 23.3L57.7 27.5L67.3 34.4L76.9 35L86.6 32.3L96.2 26.2L105.8 23.3L115.4 24.6L125 19.3L134.6 20.7L144.3 22.6L153.9 18L163.5 17.7L173.1 13.4L182.7 14L192.3 13.2L202 18.7L211.6 23.5L221.2 29.3L230.8 32.8L240.4 31.1L250 28.4L259.7 29.8L269.3 28.9L278.9 28.3L288.5 25.7L298.1 26.1L307.7 25.2L317.4 19.5L327 16.2L336.6 11.8L346.2 10.4L355.8 14.2L365.4 21L375.1 22.4L384.7 24.6L394.3 22.5L403.9 25L413.5 27.4L423.1 27.1L432.8 26.6L442.4 25.2L452 23.2"/>
+          <circle class="now" cx="452" cy="23.2" r="2.6"/>
+        </svg>
+        <div class="osw-ax"><span>−60 с</span><span>−45</span><span>−30</span><span>−15</span><span>сейчас</span></div>
+      </div>
+
+      <div class="osw-cards">
+        <div class="osw-card" role="button" tabindex="0" data-k="route"><span class="ci"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 17c6.5 0 6.5-10 13-10M4 7c6.5 0 6.5 10 13 10M17 4l3 3-3 3M17 14l3 3-3 3"/></svg></span>
+          <div class="osw-g"><small>Маршрутизация</small><b id="oswRoute">Россия напрямую</b></div><span class="chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></span></div>
+        <div class="osw-card" role="button" tabindex="0" data-k="dns"><span class="ci"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8"/><path d="M4 12h16M12 4c-4.5 4.5-4.5 11.5 0 16M12 4c4.5 4.5 4.5 11.5 0 16"/></svg></span>
+          <div class="osw-g"><small>DNS</small><b>Умное разделение</b></div><span class="chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></span></div>
+      </div>
+    </section>
+  </div>
 </div>
-</main>
-<footer><div class="wrap"><div><a class="logo" href="/" style="display:inline-flex"><span class="tile">O<b>S</b></span><span class="word">Out<b>Sky</b></span></a><div style="margin-top:8px">Просто по умолчанию. Мощно, когда нужно.</div></div>
-  <nav aria-label="Ссылки"><a href="/vpn/">OutSky VPN</a><a href="/roadmap/">Роадмап</a><a href="https://t.me/outskyapp">Канал @outskyapp</a><a href="/privacy.html#ru">Конфиденциальность</a></nav><div>© 2026 OutSky</div></div></footer>
+<!-- ===== /окно ===== -->
+      </div>
+      <div class="p-box">
+<!-- ===== телефон (стили — app-ui.css, логика — app-ui.js).
+     Зеркало окна Windows: тот же сервер, пинги, состояние; нажатия передаются окну. Без JS — статичный «Подключено». ===== -->
+<div class="os-ui osp st-on" role="group" aria-label="Превью: OutSky на телефоне">
+  <div class="osp-scr">
+    <div class="osp-sb"><span>9:41</span><i class="osp-isl"></i>
+      <span class="osp-sbi" aria-hidden="true"><span class="osp-vpn">VPN</span><svg viewBox="0 0 18 12" fill="currentColor"><rect x="0" y="8" width="3" height="4" rx="1"/><rect x="5" y="5.5" width="3" height="6.5" rx="1"/><rect x="10" y="3" width="3" height="9" rx="1"/><rect x="15" y="0" width="3" height="12" rx="1"/></svg><svg viewBox="0 0 24 12" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="1" y="1" width="19" height="10" rx="3"/><rect x="3" y="3" width="13" height="6" rx="1.5" fill="currentColor" stroke="none"/><path d="M22.5 4.5v3"/></svg></span></div>
+    <div class="osp-h"><span class="osp-wm"><img src="/assets/img/favicon.svg" alt=""><span>Out<b>Sky</b></span></span><span class="osp-ver">preview</span>
+      <span class="osw-ib" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h4l2-5 4 10 2-5h6"/></svg></span></div>
 
-<script src="/assets/js/site.js" defer></script>
+    <div class="osp-lbl">Текущий провайдер</div>
+    <div class="osp-prov">
+      <div class="osp-ph"><span class="chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></span><b>My Provider</b><small>5 мин</small>
+        <span class="osp-rb" role="button" tabindex="0" data-osp-act="reping" aria-label="Перепроверить пинг всех серверов"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 11a8 8 0 1 0-2.3 5.3"/><path d="M20 4v6h-6"/></svg></span>
+        <span class="osp-rb" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="5" cy="12" r="1.8"/><circle cx="12" cy="12" r="1.8"/><circle cx="19" cy="12" r="1.8"/></svg></span></div>
+      <div class="osp-q"><span><b>42,1 ГБ</b></span><span class="osw-bar"><i></i></span><span>21 день</span></div>
+      <div class="osp-rows">
+        <div class="osp-row sel" data-i="0" role="button" tabindex="0"><span class="osw-fl"><svg viewBox="0 0 30 20"><rect width="30" height="20" fill="#fff"/><circle cx="15" cy="10" r="6" fill="#bc002d"/></svg></span><span class="g"><b>Япония</b><small><span class="pv">VLESS</span> · TCP · <span class="pr">REALITY</span></small></span><span class="osp-pg q1">38 мс</span></div>
+        <div class="osp-row" data-i="1" role="button" tabindex="0"><span class="osw-fl"><svg viewBox="0 0 30 20"><rect width="30" height="20" fill="#fff"/><circle cx="15" cy="10" r="6" fill="#bc002d"/></svg></span><span class="g"><b>Япония HY2</b><small><span class="ph">Hysteria2</span> · <span class="pt">TLS</span></small></span><span class="osp-pg q1">41 мс</span></div>
+        <div class="osp-row" data-i="2" role="button" tabindex="0"><span class="osw-fl"><svg viewBox="0 0 30 20"><rect width="30" height="20" fill="#fff"/><rect width="7.5" height="20" fill="#d52b1e"/><rect x="22.5" width="7.5" height="20" fill="#d52b1e"/><path d="M15 5l1.4 3 2.6-1-1 3.6 2-.6-2 3h-2.2v2.5h-1.6V13H12l-2-3 2 .6-1-3.6 2.6 1z" fill="#d52b1e"/></svg></span><span class="g"><b>Канада</b><small><span class="pv">VLESS</span> · XHTTP · <span class="pr">REALITY</span></small></span><span class="osp-pg q2">64 мс</span></div>
+        <div class="osp-row" data-i="3" role="button" tabindex="0"><span class="osw-fl"><svg viewBox="0 0 30 20"><rect width="30" height="10" fill="#fff"/><rect y="10" width="30" height="10" fill="#dc143c"/></svg></span><span class="g"><b>Польша</b><small><span class="pw">AmneziaWG</span> · UDP</small></span><span class="osp-pg q4">640 мс</span></div>
+        <div class="osp-row" data-i="4" role="button" tabindex="0"><span class="osw-fl"><svg viewBox="0 0 30 20"><rect width="30" height="10" fill="#ef3340"/><rect y="10" width="30" height="10" fill="#fff"/><circle cx="7" cy="5" r="3" fill="#fff"/><circle cx="8.2" cy="5" r="3" fill="#ef3340"/></svg></span><span class="g"><b>Сингапур</b><small><span class="po">Trojan</span> · WS · <span class="pt">TLS</span></small></span><span class="osp-pg q3">212 мс</span></div>
+        <div class="osp-row" data-i="5" role="button" tabindex="0"><span class="osw-fl"><svg viewBox="0 0 30 20"><rect width="30" height="20" fill="#ed2939"/><rect y="6.7" width="30" height="6.6" fill="#fff"/></svg></span><span class="g"><b>Австрия</b><small><span class="ps">Shadowsocks</span> · 2022</small></span><span class="osp-pg na">н/д</span></div>
+        <div class="osp-row" data-i="6" role="button" tabindex="0"><span class="osw-fl"><svg viewBox="0 0 30 20"><rect width="10" height="20" fill="#009246"/><rect x="10" width="10" height="20" fill="#fff"/><rect x="20" width="10" height="20" fill="#ce2b37"/></svg></span><span class="g"><b>Италия</b><small><span class="pv">VLESS</span> · TCP · <span class="pr">REALITY</span></small></span><span class="osp-pg q1">57 мс</span></div>
+        <div class="osp-row" data-i="7" role="button" tabindex="0"><span class="osw-fl"><svg viewBox="0 0 30 20"><rect width="30" height="20" fill="#aa151b"/><rect y="5" width="30" height="10" fill="#f1bf00"/></svg></span><span class="g"><b>Испания</b><small><span class="ph">Hysteria2</span> · <span class="pt">TLS</span></small></span><span class="osp-pg q2">83 мс</span></div>
+        <div class="osp-row" data-i="8" role="button" tabindex="0"><span class="osw-fl"><svg viewBox="0 0 30 20"><rect width="30" height="20" fill="#009c3b"/><path d="M15 3 27 10 15 17 3 10z" fill="#ffdf00"/><circle cx="15" cy="10" r="4.2" fill="#002776"/></svg></span><span class="g"><b>Бразилия</b><small><span class="pv">VLESS</span> · gRPC · <span class="pr">REALITY</span></small></span><span class="osp-pg q3">188 мс</span></div>
+        <div class="osp-row" data-i="9" role="button" tabindex="0"><span class="osw-fl"><svg viewBox="0 0 30 20"><rect width="30" height="20" fill="#fff"/><rect width="30" height="6.67" fill="#ff9933"/><rect y="13.33" width="30" height="6.67" fill="#138808"/><circle cx="15" cy="10" r="2.6" fill="none" stroke="#000080" stroke-width=".8"/></svg></span><span class="g"><b>Индия</b><small><span class="po">Trojan</span> · WS · <span class="pt">TLS</span></small></span><span class="osp-pg q2">134 мс</span></div>
+        <div class="osp-row" data-i="10" role="button" tabindex="0"><span class="osw-fl"><svg viewBox="0 0 30 20"><rect width="30" height="20" fill="#74acdf"/><rect y="6.67" width="30" height="6.67" fill="#fff"/><circle cx="15" cy="10" r="2" fill="#f6b40e"/></svg></span><span class="g"><b>Аргентина</b><small><span class="ps">Shadowsocks</span> · 2022</small></span><span class="osp-pg q3">233 мс</span></div>
+      </div>
+    </div>
+
+    <!-- плашка подключения: переключатель + сервер, скорость, время -->
+    <div class="osp-cb">
+      <span class="osp-tg" data-osp-pw role="button" tabindex="0" aria-label="Отключить"><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 3v9"/><path d="M6.6 6.6a8 8 0 1 0 10.8 0"/></svg></i></span>
+      <span class="osp-ci"><span class="osp-ct"><span class="osw-fl"><svg viewBox="0 0 30 20"><rect width="30" height="20" fill="#fff"/><circle cx="15" cy="10" r="6" fill="#bc002d"/></svg></span>Япония</span>
+        <span class="osp-cs"><span>↑ <b class="osp-up">23</b></span><span>↓ <b class="osp-dn">84</b> Мбит/с</span><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 2M10 2.5h4"/></svg><b class="osp-tm">00:42:17</b></span></span></span>
+    </div>
+
+    <nav class="osp-tabs" aria-label="Разделы приложения">
+      <span class="osp-tab on"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="7" r="2.2"/><circle cx="18" cy="7" r="2.2"/><circle cx="12" cy="17.5" r="2.4"/><path d="M8.2 7h7.6M7.2 9l3.7 6.6M16.8 9l-3.7 6.6"/></svg>Подключение</span>
+      <span class="osp-tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="4" width="17" height="7" rx="2"/><rect x="3.5" y="13" width="17" height="7" rx="2"/><path d="M7 7.5h.01M7 16.5h.01"/></svg>Серверы</span>
+      <span class="osp-tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/><circle cx="9" cy="7" r="1.9" fill="currentColor"/><circle cx="15" cy="12" r="1.9" fill="currentColor"/><circle cx="7" cy="17" r="1.9" fill="currentColor"/></svg>Настройки</span>
+    </nav>
+  </div>
+</div>
+<!-- ===== /телефон ===== -->
+      </div>
+      <p class="cap">Превью интерфейса на демо-данных · приложение в разработке</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 2. «Манифест»: три тезиса крупно ===== -->
+<section class="manifest" id="manifest" data-live>
+  <div class="neb" data-glow="bl br" aria-hidden="true"><i class="bl"></i><i class="br ind"></i></div>
+  <svg class="mf-sky draw rv" viewBox="0 0 1200 520" preserveAspectRatio="none" aria-hidden="true">
+    <path pathLength="1" d="M60 120 L300 70 L520 150 L760 96 L1010 160 L1150 110"/>
+    <path pathLength="1" d="M140 470 L420 420 L700 480 L980 410 L1140 450"/>
+    <g><circle cx="300" cy="70" r="3"/><circle cx="760" cy="96" r="2.4"/><circle cx="1010" cy="160" r="3"/><circle cx="420" cy="420" r="2.4"/><circle cx="980" cy="410" r="3"/></g>
+  </svg>
+  <svg class="cst c-ursa" viewBox="-6 6 156 66" aria-hidden="true"><use href="/assets/img/home/constellations.svg#ursa"/></svg>
+  <p class="disp wr rv hole">
+    <span class="ln" style="--i:0">Без регистрации.</span>
+    <span class="ln l2" style="--i:1">Без телеметрии.</span>
+    <span class="ln l3 acc" style="--i:2">Любой провайдер.</span>
+  </p>
+</section>
+<!-- ===== /Манифест ===== -->
+
+<!-- ===== 3. Возможности: ритуал, колода (01)–(05), список (06)–(09) ===== -->
+<section class="sec feat" id="features" data-live data-fx="/assets/js/fx-home.js" aria-labelledby="f-h">
+  <div class="neb" data-glow="tr bl" aria-hidden="true"><i class="tr"></i><i class="bl ind"></i></div>
+  <div class="ritual rv" aria-hidden="true"><i class="r-v"></i><i class="r-h"></i><svg class="r-star" viewBox="0 0 16 16"><path d="M8 0l1.9 6.1L16 8l-6.1 1.9L8 16l-1.9-6.1L0 8l6.1-1.9z"/></svg></div>
+  <div class="wrap sh">
+    <span class="kick rv">Возможности</span>
+    <svg class="cst c-cass" viewBox="-6 2 92 40" aria-hidden="true"><use href="/assets/img/home/constellations.svg#cass"/></svg>
+    <h2 class="h2 wr rv hole" id="f-h"><span class="ln" style="--i:0">Всё, что нужно,</span> <span class="ln l2 acc" style="--i:1">и ничего лишнего</span></h2>
+    <p class="sh-p rv hole">Так будет устроено приложение — сейчас оно в разработке. Новичку — одна кнопка. Тому, кто разбирается, — маршруты, DNS и диагностика. Без регистрации и без телеметрии.</p>
+  </div>
+
+  <div class="deck-wrap">
+    <a class="skip skip-in" href="#feat-more" aria-label="Пропустить карточки">Пропустить</a>
+    <svg class="cst c-gem" viewBox="-4 -4 108 102" aria-hidden="true"><use href="/assets/img/home/constellations.svg#gem"/></svg>
+    <!-- закреплённая колода: только при html.pin (≥1100×680, JS, без RM и ?shot); иначе — сетка 3+2 или CSS-стопка.
+         Сверху лежит (01), следующие чуть выглядывают из-за неё веером (home.css); по прокрутке (01)…(04) по очереди уходят вверх, (05) остаётся последней -->
+    <div class="deck-track" data-track>
+      <div class="pin-frame">
+        <ol class="deck-idx" aria-hidden="true">
+          <li data-n="1"><span>(01)</span>Честный статус</li>
+          <li data-n="2"><span>(02)</span>Диагностика одной кнопкой</li>
+          <li data-n="3"><span>(03)</span>Подписка любого провайдера</li>
+          <li data-n="4"><span>(04)</span>Маршрутизация человеческим языком</li>
+          <li data-n="5"><span>(05)</span>HWID — лимит устройств у провайдера</li>
+        </ol>
+        <!-- счётчик текущей карточки и точки (fx-home.js меняет номер) -->
+        <div class="deck-num" aria-hidden="true"><p><b>01</b><span>/ 05</span></p><span class="deck-dots"><i class="on"></i><i></i><i></i><i></i><i></i></span></div>
+        <div class="deck">
+          <article class="card pane" style="--i:0" data-seg=".06" tabindex="0" aria-labelledby="c1-h">
+            <span class="ix">(01)</span>
+            <h3 id="c1-h">Честный статус</h3>
+            <p>«Подключено» — только когда трафик действительно идёт. Если что-то не так, вы увидите причину, а не «ошибку соединения».</p>
+            <div class="viz">
+              <div class="states" id="states"><span class="s1">Не подключено</span><span class="s2">Подключение</span><span class="s3">Подключено</span><span class="s4">Сервер не ответил</span></div>
+              <div class="flow"><div><i>1</i>Туннель поднят</div><span aria-hidden="true">→</span><div><i>2</i>Трафик проверен</div><span aria-hidden="true">→</span><div class="ok"><i>✓</i>Подключено</div></div>
+              <p class="fnote">Запуск программы ещё не значит, что VPN работает. Поэтому OutSky сначала проверяет трафик и только потом пишет «Подключено».</p>
+            </div>
+          </article>
+          <article class="card pane" style="--i:1" data-seg=".30" tabindex="0" aria-labelledby="c2-h">
+            <span class="ix">(02)</span>
+            <h3 id="c2-h">Диагностика одной кнопкой</h3>
+            <p>Проверит DNS, сервер, порты и подписку — и подскажет, что делать.</p>
+            <div class="viz"><div class="diag">
+              <div><i class="y">✓</i><span>DNS отвечает</span><small>12 мс</small></div>
+              <div><i class="y">✓</i><span>Сервер доступен · TCP 443</span><small>38 мс</small></div>
+              <div><i class="w">!</i><span>UDP блокируется в этой сети</span><small>—</small></div>
+              <div class="hint">Hysteria2 здесь не заработает — выберите сервер VLESS. Сервер в порядке, ограничивает сеть.</div>
+            </div></div>
+          </article>
+          <article class="card pane" style="--i:2" data-seg=".50" tabindex="0" aria-labelledby="c3-h">
+            <span class="ix">(03)</span>
+            <h3 id="c3-h">Подписка любого провайдера</h3>
+            <p>Вставьте ссылку от своего провайдера — остаток трафика и срок подтянутся сами, если провайдер их передаёт.</p>
+            <div class="viz"><ul class="mini">
+              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Добавление по ссылке</li>
+              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Несколько подписок сразу</li>
+              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Серверы не пропадут, если провайдер недоступен</li>
+            </ul></div>
+          </article>
+          <article class="card pane" style="--i:3" data-seg=".70" tabindex="0" aria-labelledby="c4-h">
+            <span class="ix">(04)</span>
+            <h3 id="c4-h">Маршрутизация человеческим языком</h3>
+            <p>Выбирайте по последствиям, а не по терминам. Нужно тоньше — редактор правил.</p>
+            <div class="viz"><div class="rts" id="rts" role="radiogroup" aria-label="Маршрутизация">
+              <div class="rt on"><div><b>Россия напрямую</b><small>Российские сайты — напрямую, остальное — через VPN</small></div><span class="rd"></span></div>
+              <div class="rt"><div><b>Всё через VPN</b><small>Весь трафик идёт через сервер</small></div><span class="rd"></span></div>
+              <div class="rt"><div><b>Свои правила</b><small>Домены, IP, приложения — в редакторе</small></div><span class="rd"></span></div>
+            </div></div>
+          </article>
+          <article class="card pane" style="--i:4" data-seg=".93" tabindex="0" aria-labelledby="c5-h">
+            <span class="ix">(05)</span>
+            <h3 id="c5-h">HWID — лимит устройств у провайдера</h3>
+            <p>Если провайдер ограничивает число устройств, OutSky сможет передавать ID устройства, который такие провайдеры требуют. Включается отдельно для каждой подписки.</p>
+            <div class="viz"><div class="hwid">
+              <div class="hw-top"><div><b>My Provider</b><small>Лимит: 3 устройства · используется 2</small></div><span class="dots" aria-hidden="true"><i class="on"></i><i class="on"></i><i></i></span></div>
+              <div class="hw-row"><span id="hwLbl">Отправлять ID устройства</span><span class="tg on" id="hwTg" aria-labelledby="hwLbl"></span></div>
+              <div class="hw-id" id="hwId"><code>7c1e9a40-2f6b-4d1e-9b83-…</code><button type="button" id="hwReset">Сбросить</button></div>
+              <p class="fnote">Случайный идентификатор, а не отпечаток железа. Вместе с ним провайдер увидит ОС, её версию и имя устройства (его можно изменить). Выключено по умолчанию, ID можно сбросить в любой момент.</p>
+            </div></div>
+          </article>
+        </div>
+      </div>
+      <!-- свет закреплённой сцены: свой sticky-слой рядом с кадром, а не внутри — кадр режет края (overflow:hidden),
+           а здесь пятна свободно уходят вверх и вниз за трек, без ровных полос на входе и выходе -->
+      <div class="neb deck-sky" aria-hidden="true"><i class="tl"></i><i class="br"></i>
+        <svg class="cst c-sco" viewBox="-4 -4 114 118"><use href="/assets/img/home/constellations.svg#sco"/></svg>
+        <svg class="cst c-leo" viewBox="-4 -4 118 61"><use href="/assets/img/home/constellations.svg#leo"/></svg></div>
+    </div>
+  </div>
+
+  <!-- (06)–(09): нумерованный список под колодой -->
+  <div class="wrap more" id="feat-more">
+    <div class="neb" aria-hidden="true"><i class="bl ind"></i><i class="tr"></i></div>
+    <svg class="cst c-orion" viewBox="-4 -6 70 102" aria-hidden="true"><use href="/assets/img/home/constellations.svg#orion"/></svg>
+    <svg class="cst c-umi" viewBox="-4 -4 39 108" aria-hidden="true"><use href="/assets/img/home/constellations.svg#umi"/></svg>
+    <article class="row rv dim">
+      <span class="ix">(06)</span>
+      <h3>Протоколы</h3>
+      <div class="row-b"><p>Подойдёт почти любая подписка — от VLESS Reality до AmneziaWG.</p>
+        <div class="protos"><span style="color:#b5abfc">VLESS · REALITY</span><span style="color:#b5abfc">VLESS · xHTTP</span><span style="color:#f472d0">Hysteria2</span><span style="color:#67e8f9">Trojan</span><span style="color:#fbbf24">Shadowsocks</span><span style="color:#6ee7b7">WireGuard</span><span style="color:#6ee7b7">AmneziaWG</span><span style="color:#cfd3e5">VMess</span><span style="color:#cfd3e5">TUIC</span><span style="color:#bebbd8">SOCKS5 / HTTP</span></div></div>
+    </article>
+    <article class="row rv dim" style="--i:1">
+      <span class="ix">(07)</span>
+      <h3>Бережёт трафик</h3>
+      <div class="row-b"><p>Пинг меряется сам и почти ничего не стоит. Замер скорости — только по кнопке и с предупреждением о расходе.</p>
+        <ul class="mini"><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Без фоновых спидтестов</li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Избранное и сортировка серверов</li></ul></div>
+    </article>
+    <article class="row rv dim" style="--i:2">
+      <span class="ix">(08)</span>
+      <h3>Приватность</h3>
+      <div class="row-b"><p>Без аккаунтов и телеметрии. Подписки, настройки и логи — только на устройстве.</p>
+        <ul class="mini"><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Ключи — в защищённом хранилище системы</li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Экспорт лога со скрытыми паролями</li></ul></div>
+    </article>
+    <article class="row rv dim" style="--i:3">
+      <span class="ix">(09)</span>
+      <h3>Вся система</h3>
+      <div class="row-b"><p>Режим TUN для всех программ и kill switch на случай обрыва.</p>
+        <ul class="mini"><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Переподключение после сна и смены сети</li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Локальная сеть остаётся доступна</li></ul></div>
+    </article>
+    <p class="note">Приложение в разработке: функции появятся по мере выхода версий. Следите за новостями в канале @outskyapp.</p>
+  </div>
+</section>
+
+<!-- ===== 4. Платформы: изогнутая галерея ===== -->
+<section class="sec plats" id="platforms" data-live aria-labelledby="p-h">
+  <div class="neb" data-glow="tl br" aria-hidden="true"><i class="tl ind"></i><i class="br"></i></div>
+  <svg class="cst c-and" viewBox="-4 -4 118 76" aria-hidden="true"><use href="/assets/img/home/constellations.svg#and"/></svg>
+  <div class="ritual rv" aria-hidden="true"><i class="r-v"></i><i class="r-h"></i><svg class="r-star" viewBox="0 0 16 16"><path d="M8 0l1.9 6.1L16 8l-6.1 1.9L8 16l-1.9-6.1L0 8l6.1-1.9z"/></svg></div>
+  <div class="wrap sh">
+    <span class="kick rv">Платформы</span>
+    <svg class="cst c-lyra" viewBox="-6 -6 40 52" aria-hidden="true"><use href="/assets/img/home/constellations.svg#lyra"/></svg>
+    <h2 class="h2 wr rv hole" id="p-h"><span class="ln" style="--i:0">Один OutSky —</span> <span class="ln l2 acc" style="--i:1">на всех ваших устройствах</span></h2>
+    <p class="sh-p rv hole">Сначала Windows, затем телефоны и другие системы. Когда версия выйдет, здесь появится кнопка «Скачать».</p>
+  </div>
+  <div class="gal">
+    <!-- кнопки ‹ › — только для мыши; клавиатура проходит карточки фокусом, тач — свайпом.
+         Клик по карточке — ряд едет к ней; клик по центральной со ссылкой — переход (fx-home.js) -->
+    <button class="gal-b prev" type="button" tabindex="-1" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></svg></button>
+    <ul class="gal-row" aria-label="Платформы">
+      <li class="plc pane" data-os="windows" tabindex="0"><span class="pi"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 5.5 10 4.5v7H3zM11 4.4 21 3v8.5H11zM3 12.5h7v7l-7-1zM11 12.5h10V21l-10-1.4z"/></svg></span><b>Windows</b><small>Выйдет первой</small><span class="st dev">В разработке</span></li>
+      <li class="plc pane" data-os="android" tabindex="0"><span class="pi"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 9h10v8a1 1 0 0 1-1 1h-1v3h-2v-3h-2v3H9v-3H8a1 1 0 0 1-1-1zM4 9h2v6H4zm14 0h2v6h-2zM8 8a4 4 0 0 1 8 0z"/></svg></span><b>Android</b><small>Телефоны</small><span class="st plan">Запланировано</span></li>
+      <li class="plc pane" data-os="ios" tabindex="0"><span class="pi"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16.4 12.6c0-2.4 2-3.6 2.1-3.7-1.2-1.7-3-1.9-3.6-1.9-1.5-.2-3 .9-3.8.9-.8 0-2-.9-3.3-.9-1.7 0-3.2 1-4.1 2.5-1.8 3-.5 7.5 1.2 10 .8 1.2 1.8 2.6 3.1 2.5 1.2 0 1.7-.8 3.2-.8s1.9.8 3.2.8c1.3 0 2.2-1.2 3-2.4.9-1.4 1.3-2.7 1.3-2.8 0 0-2.4-.9-2.4-3.6zM14 5.4c.7-.8 1.1-1.9 1-3-1 0-2.1.7-2.8 1.5-.6.7-1.2 1.8-1 2.9 1.1.1 2.1-.6 2.8-1.4z"/></svg></span><b>iPhone</b><small>iOS</small><span class="st plan">Запланировано</span></li>
+      <li class="plc pane" data-os="mac" tabindex="0"><span class="pi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/></svg></span><b>macOS</b><small>Компьютеры Mac</small><span class="st plan">Запланировано</span></li>
+      <li class="plc pane" data-os="linux" tabindex="0"><span class="pi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M4 17l6-6-6-6M12 19h8"/></svg></span><b>Linux</b><small>Сборка для Linux</small><span class="st plan">Запланировано</span></li>
+      <li class="plc-li" data-os="browser"><a class="plc pane" href="/vpn/guide/#chrome"><span class="pi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3.5"/><path d="M12 8.5h8.5M9 14l-4.3 5.6M15 14l-1.8 6.6"/></svg></span><b>Браузер</b><small>Google Chrome · расширение работает с OutSky VPN</small><span class="st av">Доступно</span></a></li>
+    </ul>
+    <button class="gal-b next" type="button" tabindex="-1" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></button>
+  </div>
+</section>
+
+<!-- ===== 5. Тизер OutSky VPN ===== -->
+<section class="sec vpn" id="vpn" data-live aria-labelledby="v-h">
+  <div class="neb" data-glow="tr" aria-hidden="true"><i class="tr ind"></i><i class="tr2"></i></div>
+  <div class="wrap"><div class="vpn-in pane">
+    <p class="micro rv">OutSky VPN · сервис</p>
+    <h2 class="h2 wr rv hole" id="v-h"><span class="ln" style="--i:0">Нет подписки?</span></h2>
+    <div class="vpn-r rv hole">
+      <p>OutSky рассчитан на подписку любого провайдера. Если своей подписки нет — попробуйте наш сервис OutSky VPN: бесплатный пробный период в нашем Telegram-боте.</p>
+      <a class="pill pill-line" href="/vpn/"><span class="comet" aria-hidden="true"><i></i></span><span>Подробнее об OutSky VPN</span><svg class="arr" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+    </div>
+  </div></div>
+</section>
+
+<!-- ===== 6. FAQ ===== -->
+<section class="sec faq" id="faq" data-live aria-labelledby="q-h">
+  <div class="neb" data-glow="bl tr" aria-hidden="true"><i class="bl"></i><i class="tr ind"></i></div>
+  <div class="ritual rv" aria-hidden="true"><i class="r-v"></i><i class="r-h"></i><svg class="r-star" viewBox="0 0 16 16"><path d="M8 0l1.9 6.1L16 8l-6.1 1.9L8 16l-1.9-6.1L0 8l6.1-1.9z"/></svg></div>
+  <svg class="cst c-cygnus" viewBox="-4 -6 86 104" aria-hidden="true"><use href="/assets/img/home/constellations.svg#cygnus"/></svg>
+  <svg class="cst c-dra" viewBox="-4 -4 128 118" aria-hidden="true"><use href="/assets/img/home/constellations.svg#dra"/></svg>
+  <div class="wrap faq-in">
+    <span class="kick rv">Вопросы</span>
+    <h2 class="h2 wr rv hole" id="q-h"><span class="ln" style="--i:0">Частые вопросы</span></h2>
+    <div class="faq-list">
+      <details open><summary>OutSky — это VPN-сервис?</summary><p>Нет. OutSky — клиент: серверов и подписок он не продаёт. Нужна подписка вашего провайдера или собственный сервер.</p></details>
+      <details><summary>Где скачать?</summary><p>Пока нигде — приложение в разработке. Первой выйдет публичная альфа для Windows. Следите за новостями в канале @outskyapp.</p></details>
+      <details><summary>Это бесплатно?</summary><p>Да, OutSky бесплатный. Подписку на серверы вы получаете у своего провайдера.</p></details>
+      <details><summary>Нужна регистрация?</summary><p>Нет. Добавили подписку — и подключились.</p></details>
+      <details><summary>Мой провайдер ограничивает число устройств. Подойдёт?</summary><p>Должен подойти: OutSky сможет передавать ID устройства (HWID), который требуют такие провайдеры. Это случайный идентификатор, а не отпечаток железа; вместе с ним провайдер увидит ОС, её версию и имя устройства. ID включается отдельно для каждой подписки, и его можно сбросить в любой момент.</p></details>
+      <details><summary>Собирает ли приложение OutSky данные?</summary><p>Само приложение — нет. В нём не будет телеметрии, аналитики и аккаунтов: оно не будет собирать сведения о вас и о том, как вы им пользуетесь. Подписки, настройки и логи останутся на вашем устройстве, а ключи, пароли и ID устройства будут храниться в защищённом хранилище системы в зашифрованном виде. Логи сами никуда не будут отправляться: выгрузить их сможете только вы, и ключи с паролями при этом будут скрыты. За подпиской и для подключения приложение будет обращаться к серверам вашего провайдера. Как и с любым VPN-клиентом, они видят ваш IP-адрес и адреса сайтов, которые вы открываете через VPN, и могут записывать эти данные вместе с названием и версией приложения. ID устройства — вместе с ОС, её версией и именем устройства — провайдер получит, только если вы включите его для этой подписки. Если подписка от OutSky VPN, этот провайдер — мы: что мы записываем и какие данные обрабатывают наш бот и расширение, написано в <a href="/privacy.html#ru">политике конфиденциальности</a>.</p></details>
+      <details><summary>Какие платформы?</summary><p>Сначала Windows, затем Android и iPhone, позже macOS и Linux. Для браузера уже есть расширение — оно работает с OutSky VPN.</p></details>
+      <details><summary>Будет ли открытый код?</summary><p>Планируем открыть исходный код к первому публичному релизу.</p></details>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 7. Финал: наш знак крупно со свечением, слово OutSky, слоган, главная пилюля ===== -->
+<section class="fin" data-live>
+  <div class="neb" data-glow="bl br" aria-hidden="true"><i class="bl ind"></i><i class="bc mag"></i><i class="br"></i></div>
+  <svg class="cst c-cass2" viewBox="-6 2 92 40" aria-hidden="true"><use href="/assets/img/home/constellations.svg#cass"/></svg>
+  <svg class="cst c-peg" viewBox="-4 -4 128 87" aria-hidden="true"><use href="/assets/img/home/constellations.svg#peg"/></svg>
+  <div class="wrap fin-in">
+    <span class="fin-mark rv" aria-hidden="true"><img src="/assets/img/favicon.svg" alt="" width="132" height="132"></span>
+    <p class="fin-word rv" style="--i:1">Out<b>Sky</b></p>
+    <p class="slogan rv">Просто по умолчанию. Мощно, когда нужно.</p>
+    <a class="pill pill-main rv" href="https://t.me/outskyapp"><span class="comet" aria-hidden="true"><i></i></span><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21.9 4.6 18.7 19.7c-.2 1-.9 1.3-1.8.8l-4.9-3.6-2.4 2.3c-.3.3-.5.5-1 .5l.4-5 9-8.2c.4-.4-.1-.6-.6-.2L6.3 13.3l-4.8-1.5c-1-.3-1-1 .2-1.5l18.8-7.2c.9-.3 1.6.2 1.4 1.5z"/></svg><span>Следить за разработкой</span></a>
+  </div>
+</section>
+</main>
+
+<footer class="ft" id="links">
+  <div class="neb" aria-hidden="true"><i class="bc"></i></div>
+  <div class="wrap ft-in">
+    <!-- стеклянная карточка-ссылка на канал -->
+    <a class="tg-card pane" href="https://t.me/outskyapp"><span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M21.9 4.6 18.7 19.7c-.2 1-.9 1.3-1.8.8l-4.9-3.6-2.4 2.3c-.3.3-.5.5-1 .5l.4-5 9-8.2c.4-.4-.1-.6-.6-.2L6.3 13.3l-4.8-1.5c-1-.3-1-1 .2-1.5l18.8-7.2c.9-.3 1.6.2 1.4 1.5z"/></svg></span><span><b>Канал @outskyapp</b><small>Новости в канале →</small></span></a>
+    <div class="ft-row">
+      <nav class="ft-nav" aria-label="Ссылки"><a href="/vpn/">OutSky VPN</a><a href="/roadmap/">Роадмап</a><a href="https://t.me/outskyapp">Канал @outskyapp</a><a href="/privacy.html#ru">Конфиденциальность</a></nav>
+      <div class="lang ft-lang" role="group" aria-label="Язык"><a class="on" href="/" hreflang="ru" aria-current="true">RU</a><a href="/en/" hreflang="en" lang="en">EN</a></div>
+    </div>
+    <div class="ft-c">© 2026 OutSky</div>
+  </div>
+</footer>
 </body>
 </html>
