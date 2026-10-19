@@ -1,220 +1,31 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-to="https://outsky.cc/en/">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>OutSky VPN — a VPN service from the OutSky team</title>
-<meta name="description" content="OutSky VPN is a VPN service from the OutSky team. Free trial via our Telegram bot: 14 days, 25 GB, up to 2 devices. 9 countries; works on iPhone, Android, Windows, Mac and in Chrome.">
+<meta name="robots" content="noindex">
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self'; font-src 'self'; connect-src 'self'; base-uri 'self'; form-action 'none'">
+<!-- OutSky VPN переехал на outsky.cc: away.js уводит на адрес из data-to вместе с #якорем.
+     meta refresh — запасной путь без JS; он в <noscript>, иначе в Safari/WebKit он перебивает location.replace и теряет #якорь. -->
+<script src="/assets/js/away.js"></script>
+<noscript><meta http-equiv="refresh" content="0; url=https://outsky.cc/en/"></noscript>
+<link rel="canonical" href="https://outsky.cc/en/">
 <meta name="referrer" content="strict-origin-when-cross-origin">
 <meta name="theme-color" content="#0d0b20">
-<link rel="canonical" href="https://outsky.app/en/vpn/">
-<link rel="alternate" hreflang="ru" href="https://outsky.app/vpn/">
-<link rel="alternate" hreflang="en" href="https://outsky.app/en/vpn/">
-<link rel="alternate" hreflang="x-default" href="https://outsky.app/en/vpn/">
 <link rel="icon" href="/assets/img/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="/icon.png" type="image/png">
-<link rel="apple-touch-icon" href="/icon.png">
-<meta property="og:type" content="website">
-<meta property="og:site_name" content="OutSky">
-<meta property="og:title" content="OutSky VPN — try it free for 14 days">
-<meta property="og:description" content="A VPN service from the OutSky team: 9 countries, iPhone, Android, Windows, Mac and Chrome. Get a free trial in our Telegram bot.">
-<meta property="og:url" content="https://outsky.app/en/vpn/">
-<meta property="og:image" content="https://outsky.app/assets/img/og/vpn-en.jpg">
-<meta property="og:image:type" content="image/jpeg">
-<meta property="og:image:width" content="1200">
-<meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="OutSky VPN — Two weeks to try it out: 14 days, 25 GB of traffic, up to 2 devices">
-<meta property="og:locale" content="en_US">
-<meta property="og:locale:alternate" content="ru_RU">
-<meta name="twitter:card" content="summary_large_image">
-<link rel="preload" href="/assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/assets/css/fonts.css">
 <link rel="stylesheet" href="/assets/css/site.css">
 <link rel="stylesheet" href="/assets/css/vpn.css">
-<script src="/assets/js/early.js"></script>
 </head>
 <body>
-<a class="skip" href="#main">Skip to content</a>
-<div class="sky" aria-hidden="true">
-  <svg id="sky" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice">
-    <g class="const" id="constA">
-      <polyline points="60,170 230,110 410,160 600,90 780,140 1010,70 1230,120 1400,80"/>
-      <polyline points="40,760 260,700 470,790 720,720 960,800 1200,730 1420,770"/>
-      <polyline points="1180,300 1290,250 1360,330 1300,410"/>
-      <polyline points="120,420 200,360 300,400"/>
-      <circle cx="230" cy="110" r="2.2"/><circle cx="600" cy="90" r="1.8"/><circle cx="1010" cy="70" r="2.4"/><circle cx="1230" cy="120" r="1.8"/>
-      <circle cx="470" cy="790" r="2"/><circle cx="960" cy="800" r="2.2"/><circle cx="1290" cy="250" r="2"/><circle cx="1360" cy="330" r="1.6"/><circle cx="200" cy="360" r="1.8"/>
-    </g>
-    <g class="const lit" id="constB"></g>
-    <g fill="#b7aff2">
-      <circle class="tw" cx="110" cy="88" r="1.6"/><circle class="tw d1" cx="520" cy="230" r="1.2"/><circle class="tw d2" cx="860" cy="190" r="1.8"/>
-      <circle class="tw d3" cx="1330" cy="180" r="1.4"/><circle class="tw d1" cx="70" cy="560" r="1.3"/><circle class="tw d2" cx="1390" cy="560" r="1.6"/>
-      <circle class="tw" cx="700" cy="40" r="1.1"/><circle class="tw d3" cx="330" cy="300" r="1"/><circle class="tw d2" cx="1100" cy="380" r="1.1"/>
-    </g>
-    <path class="spark" d="M1110 230 l5 11 11 5 -11 5 -5 11 -5 -11 -11 -5 11 -5 Z"/>
-    <path class="spark" d="M60 690 l3.5 8 8 3.5 -8 3.5 -3.5 8 -3.5 -8 -8 -3.5 8 -3.5 Z" opacity=".7"/>
-  </svg>
-</div>
-<!-- location flags (simplified, decorative) -->
-<svg class="sprite" aria-hidden="true" focusable="false">
-  <symbol id="f-fi" viewBox="0 0 30 20"><rect width="30" height="20" fill="#fff"/><rect x="8.3" width="5" height="20" fill="#002f6c"/><rect y="7.5" width="30" height="5" fill="#002f6c"/></symbol>
-  <symbol id="f-de" viewBox="0 0 30 20"><rect width="30" height="6.7" fill="#000"/><rect y="6.6" width="30" height="6.8" fill="#dd0000"/><rect y="13.3" width="30" height="6.7" fill="#ffce00"/></symbol>
-  <symbol id="f-nl" viewBox="0 0 30 20"><rect width="30" height="6.7" fill="#ae1c28"/><rect y="6.6" width="30" height="6.8" fill="#fff"/><rect y="13.3" width="30" height="6.7" fill="#21468b"/></symbol>
-  <symbol id="f-se" viewBox="0 0 30 20"><rect width="30" height="20" fill="#006aa7"/><rect x="9.4" width="3.8" height="20" fill="#fecc00"/><rect y="8" width="30" height="4" fill="#fecc00"/></symbol>
-  <symbol id="f-lv" viewBox="0 0 30 20"><rect width="30" height="20" fill="#9e3039"/><rect y="8" width="30" height="4" fill="#fff"/></symbol>
-  <symbol id="f-ch" viewBox="0 0 30 20"><rect width="30" height="20" fill="#da291c"/><rect x="13" y="4" width="4" height="12" fill="#fff"/><rect x="9" y="8" width="12" height="4" fill="#fff"/></symbol>
-  <symbol id="f-us" viewBox="0 0 30 20"><rect width="30" height="20" fill="#fff"/><path fill="#b22234" d="M0 0h30v1.54H0zM0 3.08h30v1.54H0zM0 6.15h30v1.54H0zM0 9.23h30v1.54H0zM0 12.31h30v1.54H0zM0 15.38h30v1.54H0zM0 18.46h30v1.54H0z"/><rect width="12.5" height="10.77" fill="#3c3b6e"/><g fill="#fff"><circle cx="2" cy="2" r=".6"/><circle cx="5" cy="2" r=".6"/><circle cx="8" cy="2" r=".6"/><circle cx="11" cy="2" r=".6"/><circle cx="3.5" cy="4.4" r=".6"/><circle cx="6.5" cy="4.4" r=".6"/><circle cx="9.5" cy="4.4" r=".6"/><circle cx="2" cy="6.8" r=".6"/><circle cx="5" cy="6.8" r=".6"/><circle cx="8" cy="6.8" r=".6"/><circle cx="11" cy="6.8" r=".6"/><circle cx="3.5" cy="9.2" r=".6"/><circle cx="6.5" cy="9.2" r=".6"/><circle cx="9.5" cy="9.2" r=".6"/></g></symbol>
-  <symbol id="f-kz" viewBox="0 0 30 20"><rect width="30" height="20" fill="#00abc2"/><circle cx="15.5" cy="8.6" r="3.6" fill="#fec50c"/><path d="M10.5 13.4q5 2.6 10 0" fill="none" stroke="#fec50c" stroke-width="1.1" stroke-linecap="round"/><rect x="2" y="1.5" width="1.3" height="17" fill="#fec50c"/></symbol>
-  <symbol id="f-ru" viewBox="0 0 30 20"><rect width="30" height="6.7" fill="#fff"/><rect y="6.6" width="30" height="6.8" fill="#0039a6"/><rect y="13.3" width="30" height="6.7" fill="#d52b1e"/></symbol>
-</svg>
-
-<div class="nav-wrap">
-  <nav class="nav glass" aria-label="Main menu">
-    <a class="logo" href="/en/" aria-label="OutSky — home"><span class="tile">O<b>S</b></span><span class="word">Out<b>Sky</b></span></a>
-    <div class="links"><a href="/en/#features">Features</a><a href="/en/#platforms">Platforms</a><a href="/en/#faq">FAQ</a><a href="/en/roadmap/">Roadmap</a><a href="/en/vpn/" class="vpn" aria-current="page">OutSky VPN<i>service</i></a></div>
-    <div class="seg" role="group" aria-label="Language"><a href="/vpn/" hreflang="ru" lang="ru">RU</a><a class="on" href="/en/vpn/" hreflang="en" aria-current="true">EN</a></div>
-    <button class="burger" type="button" aria-label="Menu" aria-expanded="false"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
-  </nav>
-</div>
-
-<main id="main">
-<div class="wrap">
-  <section class="vhero">
-    <div>
-      <a class="pill glass" href="#trial"><span class="dot">Free trial</span><span>14 days · 25 GB</span><span class="pa" aria-hidden="true">→</span></a>
-      <h1>OutSky <span class="g">VPN</span></h1>
-      <p class="lead"><b>A VPN service from the OutSky team.</b> Servers in 9 countries and a setup that takes a couple of minutes — on your phone, your computer or in Chrome.</p>
-      <div class="ctas">
-        <a class="btn btn-primary" href="https://t.me/OutSkyVPN_bot"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21.9 4.6 18.7 19.7c-.2 1-.9 1.3-1.8.8l-4.9-3.6-2.4 2.3c-.3.3-.5.5-1 .5l.4-5 9-8.2c.4-.4-.1-.6-.6-.2L6.3 13.3l-4.8-1.5c-1-.3-1-1 .2-1.5l18.8-7.2c.9-.3 1.6.2 1.4 1.5z"/></svg>Get a free trial</a>
-        <a class="btn btn-neon" href="/en/vpn/guide/">How to connect<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
-      </div>
-      <div class="trust">
-        <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Telegram is all you need</span>
-        <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>9 countries</span>
-        <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Up to 2 devices</span>
-      </div>
-    </div>
-
-    <div class="trial-wrap">
-      <section class="trial glass" id="trial" aria-labelledby="trial-h">
-        <div class="trial-top"><span class="kick">Free trial</span><span class="st av">Free</span></div>
-        <h2 id="trial-h">Two weeks to try it out</h2>
-        <div class="nums">
-          <div><b>14</b><span>days</span></div>
-          <div><b>25</b><span>GB of traffic</span></div>
-          <div><b><small>up to</small>2</b><span>devices</span></div>
-        </div>
-        <ul class="checks">
-          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span>Your subscription link comes from our Telegram bot <a href="https://t.me/OutSkyVPN_bot">@OutSkyVPN_bot</a></span></li>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span>One condition: subscribe to our <a href="https://t.me/outskyapp">@outskyapp</a> channel</span></li>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span>No payment or card needed — paid plans are coming later</span></li>
-        </ul>
-        <a class="flagrow" href="#locations"><span class="fs" aria-hidden="true"><i><svg viewBox="0 0 30 20" preserveAspectRatio="xMidYMid slice"><use href="#f-fi"/></svg></i><i><svg viewBox="0 0 30 20" preserveAspectRatio="xMidYMid slice"><use href="#f-de"/></svg></i><i><svg viewBox="0 0 30 20" preserveAspectRatio="xMidYMid slice"><use href="#f-nl"/></svg></i><i><svg viewBox="0 0 30 20" preserveAspectRatio="xMidYMid slice"><use href="#f-se"/></svg></i><i><svg viewBox="0 0 30 20" preserveAspectRatio="xMidYMid slice"><use href="#f-lv"/></svg></i><i><svg viewBox="0 0 30 20" preserveAspectRatio="xMidYMid slice"><use href="#f-ch"/></svg></i><i><svg viewBox="0 0 30 20" preserveAspectRatio="xMidYMid slice"><use href="#f-us"/></svg></i><i><svg viewBox="0 0 30 20" preserveAspectRatio="xMidYMid slice"><use href="#f-kz"/></svg></i><i><svg viewBox="0 0 30 20" preserveAspectRatio="xMidYMid slice"><use href="#f-ru"/></svg></i></span>Servers in 9 countries<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M6 13l6 6 6-6"/></svg></a>
-      </section>
-    </div>
-  </section>
-
-  <!-- locations -->
-  <section class="sec" id="locations">
-    <div class="sh reveal"><span class="kick">Locations</span><h2>9 countries<br><span class="g">to choose from</span></h2>
-      <p>Switch locations any time — in the app or in the extension. If one doesn’t connect, try another.</p></div>
-    <div class="locs">
-      <ul class="lgrid reveal" aria-label="Countries">
-        <li class="lc"><svg viewBox="0 0 30 20" aria-hidden="true"><use href="#f-fi"/></svg>Finland</li>
-        <li class="lc"><svg viewBox="0 0 30 20" aria-hidden="true"><use href="#f-de"/></svg>Germany</li>
-        <li class="lc"><svg viewBox="0 0 30 20" aria-hidden="true"><use href="#f-nl"/></svg>Netherlands</li>
-        <li class="lc"><svg viewBox="0 0 30 20" aria-hidden="true"><use href="#f-se"/></svg>Sweden</li>
-        <li class="lc"><svg viewBox="0 0 30 20" aria-hidden="true"><use href="#f-lv"/></svg>Latvia</li>
-        <li class="lc"><svg viewBox="0 0 30 20" aria-hidden="true"><use href="#f-ch"/></svg>Switzerland</li>
-        <li class="lc"><svg viewBox="0 0 30 20" aria-hidden="true"><use href="#f-us"/></svg>USA</li>
-        <li class="lc"><svg viewBox="0 0 30 20" aria-hidden="true"><use href="#f-kz"/></svg>Kazakhstan</li>
-        <li class="lc"><svg viewBox="0 0 30 20" aria-hidden="true"><use href="#f-ru"/></svg>Russia</li>
-      </ul>
-      <div class="pcard reveal">
-        <h3>Protocols</h3>
-        <p>In the apps, every country has a main server and backups.</p>
-        <ul class="prows">
-          <li><code class="c-vless">VLESS Reality</code><span>main — the server named after the country</span></li>
-          <li><code class="c-hy2">Hysteria2</code><span>backup — “HS2” in the name</span></li>
-          <li><code class="c-xhttp">xHTTP</code><span>backup — “xHTTP” in the name</span></li>
-        </ul>
-        <p class="fnote">If the main one won’t connect, try a backup (“HS2” servers don’t work in INCY for Windows yet). In the Chrome extension, just pick a country.</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- where it works -->
-  <section class="sec" id="devices">
-    <div class="sh reveal"><span class="kick">Where it works</span><h2>Phone, computer<br><span class="g">or browser</span></h2>
-      <p>Your subscription link works in client apps and in our Chrome extension. For phones and computers, our guide uses the free INCY app.</p></div>
-    <div class="plats">
-      <div class="pl dv reveal" data-os="ios"><span class="pi"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16.4 12.6c0-2.4 2-3.6 2.1-3.7-1.2-1.7-3-1.9-3.6-1.9-1.5-.2-3 .9-3.8.9-.8 0-2-.9-3.3-.9-1.7 0-3.2 1-4.1 2.5-1.8 3-.5 7.5 1.2 10 .8 1.2 1.8 2.6 3.1 2.5 1.2 0 1.7-.8 3.2-.8s1.9.8 3.2.8c1.3 0 2.2-1.2 3-2.4.9-1.4 1.3-2.7 1.3-2.8 0 0-2.4-.9-2.4-3.6zM14 5.4c.7-.8 1.1-1.9 1-3-1 0-2.1.7-2.8 1.5-.6.7-1.2 1.8-1 2.9 1.1.1 2.1-.6 2.8-1.4z"/></svg></span>
-        <div><b>iPhone &amp; iPad</b><small>INCY app · iOS 15 or later</small></div>
-        <div class="acts"><a href="/en/vpn/guide/#iphone">Guide<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></div></div>
-      <div class="pl dv reveal" data-os="android"><span class="pi"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 9h10v8a1 1 0 0 1-1 1h-1v3h-2v-3h-2v3H9v-3H8a1 1 0 0 1-1-1zM4 9h2v6H4zm14 0h2v6h-2zM8 8a4 4 0 0 1 8 0z"/></svg></span>
-        <div><b>Android</b><small>INCY app · Android 7.0 or later</small></div>
-        <div class="acts"><a href="/en/vpn/guide/#android">Guide<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></div></div>
-      <div class="pl dv reveal" data-os="windows"><span class="pi"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 5.5 10 4.5v7H3zM11 4.4 21 3v8.5H11zM3 12.5h7v7l-7-1zM11 12.5h10V21l-10-1.4z"/></svg></span>
-        <div><b>Windows</b><small>INCY app · Windows 10 or 11</small></div>
-        <div class="acts"><a href="/en/vpn/guide/#windows">Guide<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></div></div>
-      <div class="pl dv reveal" data-os="mac"><span class="pi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/></svg></span>
-        <div><b>Mac</b><small>INCY app · Apple silicon or Intel</small></div>
-        <div class="acts"><a href="/en/vpn/guide/#mac">Guide<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></div></div>
-      <div class="pl dv reveal" data-os="browser"><span class="pi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3.5"/><path d="M12 8.5h8.5M9 14l-4.3 5.6M15 14l-1.8 6.6"/></svg></span>
-        <div><b>Google Chrome</b><small>OutSky VPN extension · VPN in the browser only</small></div>
-        <div class="acts"><a href="https://chromewebstore.google.com/detail/outsky-vpn/aacogocimaopagjjfhgmaefgbcmbjhci">Chrome Web Store<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a><a href="/en/vpn/guide/#chrome">Guide<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></div></div>
-      <div class="pl dv reveal"><span class="pi osk" aria-hidden="true">O<b>S</b></span>
-        <div><b>OutSky app</b><small>Our client for any provider’s subscription</small></div>
-        <div class="acts"><a href="/en/">About the app<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a><span class="st dev">In development</span></div></div>
-    </div>
-  </section>
-
-  <!-- getting started -->
-  <section class="sec" id="start">
-    <div class="sh reveal"><span class="kick">Getting started</span><h2>Three steps<br><span class="g">to connect</span></h2></div>
-    <ol class="steps">
-      <li class="step reveal"><span class="sn" aria-hidden="true">1</span><h3>Open the bot</h3>
-        <p>Start <a href="https://t.me/OutSkyVPN_bot">@OutSkyVPN_bot</a>, subscribe to the <a href="https://t.me/outskyapp">@outskyapp</a> channel and tap “Free trial”.</p></li>
-      <li class="step reveal"><span class="sn" aria-hidden="true">2</span><h3>Copy your subscription link</h3>
-        <p>The bot sends your personal link — tap it to copy. You can always find it under “My subscription”.</p></li>
-      <li class="step reveal"><span class="sn" aria-hidden="true">3</span><h3>Add it and connect</h3>
-        <p>Paste the link into the INCY app or the OutSky VPN extension for Chrome, then tap the connect button.</p></li>
-    </ol>
-    <div class="ctas steps-cta reveal">
-      <a class="btn btn-primary" href="https://t.me/OutSkyVPN_bot"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21.9 4.6 18.7 19.7c-.2 1-.9 1.3-1.8.8l-4.9-3.6-2.4 2.3c-.3.3-.5.5-1 .5l.4-5 9-8.2c.4-.4-.1-.6-.6-.2L6.3 13.3l-4.8-1.5c-1-.3-1-1 .2-1.5l18.8-7.2c.9-.3 1.6.2 1.4 1.5z"/></svg>Open the bot</a>
-      <a class="btn btn-neon" href="/en/vpn/guide/">Step-by-step guide<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
-    </div>
-  </section>
-
-  <!-- faq -->
-  <section class="sec" id="faq">
-    <div class="sh reveal"><span class="kick">FAQ</span><h2>Frequently asked questions</h2></div>
-    <div class="faq">
-      <details class="reveal" open><summary>How much does it cost?</summary><p>Right now there’s only the free trial: 14 days, 25 GB of traffic, up to 2 devices. Once the 14 days are up or the traffic runs out, the subscription stops working. Paid plans are coming later — we’ll announce them in the <a href="https://t.me/outskyapp">@outskyapp</a> channel.</p></details>
-      <details class="reveal"><summary>Do I need to sign up?</summary><p>No separate account needed — Telegram is enough. You get your subscription link from <a href="https://t.me/OutSkyVPN_bot">@OutSkyVPN_bot</a>.</p></details>
-      <details class="reveal"><summary>How many devices can I use?</summary><p>Up to two — say, a phone and a computer.</p></details>
-      <details class="reveal"><summary>Why subscribe to the channel?</summary><p>It’s a condition of the free trial. The <a href="https://t.me/outskyapp">@outskyapp</a> channel posts news about the service and the OutSky app.</p></details>
-      <details class="reveal"><summary>Are OutSky VPN and the OutSky app the same thing?</summary><p>No. OutSky VPN is a service: servers and a subscription. The OutSky app is a separate free client for any provider’s subscription, and it’s still in development. You can use the service today with INCY or the Chrome extension.</p></details>
-      <details class="reveal"><summary>It won’t connect. What now?</summary><p>Pick a different server or location. Still stuck? Message <a href="https://t.me/outsky_support">@outsky_support</a> with your device and what you see on screen — a screenshot helps.</p></details>
-    </div>
-  </section>
-
-  <!-- support and news -->
-  <section class="sec" id="support">
-    <div class="vpnb sup reveal"><div><span class="kick">Support &amp; news</span><h3 style="margin-top:14px">Still have questions?</h3>
-      <p>If something isn’t working, message support. News about the service and the OutSky app is posted in the channel.</p>
-      <p class="sm">Our <a href="/privacy.html#en">privacy policy</a> describes what data the service, the bot and the Chrome extension process.</p></div>
-      <div class="btns">
-        <a class="btn btn-neon" href="https://t.me/outsky_support"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z"/></svg>Support @outsky_support</a>
-        <a class="btn btn-neon" href="https://t.me/outskyapp"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21.9 4.6 18.7 19.7c-.2 1-.9 1.3-1.8.8l-4.9-3.6-2.4 2.3c-.3.3-.5.5-1 .5l.4-5 9-8.2c.4-.4-.1-.6-.6-.2L6.3 13.3l-4.8-1.5c-1-.3-1-1 .2-1.5l18.8-7.2c.9-.3 1.6.2 1.4 1.5z"/></svg>@outskyapp channel</a>
-      </div></div>
-  </section>
-</div>
+<div class="sky" aria-hidden="true"></div>
+<main class="moved">
+  <div class="box glass">
+    <h1>OutSky VPN</h1>
+    <p><a href="https://outsky.cc/en/">outsky.cc/en/</a></p>
+  </div>
 </main>
-<footer><div class="wrap"><div><a class="logo" href="/en/" style="display:inline-flex"><span class="tile">O<b>S</b></span><span class="word">Out<b>Sky</b></span></a><div style="margin-top:8px">Simple by default. Powerful when needed.</div></div>
-  <nav aria-label="Links"><a href="/en/vpn/">OutSky VPN</a><a href="/en/roadmap/">Roadmap</a><a href="https://t.me/outskyapp">@outskyapp channel</a><a href="/privacy.html#en">Privacy</a></nav><div>© 2026 OutSky</div></div></footer>
-
-<script src="/assets/js/site.js" defer></script>
 </body>
 </html>

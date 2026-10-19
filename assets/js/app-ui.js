@@ -14,15 +14,15 @@
   const $ = s => root.querySelector(s), $$ = s => [...root.querySelectorAll(s)];
 
   const T = {
-    ru: { ms: 'мс', na: 'н/д', tap: 'Нажмите для подключения', connect: 'Подключить', disconnect: 'Отключить',
+    ru: { ms: 'мс', na: 'н/д', tap: 'Нажмите, чтобы подключиться', connect: 'Подключить', disconnect: 'Отключить',
           kick: { off: 'Не подключено', connecting: 'Подключение…', on: 'Подключено', err: 'Нет соединения' },
-          errTitle: 'Сервер не ответил', errSub: 'попробуйте другой сервер', now: 'Сейчас: ', mb: 'МБ', gb: 'ГБ', dec: ',',
+          errTitle: 'Сервер не ответил', errSub: 'попробуйте другой сервер', mb: 'МБ', gb: 'ГБ', dec: ',',
           routes: ['Россия напрямую', 'Всё через VPN', 'Свои правила'], fold: 'Свернуть меню', unfold: 'Развернуть меню',
           speed: 'Скорость', speedRun: 'Тест…', testing: 'тест…', noReply: 'нет ответа', mbit: 'Мбит/с',
           names: { jp: 'Япония', ca: 'Канада', cz: 'Чехия', sg: 'Сингапур', at: 'Австрия', it: 'Италия', es: 'Испания', br: 'Бразилия', in: 'Индия', ar: 'Аргентина' } },
     en: { ms: 'ms', na: 'n/a', tap: 'Tap to connect', connect: 'Connect', disconnect: 'Disconnect',
           kick: { off: 'Not connected', connecting: 'Connecting…', on: 'Connected', err: 'No connection' },
-          errTitle: 'Server didn’t respond', errSub: 'try another server', now: 'Now: ', mb: 'MB', gb: 'GB', dec: '.',
+          errTitle: 'Server didn’t respond', errSub: 'try another server', mb: 'MB', gb: 'GB', dec: '.',
           routes: ['Russia direct', 'Everything via VPN', 'Custom rules'], fold: 'Collapse menu', unfold: 'Expand menu',
           speed: 'Speed', speedRun: 'Testing…', testing: 'testing…', noReply: 'no reply', mbit: 'Mbps',
           names: { jp: 'Japan', ca: 'Canada', cz: 'Czechia', sg: 'Singapore', at: 'Austria', it: 'Italy', es: 'Spain', br: 'Brazil', in: 'India', ar: 'Argentina' } }
@@ -91,7 +91,6 @@
   function paintPings() {
     rowEls.forEach((el, i) => paintPill(el.querySelector('.osw-ping'), S[i], pinging.has(i), i === hov));
     const f = fastest();
-    $('#oswFastSub').textContent = T.now + name(S[f]);
     paintPill($('#oswFastPing'), S[f], pinging.size > 0);
     if (state === 'on') {
       const s = S[sel], p = $('#oswPing'); p.className = 'osw-v ' + q(s.ping); p.innerHTML = s.ping == null ? '—' : `${s.ping} <small>${T.ms}</small>`;
@@ -302,7 +301,7 @@
   const $ = s => document.querySelector(s), $$ = s => [...document.querySelectorAll(s)];
   const $p = s => ph.querySelector(s), $$p = s => [...ph.querySelectorAll(s)];
   const ru = document.documentElement.lang !== 'en';
-  const T = ru ? { tap: 'Нажмите для подключения', con: 'Подключение…', err: 'Сервер не ответил' }
+  const T = ru ? { tap: 'Нажмите, чтобы подключиться', con: 'Подключение…', err: 'Сервер не ответил' }
                : { tap: 'Tap to connect', con: 'Connecting…', err: 'Server didn’t respond' };
   function sync() {
     const st = document.documentElement.dataset.osState; if (!st) return;

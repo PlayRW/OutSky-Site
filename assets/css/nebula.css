@@ -90,7 +90,7 @@ main{overflow:clip}
 .neb i.ind{background:radial-gradient(closest-side,rgb(74 70 216/.44),rgb(31 23 96/.28) 48%,transparent 74%)}
 .neb i.mag{background:radial-gradient(closest-side,rgb(141 66 232/.38),rgb(91 59 239/.2) 48%,transparent 74%)}   /* пурпур края залитой кнопки приложения */
 .neb .tr{left:86%; top:16%} .neb .tl{left:12%; top:16%} .neb .br{left:88%; top:84%} .neb .bl{left:10%; top:84%}
-.neb .bc{left:50%; top:96%; width:70vw} .neb .tr2{left:62%; top:4%; width:52vw}
+.neb .bc{left:50%; top:96%; width:70vw}
 /* свет разгорается при входе */
 @media (prefers-reduced-motion:no-preference){
   html.js:not(.shot) [data-live] > .neb i{opacity:0; transition:opacity 1.6s var(--e-out)}
@@ -165,14 +165,14 @@ main{overflow:clip}
 [id]{scroll-margin-top:calc(var(--header-h) + 16px)}
 /* и фокус с клавиатуры (Shift+Tab вверх) не прячется под шапкой; внутри превью приложения — свои списки, их не трогаем */
 :where(a,button,summary,[tabindex]):not(.os-ui *){scroll-margin-top:calc(var(--header-h) + 16px)}
-@media (prefers-reduced-motion:no-preference){ html{scroll-behavior:smooth} }
+/* плавно — только после загрузки (html.smooth ставит sky.js): переход по якорю при открытии (#ru-bot, #iphone) — сразу, иначе в фоновой вкладке и webview он может застрять вверху */
+@media (prefers-reduced-motion:no-preference){ html.smooth{scroll-behavior:smooth} }
 .logo{display:flex; align-items:center; gap:10px; text-decoration:none; color:var(--text); flex-shrink:0}
 .logo .mark{display:block; width:30px; height:30px; border-radius:8px; box-shadow:0 0 16px rgb(123 97 255/.4)}
 .word{font-weight:700; font-size:16px; letter-spacing:-.01em} .word b{color:var(--lav); font-weight:700}
 .hd-nav{display:flex; align-items:center; gap:clamp(18px,2.4vw,32px); margin-left:auto}
 .hd-nav a,.lang a{font-size:13px; font-weight:500; letter-spacing:.08em; text-transform:uppercase; color:var(--text-2); text-decoration:none; transition:color var(--d-s)}
 .hd-nav a:hover,.lang a:hover{color:var(--text)}
-.hd-nav .vpn i{font-style:normal; font-size:10px; letter-spacing:.06em; margin-left:7px; padding:1px 7px; border-radius:var(--r-pill); color:var(--lav); box-shadow:inset 0 0 0 1px rgb(181 171 252/.35); vertical-align:2px}
 .lang{display:flex; gap:12px}
 .lang a.on{color:var(--text); box-shadow:0 1px 0 var(--lav)}
 /* текущая страница — aria-current="page" на ссылке шапки, меню и подвала (у главной таких ссылок нет) */
@@ -196,7 +196,6 @@ body:has(#menu:popover-open) .menu-btn i{transform:scaleY(.25)}
 .menu-list a{display:flex; align-items:baseline; gap:14px; padding:10px 0; font-size:clamp(26px,9vw,40px); line-height:1.1; font-weight:300; letter-spacing:-.02em; text-transform:uppercase;
   color:var(--text); text-decoration:none; border-bottom:1px solid var(--hair)}
 .menu-list .ix{font-size:12px; font-weight:500; letter-spacing:.04em; color:var(--lav); font-variant-numeric:tabular-nums}
-.menu-list a i{font-style:normal; font-size:12px; letter-spacing:.08em; color:var(--lav); align-self:center}
 .menu-list a[aria-current=page]{color:var(--lav)}
 #menu .lang a{font-size:15px}
 
@@ -285,7 +284,7 @@ ul.mini svg{width:16px; height:16px; margin-top:2px; color:var(--lav); flex-shri
 .st{font-size:12px; font-weight:500; letter-spacing:.04em; padding:5px 12px; border-radius:var(--r-pill); white-space:nowrap}
 .st.dev{color:#E7E5FE; background:rgb(123 97 255/.22); box-shadow:inset 0 0 0 1px rgb(181 171 252/.4)}
 .st.plan{color:#E2E0F2; background:rgb(255 255 255/.05); box-shadow:inset 0 0 0 1px rgb(255 255 255/.12)}   /* светлее --text-2: 12px на наклонённых дальних карточках растрируется мягче */
-.st.av{color:#bbf7d0; background:rgb(74 222 128/.14); box-shadow:inset 0 0 0 1px rgb(74 222 128/.38)}
+.st.av{color:#bbf7d0; background:rgb(74 222 128/.14); box-shadow:inset 0 0 0 1px rgb(74 222 128/.38)}   /* «Доступно»: сейчас не используется, нужно для будущей карточки «Скачать» */
 
 /* FAQ */
 .faq-in{max-width:868px}
@@ -335,6 +334,7 @@ ul.mini svg{width:16px; height:16px; margin-top:2px; color:var(--lav); flex-shri
 .ft-nav{display:flex; flex-wrap:wrap; gap:12px 28px}
 .ft-nav a{font-size:12px; font-weight:500; letter-spacing:.08em; text-transform:uppercase; color:var(--text-2); text-decoration:none; transition:color var(--d-s)}
 .ft-nav a:hover,.ft-nav a[aria-current=page]{color:var(--text)}
+.ft-nav a svg{width:11px; height:11px; margin-left:4px; vertical-align:0; color:var(--lav)}   /* ↗ у ссылки на другой сайт (OutSky VPN), как «Приложение OutSky ↗» на outsky.cc */
 .ft-lang{padding-left:28px; border-left:1px solid var(--hair)}
 .ft-c{font-size:12px; letter-spacing:.04em; color:var(--text-2)}
 @media (max-width:860px){ .ft-in{flex-direction:column; align-items:flex-start} .ft-lang{padding-left:0; border-left:0} }

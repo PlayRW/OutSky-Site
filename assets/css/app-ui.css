@@ -128,8 +128,10 @@
 .osw-row{display:flex; align-items:center; gap:11px; padding:7px 10px 7px 11px; border-radius:10px; border:1px solid var(--line); transition:border-color .15s, background .15s}
 .osw-row:hover{border-color:rgb(139 125 255/.55)}
 .osw-row[hidden]{display:none}
-/* «Самая быстрая» — спокойнее выбранной строки */
-.osw-row.osw-fast{border-color:rgb(150 135 255/.30); background:linear-gradient(90deg,rgb(91 59 239/.22),rgb(91 59 239/.04)),rgb(18 13 43/.9)}
+/* «С наименьшим пингом» — спокойнее выбранной строки */
+.osw-row.osw-fast{min-height:51px; border-color:rgb(150 135 255/.30); background:linear-gradient(90deg,rgb(91 59 239/.22),rgb(91 59 239/.04)),rgb(18 13 43/.9)}
+/* RU: подписи строки чуть мельче — «С наименьшим пингом» и «Перемерить пинг и выбрать» целиком между молнией и таблеткой (142px); высота строки та же (min-height). EN помещается и в 13/11 */
+:lang(ru) .osw-fast .osw-g b{font-size:12px} :lang(ru) .osw-fast .osw-g small{font-size:10px}
 .osw-fast .bolt{width:24px; display:grid; place-items:center; color:#b3a6ff}
 .osw-fast .bolt svg{width:16px; height:16px; filter:drop-shadow(0 0 5px rgb(113 61 255/.95))}
 /* выбранный сервер — неоновая грань: светлое ядро слева, к правому краю гаснет в пурпур */
@@ -403,7 +405,7 @@
 .osp-cs svg{display:inline-block; width:10px; height:10px}
 .osp-cs b{font-weight:500; color:var(--n300)}
 .osp:not(.st-on) .osp-cs{display:none}
-.osp:not(.st-on) .osp-ct{font-weight:500; color:var(--n400)}
+.osp:not(.st-on) .osp-ct{font-weight:500; color:var(--n400); white-space:normal; line-height:1.2}   /* «Нажмите, чтобы подключиться» — в две строки, без обрезки */
 .st-err .osp-ct{color:#fecaca}
 
 /* плавающие вкладки */

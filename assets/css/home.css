@@ -1,5 +1,5 @@
-/* outsky.app — главная, концепция «Туманность»: секции главной (сцена первого экрана, манифест, колода, (06)–(09), галерея,
-   тизер VPN). Общая основа (токены, фон, стекло, пилюли, шапка, заголовки, FAQ, финал, подвал) — nebula.css,
+/* outsky.app — главная, концепция «Туманность»: секции главной (сцена первого экрана, манифест, колода, (06)–(09),
+   галерея). Общая основа (токены, фон, стекло, пилюли, шапка, заголовки, FAQ, финал, подвал) — nebula.css,
    макет приложения — app-ui.css; оба подключаются раньше.
    Каскад: правило этого файла перекрывает правило nebula.css той же специфичности — в том числе её режимы (RM, прозрачность,
    контраст, forced-colors). Поэтому режимы для блоков главной (и повтор общего правила, если блок главной его перебивает) — в конце
@@ -16,9 +16,9 @@
 .c-orion{right:calc((100% - 100vw) / 2 + 34px); top:9%; width:78px; rotate:6deg; opacity:.16}          /* (06)–(09): за правым краем колонки (Орион) */
 .c-umi{left:calc((100% - 100vw) / 2 + 40px); top:calc(100% + 20px); width:44px; rotate:-12deg; opacity:.17} /* под (06)–(09), в левом поле (Малая Медведица) */
 .c-lyra{right:2.5%; top:58px; width:62px; rotate:8deg; opacity:.18}                                    /* «Платформы»: правее первой строки h2 (Лира) */
-.c-and{left:3.5%; bottom:-42px; width:130px; rotate:-7deg; opacity:.15}                                /* между галереей и тизером VPN, слева (Андромеда) */
+.c-and{left:3.5%; bottom:-42px; width:130px; rotate:-7deg; opacity:.15}                                /* между галереей и FAQ, слева (Андромеда) */
 .c-and{display:block}
-@media (max-width:1099px){ .c-and{bottom:-31px; width:96px} }   /* по середине зазора галерея → тизер (2 × .62 · --sec-y) */
+@media (max-width:1099px){ .c-and{bottom:-31px; width:96px} }   /* по середине зазора галерея → FAQ (2 × .62 · --sec-y) */
 @media (min-width:700px){ .c-cass,.c-lyra{display:block} }
 @media (min-width:1000px){ .c-ursa{display:block} }
 @media (min-width:1100px){ html:not(.pin) .c-gem{display:block} }
@@ -314,7 +314,7 @@ html.pin .deck-idx{display:block; grid-column:1; justify-self:start; margin:0; p
 .plc.me::after{background:linear-gradient(160deg,rgb(181 171 252/.8),rgb(255 255 255/.08) 40%,rgb(123 97 255/.5))}
 .me-b{position:absolute; top:22px; right:22px; font-size:11px; font-weight:500; letter-spacing:.08em; text-transform:uppercase; color:#fff; padding:3px 10px; border-radius:var(--r-pill);
   background:linear-gradient(120deg,#5b3bef,#6d4cff 58%,#8d42e8)}
-a.plc:hover,a.plc:focus-visible{--ga:.4}
+a.plc:hover,a.plc:focus-visible{--ga:.4}   /* карточка-ссылка: сейчас таких нет, нужна для будущей «Скачать» */
 .plc .comet{border-radius:var(--r-xl)}
 @media (hover:hover) and (pointer:fine){ .plc:hover .comet{opacity:1} }
 .plc:focus-visible .comet{opacity:1}
@@ -326,26 +326,11 @@ a.plc:hover,a.plc:focus-visible{--ga:.4}
 @media (hover:hover) and (pointer:fine) and (min-width:701px){ .gal.is-curved .gal-b{display:grid} }
 @media (max-width:700px){ .gal-row,.gal-row.curved{padding-inline:11vw; gap:12px} .gal-row>li{flex-basis:78vw; height:340px} }
 
-/* 5. тизер OutSky VPN — стекло, свет справа сверху; «дыры» не нужны */
-.vpn .neb .tr{left:84%; top:22%} .vpn .neb .tr2{left:70%; top:8%}
-.vpn-in{display:grid; grid-template-columns:minmax(0,7fr) minmax(0,5fr); gap:24px 56px; align-items:end}
-.vpn-in.pane{padding:clamp(28px,5.4vw,72px)}
-.vpn-in.pane::before{background:radial-gradient(50% 62% at 92% 10%,rgb(142 123 255/.4),rgb(91 59 239/.1) 55%,transparent 75%),radial-gradient(45% 55% at 10% 90%,rgb(74 70 216/.3),transparent 70%)}
-.vpn-in.pane .hole::before{display:none}
-.vpn-in .micro{grid-column:1 / -1}
-.vpn-in .h2{grid-column:1}
-.vpn-r{grid-column:2; padding-bottom:6px}
-.vpn-r p{margin:0 0 26px; color:var(--text-2)}
-@media (max-width:860px){ .vpn-in{grid-template-columns:1fr} .vpn-r{grid-column:1} }
-/* ≤359: «Подробнее об OutSky VPN» — в одну строку (на 15px и прежних отступах кнопка переносилась на две) */
-@media (max-width:359px){ .vpn-in.pane{padding-inline:22px} .vpn .pill-line{--pl:16px; padding-right:16px; gap:8px; font-size:14px} .vpn .pill-line>svg{width:16px; height:16px} }
-
 /* FAQ, финал и подвал — nebula.css */
 
 /* режимы для блоков главной (общие — в конце nebula.css); здесь они идут после базовых правил блоков, которые перекрывают */
 @media (prefers-reduced-motion:reduce){
   .tg::after,.globe canvas{transition:none}
-  .pill-line:hover{--pl:var(--pl0,28px)}   /* повтор из nebula.css: должен идти после .vpn .pill-line (≤359) */
 }
 @media (prefers-reduced-transparency:reduce){ .pane,.cap,.gal-row .plc{background:#120F2C} }   /* .pane — повтор: после фона карточек колоды (<1100) */
 @media (prefers-contrast:more){ .disp .acc{background:none; color:var(--lav)} }
