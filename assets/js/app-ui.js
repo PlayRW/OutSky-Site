@@ -1,5 +1,6 @@
 // Живой макет приложения OutSky на демо-данных: окно Windows и телефон-зеркало. Без библиотек и внешних запросов.
 // Без JS виден статичный снимок «Подключено» (разметка). ?shot и reduced motion — тот же снимок без бегущих чисел. Тексты — по <html lang>.
+// Кнопки макета в разметке вне Tab (tabindex="-1": без JS они ничего не делают); в Tab их возвращают tabs() (окно) и setMirror() (телефон).
 
 // ===== окно Windows =====
 // Наружу: html[data-os-state], события os:state (смена состояния), os:tick (раз в секунду) и os:pings (перерисованы таблетки);
@@ -18,19 +19,19 @@
           errTitle: 'Сервер не ответил', errSub: 'попробуйте другой сервер', now: 'Сейчас: ', mb: 'МБ', gb: 'ГБ', dec: ',',
           routes: ['Россия напрямую', 'Всё через VPN', 'Свои правила'], fold: 'Свернуть меню', unfold: 'Развернуть меню',
           speed: 'Скорость', speedRun: 'Тест…', testing: 'тест…', noReply: 'нет ответа', mbit: 'Мбит/с',
-          names: { jp: 'Япония', ca: 'Канада', pl: 'Польша', sg: 'Сингапур', at: 'Австрия', it: 'Италия', es: 'Испания', br: 'Бразилия', in: 'Индия', ar: 'Аргентина' } },
+          names: { jp: 'Япония', ca: 'Канада', cz: 'Чехия', sg: 'Сингапур', at: 'Австрия', it: 'Италия', es: 'Испания', br: 'Бразилия', in: 'Индия', ar: 'Аргентина' } },
     en: { ms: 'ms', na: 'n/a', tap: 'Tap to connect', connect: 'Connect', disconnect: 'Disconnect',
           kick: { off: 'Not connected', connecting: 'Connecting…', on: 'Connected', err: 'No connection' },
           errTitle: 'Server didn’t respond', errSub: 'try another server', now: 'Now: ', mb: 'MB', gb: 'GB', dec: '.',
           routes: ['Russia direct', 'Everything via VPN', 'Custom rules'], fold: 'Collapse menu', unfold: 'Expand menu',
           speed: 'Speed', speedRun: 'Testing…', testing: 'testing…', noReply: 'no reply', mbit: 'Mbps',
-          names: { jp: 'Japan', ca: 'Canada', pl: 'Poland', sg: 'Singapore', at: 'Austria', it: 'Italy', es: 'Spain', br: 'Brazil', in: 'India', ar: 'Argentina' } }
+          names: { jp: 'Japan', ca: 'Canada', cz: 'Czechia', sg: 'Singapore', at: 'Austria', it: 'Italy', es: 'Spain', br: 'Brazil', in: 'India', ar: 'Argentina' } }
   }[lang];
 
   const FL = {
     jp: '<svg viewBox="0 0 30 20"><rect width="30" height="20" fill="#fff"/><circle cx="15" cy="10" r="6" fill="#bc002d"/></svg>',
     ca: '<svg viewBox="0 0 30 20"><rect width="30" height="20" fill="#fff"/><rect width="7.5" height="20" fill="#d52b1e"/><rect x="22.5" width="7.5" height="20" fill="#d52b1e"/><path d="M15 5l1.4 3 2.6-1-1 3.6 2-.6-2 3h-2.2v2.5h-1.6V13H12l-2-3 2 .6-1-3.6 2.6 1z" fill="#d52b1e"/></svg>',
-    pl: '<svg viewBox="0 0 30 20"><rect width="30" height="10" fill="#fff"/><rect y="10" width="30" height="10" fill="#dc143c"/></svg>',
+    cz: '<svg viewBox="0 0 30 20"><rect width="30" height="10" fill="#fff"/><rect y="10" width="30" height="10" fill="#d7141a"/><path d="M0 0 15 10 0 20Z" fill="#11457e"/></svg>',
     sg: '<svg viewBox="0 0 30 20"><rect width="30" height="10" fill="#ef3340"/><rect y="10" width="30" height="10" fill="#fff"/><circle cx="7" cy="5" r="3" fill="#fff"/><circle cx="8.2" cy="5" r="3" fill="#ef3340"/></svg>',
     at: '<svg viewBox="0 0 30 20"><rect width="30" height="20" fill="#ed2939"/><rect y="6.7" width="30" height="6.6" fill="#fff"/></svg>',
     it: '<svg viewBox="0 0 30 20"><rect width="10" height="20" fill="#009246"/><rect x="10" width="10" height="20" fill="#fff"/><rect x="20" width="10" height="20" fill="#ce2b37"/></svg>',
@@ -44,7 +45,7 @@
     { f: 'jp', s: '', pr: 'VLESS', d: 'TCP · REALITY', k: 'v', ping: 38, sp: 120 },
     { f: 'jp', s: ' HY2', pr: 'Hysteria2', d: 'TLS', k: 'h', ping: 41, sp: 210 },
     { f: 'ca', s: '', pr: 'VLESS', d: 'XHTTP · REALITY', k: 'v', ping: 64, sp: 95 },
-    { f: 'pl', s: '', pr: 'AmneziaWG', d: 'UDP', k: 'o', ping: 640, sp: 14 },
+    { f: 'cz', s: '', pr: 'AmneziaWG', d: 'UDP', k: 'o', ping: 640, sp: 14 },
     { f: 'sg', s: '', pr: 'Trojan', d: 'WS · TLS', k: 'o', ping: 212, sp: 48 },
     { f: 'at', s: '', pr: 'Shadowsocks', d: '2022', k: 'o', ping: null, sp: null },
     { f: 'it', s: '', pr: 'VLESS', d: 'TCP · REALITY', k: 'v', ping: 57, sp: 140 },

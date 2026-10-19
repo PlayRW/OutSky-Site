@@ -29,15 +29,17 @@
 <link rel="preload" href="/assets/fonts/inter-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="/assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/assets/css/fonts.css">
+<link rel="stylesheet" href="/assets/css/nebula.css">
 <link rel="stylesheet" href="/assets/css/app-ui.css">
 <link rel="stylesheet" href="/assets/css/home.css">
 <script src="/assets/js/early.js"></script>
 <script src="/assets/js/core.js" defer></script>
+<script src="/assets/js/sky.js" defer></script>
 <script src="/assets/js/app-ui.js" defer></script>
 </head>
 <body>
 <a class="skip" href="#main">К содержимому</a>
-<!-- свечение у курсора: один фиксированный слой под содержимым (fx-home.js; только мышь, без RM и ?shot) -->
+<!-- свечение у курсора: один фиксированный слой под содержимым (sky.js; только мышь, без RM и ?shot) -->
 <div class="cglow" aria-hidden="true"></div>
 <!-- плёночное зерно: фиксированный неподвижный слой поверх всего, только декор -->
 <div class="grain" aria-hidden="true"><i></i></div>
@@ -71,7 +73,7 @@
 <!-- ===== 1. первый экран: текст слева (7/12), справа глобус-созвездие, перед ним окно Windows и телефон ===== -->
 <section class="hero" data-live data-fx="/assets/js/fx-home.js" aria-labelledby="hero-h">
   <div class="neb" data-glow="tr bl" aria-hidden="true"><i class="tr"></i><i class="bl mag"></i><i class="tl ind"></i></div>
-  <!-- созвездия: по 1–2 на экран, только в пустых полях; где какое — home.css -->
+  <!-- созвездия: по 1–2 на экран, только в пустых полях; где какое — home.css (FAQ и финал — nebula.css) -->
   <svg class="cst c-per" viewBox="-4 -4 56 108" aria-hidden="true"><use href="/assets/img/home/constellations.svg#per"/></svg>
   <div class="hero-in">
     <div class="hero-top hole">
@@ -116,22 +118,22 @@
       <span class="sp"></span>
       <span class="osw-nav" data-k="set" title="Настройки"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/><circle cx="9" cy="7" r="1.9" fill="currentColor"/><circle cx="15" cy="12" r="1.9" fill="currentColor"/><circle cx="7" cy="17" r="1.9" fill="currentColor"/></svg><span class="t">Настройки</span></span>
       <div class="osw-mode" id="oswMode" role="radiogroup" aria-label="Режим подключения">
-        <span class="on" data-m="0" role="radio" tabindex="0" aria-checked="true" title="Прокси: системный прокси — через VPN идут программы, которые его поддерживают"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 12h12M11.5 7.5 16 12l-4.5 4.5"/><path d="M20 5v14"/></svg><span class="t">Прокси</span></span>
-        <span data-m="1" role="radio" tabindex="0" aria-checked="false" title="Туннель (TUN): весь трафик устройства"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 20v-8a8.5 8.5 0 0 1 17 0v8"/><path d="M8 20v-7a4 4 0 0 1 8 0v7"/><path d="M2.5 20h19"/></svg><span class="t">Туннель</span></span>
+        <span class="on" data-m="0" role="radio" tabindex="-1" aria-checked="true" title="Прокси: системный прокси — через VPN идут программы, которые его поддерживают"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 12h12M11.5 7.5 16 12l-4.5 4.5"/><path d="M20 5v14"/></svg><span class="t">Прокси</span></span>
+        <span data-m="1" role="radio" tabindex="-1" aria-checked="false" title="Туннель (TUN): весь трафик устройства"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 20v-8a8.5 8.5 0 0 1 17 0v8"/><path d="M8 20v-7a4 4 0 0 1 8 0v7"/><path d="M2.5 20h19"/></svg><span class="t">Туннель</span></span>
       </div>
-      <span class="osw-nav osw-fold" role="button" tabindex="0" data-act="fold" aria-expanded="true" title="Свернуть меню"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="4.5" width="17" height="15" rx="3"/><path d="M9.5 4.5v15M15.5 10l-2 2 2 2"/></svg><span class="t">Свернуть</span></span>
+      <span class="osw-nav osw-fold" role="button" tabindex="-1" data-act="fold" aria-expanded="true" title="Свернуть меню"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="4.5" width="17" height="15" rx="3"/><path d="M9.5 4.5v15M15.5 10l-2 2 2 2"/></svg><span class="t">Свернуть</span></span>
     </div>
 
     <div class="osw-side" role="group" aria-label="Серверы">
       <div class="osw-h"><span class="osw-ht">Серверы</span>
-        <span class="osw-tool on" role="button" tabindex="0" data-act="reping" aria-pressed="true" title="Показать и перепроверить пинг всех серверов"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 11a8 8 0 1 0-2.3 5.3"/><path d="M20 4v6h-6"/></svg><span>Пинг</span></span>
-        <span class="osw-tool" role="button" tabindex="0" data-act="speed" aria-haspopup="dialog" title="Тест скорости всех серверов — скорость появится рядом с каждым сервером"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 17.5a8.5 8.5 0 1 1 15 0"/><path d="M12 14.5 16 9"/><circle cx="12" cy="14.5" r="1.3" fill="currentColor" stroke="none"/></svg><span id="oswSpeedLbl">Скорость</span></span>
-        <span class="osw-ib" role="button" tabindex="0" aria-label="Добавить подписку" title="Добавить подписку"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span>
+        <span class="osw-tool on" role="button" tabindex="-1" data-act="reping" aria-pressed="true" title="Показать и перепроверить пинг всех серверов"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 11a8 8 0 1 0-2.3 5.3"/><path d="M20 4v6h-6"/></svg><span>Пинг</span></span>
+        <span class="osw-tool" role="button" tabindex="-1" data-act="speed" aria-haspopup="dialog" title="Тест скорости всех серверов — скорость появится рядом с каждым сервером"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 17.5a8.5 8.5 0 1 1 15 0"/><path d="M12 14.5 16 9"/><circle cx="12" cy="14.5" r="1.3" fill="currentColor" stroke="none"/></svg><span id="oswSpeedLbl">Скорость</span></span>
+        <span class="osw-ib" role="button" tabindex="-1" aria-label="Добавить подписку" title="Добавить подписку"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span>
       </div>
       <!-- тест скорости тратит трафик подписки — сначала спрашиваем -->
       <div class="osw-ask" id="oswAsk" role="dialog" aria-label="Тест скорости" hidden>
         <p>Тест скорости всех серверов потратит около <b>150 МБ</b> трафика подписки.</p>
-        <div><span class="osw-btn" role="button" tabindex="0" data-act="speed-cancel">Отмена</span><span class="osw-btn pri" role="button" tabindex="0" data-act="speed-run">Запустить</span></div>
+        <div><span class="osw-btn" role="button" tabindex="-1" data-act="speed-cancel">Отмена</span><span class="osw-btn pri" role="button" tabindex="-1" data-act="speed-run">Запустить</span></div>
       </div>
       <div class="osw-sub">
         <div class="osw-sub-h"><span class="osw-av">M</span><div class="osw-g"><b>My Provider</b><small>Обновлено 5 мин назад</small></div>
@@ -141,13 +143,13 @@
       </div>
       <div class="osw-seg" id="oswFlt"><span class="on" data-f="all">Все</span><span data-f="v">VLESS</span><span data-f="h">Hysteria2</span><span data-f="o">Другие</span></div>
       <div class="osw-list">
-        <div class="osw-row osw-fast" role="button" tabindex="0" data-fast><span class="bolt"><svg viewBox="0 0 24 24"><path d="M13 2 4 14h6l-1 8 9-12h-6l1-8z" fill="currentColor"/></svg></span><div class="osw-g"><b>Самая быстрая</b><small id="oswFastSub">Сейчас: Япония</small></div><span class="osw-ping q1" id="oswFastPing">38 мс</span></div>
+        <div class="osw-row osw-fast" role="button" tabindex="-1" data-fast><span class="bolt"><svg viewBox="0 0 24 24"><path d="M13 2 4 14h6l-1 8 9-12h-6l1-8z" fill="currentColor"/></svg></span><div class="osw-g"><b>Самая быстрая</b><small id="oswFastSub">Сейчас: Япония</small></div><span class="osw-ping q1" id="oswFastPing">38 мс</span></div>
         <div class="osw-gl"><span>My Provider</span><span>11 серверов</span></div>
         <div id="oswRows">
           <div class="osw-row sel"><span class="osw-fl"><svg viewBox="0 0 30 20"><rect width="30" height="20" fill="#fff"/><circle cx="15" cy="10" r="6" fill="#bc002d"/></svg></span><div class="osw-g"><b>Япония</b><small><i>VLESS</i> · TCP · REALITY</small></div><span class="osw-ping q1">38 мс</span></div>
           <div class="osw-row"><span class="osw-fl"><svg viewBox="0 0 30 20"><rect width="30" height="20" fill="#fff"/><circle cx="15" cy="10" r="6" fill="#bc002d"/></svg></span><div class="osw-g"><b>Япония HY2</b><small><i>Hysteria2</i> · TLS</small></div><span class="osw-ping q1">41 мс</span></div>
           <div class="osw-row"><span class="osw-fl"><svg viewBox="0 0 30 20"><rect width="30" height="20" fill="#fff"/><rect width="7.5" height="20" fill="#d52b1e"/><rect x="22.5" width="7.5" height="20" fill="#d52b1e"/><path d="M15 5l1.4 3 2.6-1-1 3.6 2-.6-2 3h-2.2v2.5h-1.6V13H12l-2-3 2 .6-1-3.6 2.6 1z" fill="#d52b1e"/></svg></span><div class="osw-g"><b>Канада</b><small><i>VLESS</i> · XHTTP · REALITY</small></div><span class="osw-ping q2">64 мс</span></div>
-          <div class="osw-row"><span class="osw-fl"><svg viewBox="0 0 30 20"><rect width="30" height="10" fill="#fff"/><rect y="10" width="30" height="10" fill="#dc143c"/></svg></span><div class="osw-g"><b>Польша</b><small><i>AmneziaWG</i> · UDP</small></div><span class="osw-ping q4">640 мс</span></div>
+          <div class="osw-row"><span class="osw-fl"><svg viewBox="0 0 30 20"><rect width="30" height="10" fill="#fff"/><rect y="10" width="30" height="10" fill="#d7141a"/><path d="M0 0 15 10 0 20Z" fill="#11457e"/></svg></span><div class="osw-g"><b>Чехия</b><small><i>AmneziaWG</i> · UDP</small></div><span class="osw-ping q4">640 мс</span></div>
           <div class="osw-row"><span class="osw-fl"><svg viewBox="0 0 30 20"><rect width="30" height="10" fill="#ef3340"/><rect y="10" width="30" height="10" fill="#fff"/><circle cx="7" cy="5" r="3" fill="#fff"/><circle cx="8.2" cy="5" r="3" fill="#ef3340"/></svg></span><div class="osw-g"><b>Сингапур</b><small><i>Trojan</i> · WS · TLS</small></div><span class="osw-ping q3">212 мс</span></div>
           <div class="osw-row"><span class="osw-fl"><svg viewBox="0 0 30 20"><rect width="30" height="20" fill="#ed2939"/><rect y="6.7" width="30" height="6.6" fill="#fff"/></svg></span><div class="osw-g"><b>Австрия</b><small><i>Shadowsocks</i> · 2022</small></div><span class="osw-ping na">н/д</span></div>
           <div class="osw-row"><span class="osw-fl"><svg viewBox="0 0 30 20"><rect width="10" height="20" fill="#009246"/><rect x="10" width="10" height="20" fill="#fff"/><rect x="20" width="10" height="20" fill="#ce2b37"/></svg></span><div class="osw-g"><b>Италия</b><small><i>VLESS</i> · TCP · REALITY</small></div><span class="osw-ping q1">57 мс</span></div>
@@ -176,7 +178,7 @@
       </svg>
 
       <span class="osw-kick" role="status"><i class="led"></i><span id="oswKick">Подключено</span></span>
-      <div class="osw-dial" id="oswPw" role="button" tabindex="0" aria-label="Отключить">
+      <div class="osw-dial" id="oswPw" role="button" tabindex="-1" aria-label="Отключить">
         <i class="bloom"></i><i class="track"></i>
         <svg class="spin" viewBox="0 0 124 124" aria-hidden="true"><circle cx="62" cy="62" r="61" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-dasharray="80 304"/></svg>
         <i class="ring"></i>
@@ -189,7 +191,7 @@
         <div><div class="osw-k">Пинг</div><div class="osw-v" id="oswPing">38 <small>мс</small></div></div>
         <div><div class="osw-k">Время</div><div class="osw-v" id="oswTm">00:42:17</div></div>
         <div><div class="osw-k">Трафик</div><div class="osw-v" id="oswTr">1,2 <small>ГБ</small></div></div>
-        <span class="osw-acts"><span class="osw-btn pri" role="button" tabindex="0" data-act="retry">Повторить</span><span class="osw-btn" role="button" tabindex="0" data-act="another">Другой сервер</span></span>
+        <span class="osw-acts"><span class="osw-btn pri" role="button" tabindex="-1" data-act="retry">Повторить</span><span class="osw-btn" role="button" tabindex="-1" data-act="another">Другой сервер</span></span>
       </div>
 
       <div class="osw-chart">
@@ -207,9 +209,9 @@
       </div>
 
       <div class="osw-cards">
-        <div class="osw-card" role="button" tabindex="0" data-k="route"><span class="ci"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 17c6.5 0 6.5-10 13-10M4 7c6.5 0 6.5 10 13 10M17 4l3 3-3 3M17 14l3 3-3 3"/></svg></span>
+        <div class="osw-card" role="button" tabindex="-1" data-k="route"><span class="ci"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 17c6.5 0 6.5-10 13-10M4 7c6.5 0 6.5 10 13 10M17 4l3 3-3 3M17 14l3 3-3 3"/></svg></span>
           <div class="osw-g"><small>Маршрутизация</small><b id="oswRoute">Россия напрямую</b></div><span class="chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></span></div>
-        <div class="osw-card" role="button" tabindex="0" data-k="dns"><span class="ci"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8"/><path d="M4 12h16M12 4c-4.5 4.5-4.5 11.5 0 16M12 4c4.5 4.5 4.5 11.5 0 16"/></svg></span>
+        <div class="osw-card" role="button" tabindex="-1" data-k="dns"><span class="ci"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8"/><path d="M4 12h16M12 4c-4.5 4.5-4.5 11.5 0 16M12 4c4.5 4.5 4.5 11.5 0 16"/></svg></span>
           <div class="osw-g"><small>DNS</small><b>Умное разделение</b></div><span class="chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></span></div>
       </div>
     </div>
@@ -230,27 +232,27 @@
     <div class="osp-lbl">Текущий провайдер</div>
     <div class="osp-prov">
       <div class="osp-ph"><span class="chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></span><b>My Provider</b><small>5 мин</small>
-        <span class="osp-rb" role="button" tabindex="0" data-osp-act="reping" aria-label="Перепроверить пинг всех серверов"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 11a8 8 0 1 0-2.3 5.3"/><path d="M20 4v6h-6"/></svg></span>
+        <span class="osp-rb" role="button" tabindex="-1" data-osp-act="reping" aria-label="Перепроверить пинг всех серверов"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 11a8 8 0 1 0-2.3 5.3"/><path d="M20 4v6h-6"/></svg></span>
         <span class="osp-rb" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="5" cy="12" r="1.8"/><circle cx="12" cy="12" r="1.8"/><circle cx="19" cy="12" r="1.8"/></svg></span></div>
       <div class="osp-q"><span><b>42,1 ГБ</b></span><span class="osw-bar"><i></i></span><span>21 день</span></div>
       <div class="osp-rows">
-        <div class="osp-row sel" data-i="0" role="button" tabindex="0"><span class="osw-fl"><svg viewBox="0 0 30 20"><rect width="30" height="20" fill="#fff"/><circle cx="15" cy="10" r="6" fill="#bc002d"/></svg></span><span class="g"><b>Япония</b><small><span class="pv">VLESS</span> · TCP · <span class="pr">REALITY</span></small></span><span class="osp-pg q1">38 мс</span></div>
-        <div class="osp-row" data-i="1" role="button" tabindex="0"><span class="osw-fl"><svg viewBox="0 0 30 20"><rect width="30" height="20" fill="#fff"/><circle cx="15" cy="10" r="6" fill="#bc002d"/></svg></span><span class="g"><b>Япония HY2</b><small><span class="ph">Hysteria2</span> · <span class="pt">TLS</span></small></span><span class="osp-pg q1">41 мс</span></div>
-        <div class="osp-row" data-i="2" role="button" tabindex="0"><span class="osw-fl"><svg viewBox="0 0 30 20"><rect width="30" height="20" fill="#fff"/><rect width="7.5" height="20" fill="#d52b1e"/><rect x="22.5" width="7.5" height="20" fill="#d52b1e"/><path d="M15 5l1.4 3 2.6-1-1 3.6 2-.6-2 3h-2.2v2.5h-1.6V13H12l-2-3 2 .6-1-3.6 2.6 1z" fill="#d52b1e"/></svg></span><span class="g"><b>Канада</b><small><span class="pv">VLESS</span> · XHTTP · <span class="pr">REALITY</span></small></span><span class="osp-pg q2">64 мс</span></div>
-        <div class="osp-row" data-i="3" role="button" tabindex="0"><span class="osw-fl"><svg viewBox="0 0 30 20"><rect width="30" height="10" fill="#fff"/><rect y="10" width="30" height="10" fill="#dc143c"/></svg></span><span class="g"><b>Польша</b><small><span class="pw">AmneziaWG</span> · UDP</small></span><span class="osp-pg q4">640 мс</span></div>
-        <div class="osp-row" data-i="4" role="button" tabindex="0"><span class="osw-fl"><svg viewBox="0 0 30 20"><rect width="30" height="10" fill="#ef3340"/><rect y="10" width="30" height="10" fill="#fff"/><circle cx="7" cy="5" r="3" fill="#fff"/><circle cx="8.2" cy="5" r="3" fill="#ef3340"/></svg></span><span class="g"><b>Сингапур</b><small><span class="po">Trojan</span> · WS · <span class="pt">TLS</span></small></span><span class="osp-pg q3">212 мс</span></div>
-        <div class="osp-row" data-i="5" role="button" tabindex="0"><span class="osw-fl"><svg viewBox="0 0 30 20"><rect width="30" height="20" fill="#ed2939"/><rect y="6.7" width="30" height="6.6" fill="#fff"/></svg></span><span class="g"><b>Австрия</b><small><span class="ps">Shadowsocks</span> · 2022</small></span><span class="osp-pg na">н/д</span></div>
-        <div class="osp-row" data-i="6" role="button" tabindex="0"><span class="osw-fl"><svg viewBox="0 0 30 20"><rect width="10" height="20" fill="#009246"/><rect x="10" width="10" height="20" fill="#fff"/><rect x="20" width="10" height="20" fill="#ce2b37"/></svg></span><span class="g"><b>Италия</b><small><span class="pv">VLESS</span> · TCP · <span class="pr">REALITY</span></small></span><span class="osp-pg q1">57 мс</span></div>
-        <div class="osp-row" data-i="7" role="button" tabindex="0"><span class="osw-fl"><svg viewBox="0 0 30 20"><rect width="30" height="20" fill="#aa151b"/><rect y="5" width="30" height="10" fill="#f1bf00"/></svg></span><span class="g"><b>Испания</b><small><span class="ph">Hysteria2</span> · <span class="pt">TLS</span></small></span><span class="osp-pg q2">83 мс</span></div>
-        <div class="osp-row" data-i="8" role="button" tabindex="0"><span class="osw-fl"><svg viewBox="0 0 30 20"><rect width="30" height="20" fill="#009c3b"/><path d="M15 3 27 10 15 17 3 10z" fill="#ffdf00"/><circle cx="15" cy="10" r="4.2" fill="#002776"/></svg></span><span class="g"><b>Бразилия</b><small><span class="pv">VLESS</span> · gRPC · <span class="pr">REALITY</span></small></span><span class="osp-pg q3">188 мс</span></div>
-        <div class="osp-row" data-i="9" role="button" tabindex="0"><span class="osw-fl"><svg viewBox="0 0 30 20"><rect width="30" height="20" fill="#fff"/><rect width="30" height="6.67" fill="#ff9933"/><rect y="13.33" width="30" height="6.67" fill="#138808"/><circle cx="15" cy="10" r="2.6" fill="none" stroke="#000080" stroke-width=".8"/></svg></span><span class="g"><b>Индия</b><small><span class="po">Trojan</span> · WS · <span class="pt">TLS</span></small></span><span class="osp-pg q2">134 мс</span></div>
-        <div class="osp-row" data-i="10" role="button" tabindex="0"><span class="osw-fl"><svg viewBox="0 0 30 20"><rect width="30" height="20" fill="#74acdf"/><rect y="6.67" width="30" height="6.67" fill="#fff"/><circle cx="15" cy="10" r="2" fill="#f6b40e"/></svg></span><span class="g"><b>Аргентина</b><small><span class="ps">Shadowsocks</span> · 2022</small></span><span class="osp-pg q3">233 мс</span></div>
+        <div class="osp-row sel" data-i="0" role="button" tabindex="-1"><span class="osw-fl"><svg viewBox="0 0 30 20"><rect width="30" height="20" fill="#fff"/><circle cx="15" cy="10" r="6" fill="#bc002d"/></svg></span><span class="g"><b>Япония</b><small><span class="pv">VLESS</span> · TCP · <span class="pr">REALITY</span></small></span><span class="osp-pg q1">38 мс</span></div>
+        <div class="osp-row" data-i="1" role="button" tabindex="-1"><span class="osw-fl"><svg viewBox="0 0 30 20"><rect width="30" height="20" fill="#fff"/><circle cx="15" cy="10" r="6" fill="#bc002d"/></svg></span><span class="g"><b>Япония HY2</b><small><span class="ph">Hysteria2</span> · <span class="pt">TLS</span></small></span><span class="osp-pg q1">41 мс</span></div>
+        <div class="osp-row" data-i="2" role="button" tabindex="-1"><span class="osw-fl"><svg viewBox="0 0 30 20"><rect width="30" height="20" fill="#fff"/><rect width="7.5" height="20" fill="#d52b1e"/><rect x="22.5" width="7.5" height="20" fill="#d52b1e"/><path d="M15 5l1.4 3 2.6-1-1 3.6 2-.6-2 3h-2.2v2.5h-1.6V13H12l-2-3 2 .6-1-3.6 2.6 1z" fill="#d52b1e"/></svg></span><span class="g"><b>Канада</b><small><span class="pv">VLESS</span> · XHTTP · <span class="pr">REALITY</span></small></span><span class="osp-pg q2">64 мс</span></div>
+        <div class="osp-row" data-i="3" role="button" tabindex="-1"><span class="osw-fl"><svg viewBox="0 0 30 20"><rect width="30" height="10" fill="#fff"/><rect y="10" width="30" height="10" fill="#d7141a"/><path d="M0 0 15 10 0 20Z" fill="#11457e"/></svg></span><span class="g"><b>Чехия</b><small><span class="pw">AmneziaWG</span> · UDP</small></span><span class="osp-pg q4">640 мс</span></div>
+        <div class="osp-row" data-i="4" role="button" tabindex="-1"><span class="osw-fl"><svg viewBox="0 0 30 20"><rect width="30" height="10" fill="#ef3340"/><rect y="10" width="30" height="10" fill="#fff"/><circle cx="7" cy="5" r="3" fill="#fff"/><circle cx="8.2" cy="5" r="3" fill="#ef3340"/></svg></span><span class="g"><b>Сингапур</b><small><span class="po">Trojan</span> · WS · <span class="pt">TLS</span></small></span><span class="osp-pg q3">212 мс</span></div>
+        <div class="osp-row" data-i="5" role="button" tabindex="-1"><span class="osw-fl"><svg viewBox="0 0 30 20"><rect width="30" height="20" fill="#ed2939"/><rect y="6.7" width="30" height="6.6" fill="#fff"/></svg></span><span class="g"><b>Австрия</b><small><span class="ps">Shadowsocks</span> · 2022</small></span><span class="osp-pg na">н/д</span></div>
+        <div class="osp-row" data-i="6" role="button" tabindex="-1"><span class="osw-fl"><svg viewBox="0 0 30 20"><rect width="10" height="20" fill="#009246"/><rect x="10" width="10" height="20" fill="#fff"/><rect x="20" width="10" height="20" fill="#ce2b37"/></svg></span><span class="g"><b>Италия</b><small><span class="pv">VLESS</span> · TCP · <span class="pr">REALITY</span></small></span><span class="osp-pg q1">57 мс</span></div>
+        <div class="osp-row" data-i="7" role="button" tabindex="-1"><span class="osw-fl"><svg viewBox="0 0 30 20"><rect width="30" height="20" fill="#aa151b"/><rect y="5" width="30" height="10" fill="#f1bf00"/></svg></span><span class="g"><b>Испания</b><small><span class="ph">Hysteria2</span> · <span class="pt">TLS</span></small></span><span class="osp-pg q2">83 мс</span></div>
+        <div class="osp-row" data-i="8" role="button" tabindex="-1"><span class="osw-fl"><svg viewBox="0 0 30 20"><rect width="30" height="20" fill="#009c3b"/><path d="M15 3 27 10 15 17 3 10z" fill="#ffdf00"/><circle cx="15" cy="10" r="4.2" fill="#002776"/></svg></span><span class="g"><b>Бразилия</b><small><span class="pv">VLESS</span> · gRPC · <span class="pr">REALITY</span></small></span><span class="osp-pg q3">188 мс</span></div>
+        <div class="osp-row" data-i="9" role="button" tabindex="-1"><span class="osw-fl"><svg viewBox="0 0 30 20"><rect width="30" height="20" fill="#fff"/><rect width="30" height="6.67" fill="#ff9933"/><rect y="13.33" width="30" height="6.67" fill="#138808"/><circle cx="15" cy="10" r="2.6" fill="none" stroke="#000080" stroke-width=".8"/></svg></span><span class="g"><b>Индия</b><small><span class="po">Trojan</span> · WS · <span class="pt">TLS</span></small></span><span class="osp-pg q2">134 мс</span></div>
+        <div class="osp-row" data-i="10" role="button" tabindex="-1"><span class="osw-fl"><svg viewBox="0 0 30 20"><rect width="30" height="20" fill="#74acdf"/><rect y="6.67" width="30" height="6.67" fill="#fff"/><circle cx="15" cy="10" r="2" fill="#f6b40e"/></svg></span><span class="g"><b>Аргентина</b><small><span class="ps">Shadowsocks</span> · 2022</small></span><span class="osp-pg q3">233 мс</span></div>
       </div>
     </div>
 
     <!-- плашка подключения: переключатель + сервер, скорость, время -->
     <div class="osp-cb">
-      <span class="osp-tg" data-osp-pw role="button" tabindex="0" aria-label="Отключить"><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 3v9"/><path d="M6.6 6.6a8 8 0 1 0 10.8 0"/></svg></i></span>
+      <span class="osp-tg" data-osp-pw role="button" tabindex="-1" aria-label="Отключить"><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 3v9"/><path d="M6.6 6.6a8 8 0 1 0 10.8 0"/></svg></i></span>
       <span class="osp-ci"><span class="osp-ct"><span class="osw-fl"><svg viewBox="0 0 30 20"><rect width="30" height="20" fill="#fff"/><circle cx="15" cy="10" r="6" fill="#bc002d"/></svg></span>Япония</span>
         <span class="osp-cs"><span>↑ <b class="osp-up">23</b></span><span>↓ <b class="osp-dn">84</b> Мбит/с</span><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 2M10 2.5h4"/></svg><b class="osp-tm">00:42:17</b></span></span></span>
     </div>

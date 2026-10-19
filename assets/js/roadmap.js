@@ -1,6 +1,9 @@
-// outsky.app — публичный роадмап: вкладки продуктов и колонки по статусам.
+// outsky.app — публичный роадмап: колонки по статусам, а если продуктов на странице больше одного — ещё и вкладки продуктов.
 // Данные — /assets/data/roadmap.json. Разметка строится только через createElement/textContent,
 // никакого innerHTML с данными. Тексты интерфейса — по <html lang>. Без библиотек и внешних запросов.
+// Какие продукты показывает страница — data-products у #rm (id через пробел; без атрибута — все из данных).
+// Хэш продукта, которого на странице нет (#vpn, #extension), уводит на роадмап его сайта — data-away (только https://), с тем же хэшем.
+// data-elsewhere — id таких продуктов: их хэш уводит сразу, до загрузки данных (прочие продукты из данных — после неё).
 (() => {
   'use strict';
   const doc = document;
@@ -8,6 +11,10 @@
   const tabsEl = byId('rm-tabs'), board = byId('rm-board');
   if (!tabsEl || !board) return;
   const loading = byId('rm-loading'), errorEl = byId('rm-error'), updEl = byId('rm-updated'), note = byId('rm-note');
+  const root = byId('rm') || board;
+  const only = (root.getAttribute('data-products') || '').split(/\s+/).filter(Boolean);
+  const awayAttr = root.getAttribute('data-away') || '';
+  const away = /^https:\/\/[^\s"'<>#]+$/.test(awayAttr) ? awayAttr : '';
 
   const lang = doc.documentElement.lang === 'en' ? 'en' : 'ru';
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -36,7 +43,9 @@
     return n;
   };
 
-  let data = null, products = Object.create(null), tabs = [], current = ALL;
+  // multi — вкладки продуктов есть (продуктов на странице больше одного); elsewhere — продукты, которых здесь нет
+  let data = null, products = Object.create(null), tabs = [], current = ALL, multi = false;
+  let elsewhere = new Set((root.getAttribute('data-elsewhere') || '').split(/\s+/).filter(id => ID.test(id) && !only.includes(id)));
 
   function formatDate(s) {
     const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(str(s));
@@ -44,17 +53,26 @@
     return mon ? T.date(Number(m[3]), mon, m[1]) : '';
   }
 
+  function hashId() {
+    try { return decodeURIComponent(location.hash.slice(1)); } catch (e) { return ''; }
+  }
   // Вкладка из адреса: #app, #extension, #vpn. null — хэш не про вкладки (например, #main от ссылки «К содержимому»).
   function fromHash() {
-    let h = '';
-    try { h = decodeURIComponent(location.hash.slice(1)); } catch (e) { h = ''; }
+    const h = hashId();
     return tabs.some(t => t.id === h) ? h : null;
   }
+  // Старые ссылки на продукт, которого на этой странице нет, — на роадмап его сайта, на ту же вкладку (id — только [a-z0-9_-])
+  function goAway() {
+    const h = hashId();
+    if (!away || !h || !elsewhere.has(h)) return false;
+    location.replace(away + '#' + h);
+    return true;
+  }
 
-  // Переключатель языка ведёт на ту же вкладку парной страницы.
+  // Переключатель языка (шапка, меню, подвал) ведёт на ту же вкладку парной страницы.
   function syncLangLinks() {
     const hash = current === ALL ? '' : '#' + current;
-    doc.querySelectorAll('.seg a[href]').forEach(a => { a.hash = hash; });
+    doc.querySelectorAll('.lang a[href]').forEach(a => { if (a.hash !== hash) a.hash = hash; });
   }
 
   function syncUrl() {
@@ -76,10 +94,15 @@
   }
 
   // Затухание края у прокручиваемой полосы: видно, что дальше есть ещё колонки/вкладки.
+  // Без вкладок доска доступна с клавиатуры (Tab), только когда её можно прокрутить вбок.
   function edges(node) {
     const rest = node.scrollWidth - node.clientWidth - node.scrollLeft;
     node.classList.toggle('rm-more', rest > 2);
     node.classList.toggle('rm-less', node.scrollLeft > 2);
+    if (node === board && !multi) {
+      if (node.scrollWidth - node.clientWidth > 2) node.tabIndex = 0;
+      else node.removeAttribute('tabindex');
+    }
   }
   let edgeRaf = 0;
   const edgesNow = () => { edges(board); edges(tabsEl); };
@@ -100,6 +123,8 @@
       tabsEl.appendChild(b);
       return { id: t.id, btn: b };
     });
+    board.setAttribute('role', 'tabpanel');
+    board.tabIndex = 0;
   }
 
   function card(it, i) {
@@ -110,7 +135,7 @@
     if (text) li.appendChild(el('p', '', text));
 
     const chips = [];
-    if (current === ALL && typeof it.product === 'string' && products[it.product]) {
+    if (multi && current === ALL && typeof it.product === 'string' && products[it.product]) {
       const c = el('span', 'rm-chip rm-prod', tr(products[it.product]) || it.product);
       c.setAttribute('data-product', it.product);
       chips.push(c);
@@ -133,7 +158,7 @@
       t.btn.setAttribute('aria-selected', on ? 'true' : 'false');
       t.btn.tabIndex = on ? 0 : -1;
     });
-    board.setAttribute('aria-labelledby', 'rm-tab-' + current);
+    if (multi) board.setAttribute('aria-labelledby', 'rm-tab-' + current);
 
     const items = data.items.filter(it => current === ALL || it.product === current);
     const frag = doc.createDocumentFragment();
@@ -141,7 +166,8 @@
       const list = items.filter(it => it.status === s.id);
       if (!list.length && !ALWAYS.has(s.id)) return;
 
-      const col = el('section', 'rm-col');
+      // колонка — стекло (.pane из nebula.css), цвет статуса — переменные в roadmap-b.css
+      const col = el('section', 'rm-col pane');
       col.setAttribute('data-status', s.id);
       const h = el('h2', 'rm-col-h');
       h.id = 'rm-col-' + s.id;
@@ -186,15 +212,21 @@
 
   function init(d) {
     if (!d || !Array.isArray(d.statuses) || !Array.isArray(d.products) || !Array.isArray(d.items)) throw new Error('roadmap: bad data');
+    const all = d.products.filter(p => p && typeof p.id === 'string' && ID.test(p.id) && p.id !== ALL);
+    const shown = only.length ? all.filter(p => only.includes(p.id)) : all;
+    all.forEach(p => { if (!shown.includes(p)) elsewhere.add(p.id); });
+    if (goAway()) return;
+    const ids = new Set(shown.map(p => p.id));
     data = {
       statuses: d.statuses.filter(s => s && typeof s.id === 'string' && ID.test(s.id)),
-      products: d.products.filter(p => p && typeof p.id === 'string' && ID.test(p.id) && p.id !== ALL),
-      items: d.items.filter(it => it && typeof it === 'object' && tr(it.title)),
+      products: shown,
+      items: d.items.filter(it => it && typeof it === 'object' && tr(it.title) && (!only.length || ids.has(it.product))),
       tags: (d.tags && typeof d.tags === 'object') ? d.tags : {}
     };
     data.products.forEach(p => { products[p.id] = p; });
+    multi = data.products.length > 1;
 
-    buildTabs();
+    if (multi) buildTabs();
     current = fromHash() || ALL;
     render();
 
@@ -204,7 +236,7 @@
       if (t) { t.dateTime = d.updated; t.textContent = upd; updEl.hidden = false; }
     }
     if (loading) loading.hidden = true;
-    tabsEl.hidden = false;
+    tabsEl.hidden = !multi;
     board.hidden = false;
     if (note) note.hidden = false;
     syncLangLinks();
@@ -240,12 +272,14 @@
     });
     // Назад/вперёд по истории, ручная правка адреса.
     addEventListener('hashchange', () => {
+      if (goAway()) return;
       const h = fromHash();
       if (h) select(h, false);
       else if (!location.hash) select(ALL, false);
     });
   }
 
+  if (goAway()) return;   // известный чужой продукт — сразу, не дожидаясь данных
   if (typeof fetch !== 'function') { fail(); return; }
   const ctrl = typeof AbortController === 'function' ? new AbortController() : null;
   const timer = ctrl ? setTimeout(() => ctrl.abort(), 15000) : 0;

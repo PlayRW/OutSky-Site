@@ -1,6 +1,6 @@
 // outsky.app — эффекты главной. ES-модуль, грузится лениво (core.js: data-fx). Без библиотек, слушатели пассивные. Тексты — по <html lang>.
-// меню · мини-интерактивы карточек · колода (01 сверху, уходят по очереди) · галерея (клик — к карточке) · глобус (Canvas 2D, 10 стран, точки кликабельны)
-// · параллакс сцены · свечение у курсора. Шапка закреплена чистым CSS — JS ей не нужен.
+// мини-интерактивы карточек · колода (01 сверху, уходят по очереди) · галерея (клик — к карточке) · глобус (Canvas 2D, 10 стран, точки кликабельны)
+// · параллакс сцены. Меню и свечение у курсора — общие для страниц, sky.js.
 const html = document.documentElement;
 const shot = html.classList.contains('shot') || /[?&]shot/.test(location.search);
 const rmq = matchMedia('(prefers-reduced-motion: reduce)');
@@ -12,10 +12,6 @@ const save = !!(navigator.connection && navigator.connection.saveData);
 const lowMem = typeof navigator.deviceMemory === 'number' && navigator.deviceMemory < 4;
 const ru = html.lang !== 'en';
 const how = () => (rmq.matches || shot ? 'instant' : 'smooth');
-
-// ---- меню: ссылка закрывает popover ----
-const menu = $('#menu');
-if (menu && menu.hidePopover) menu.addEventListener('click', e => { if (e.target.closest('a')) menu.hidePopover(); });
 
 // ---- мини-интерактивы карточек ----
 const feat = $('#features');
@@ -124,11 +120,11 @@ if (cv && cv.getContext) {
   const N = mob ? 350 : 700, FPS = mob ? 24 : 30;
   const still = shot || rmq.matches || save || (mob && lowMem);
   const D = Math.PI / 180, TK = .6;                                  // наклон к широте сервера — 0.6 от широты
-  const C = { jp: [36, 138], ca: [56, -106], pl: [52, 19], sg: [1.3, 103.8], at: [47.5, 14.5], it: [42.5, 12.5], es: [40.4, -3.7], br: [-15.8, -47.9], in: [20.6, 79], ar: [-34.6, -58.4] };
-  const NAME = ru ? { jp: 'Япония', ca: 'Канада', pl: 'Польша', sg: 'Сингапур', at: 'Австрия', it: 'Италия', es: 'Испания', br: 'Бразилия', in: 'Индия', ar: 'Аргентина' }
-                  : { jp: 'Japan', ca: 'Canada', pl: 'Poland', sg: 'Singapore', at: 'Austria', it: 'Italy', es: 'Spain', br: 'Brazil', in: 'India', ar: 'Argentina' };
-  const FIRST = { jp: 0, ca: 2, pl: 3, sg: 4, at: 5, it: 6, es: 7, br: 8, in: 9, ar: 10 };   // первый сервер страны — индекс S в app-ui.js
-  const LINKS = [['jp', 'sg'], ['sg', 'in'], ['in', 'it'], ['it', 'at'], ['at', 'pl'], ['pl', 'ca'], ['ca', 'jp'], ['it', 'es'], ['es', 'br'], ['br', 'ar']];
+  const C = { jp: [36, 138], ca: [56, -106], cz: [50.1, 14.4], sg: [1.3, 103.8], at: [47.5, 14.5], it: [42.5, 12.5], es: [40.4, -3.7], br: [-15.8, -47.9], in: [20.6, 79], ar: [-34.6, -58.4] };
+  const NAME = ru ? { jp: 'Япония', ca: 'Канада', cz: 'Чехия', sg: 'Сингапур', at: 'Австрия', it: 'Италия', es: 'Испания', br: 'Бразилия', in: 'Индия', ar: 'Аргентина' }
+                  : { jp: 'Japan', ca: 'Canada', cz: 'Czechia', sg: 'Singapore', at: 'Austria', it: 'Italy', es: 'Spain', br: 'Brazil', in: 'India', ar: 'Argentina' };
+  const FIRST = { jp: 0, ca: 2, cz: 3, sg: 4, at: 5, it: 6, es: 7, br: 8, in: 9, ar: 10 };   // первый сервер страны — индекс S в app-ui.js
+  const LINKS = [['jp', 'sg'], ['sg', 'in'], ['in', 'it'], ['it', 'at'], ['at', 'cz'], ['cz', 'ca'], ['ca', 'jp'], ['it', 'es'], ['es', 'br'], ['br', 'ar']];
   const ll = (a, b) => { a *= D; b *= D; return [Math.cos(a) * Math.sin(b), Math.sin(a), Math.cos(a) * Math.cos(b)]; };
   const pts = new Float32Array(N * 3), ga = Math.PI * (3 - Math.sqrt(5));
   for (let i = 0; i < N; i++) { const y = 1 - 2 * (i + .5) / N, r = Math.sqrt(1 - y * y), p = i * ga; pts[i * 3] = Math.cos(p) * r; pts[i * 3 + 1] = y; pts[i * 3 + 2] = Math.sin(p) * r; }
@@ -367,18 +363,4 @@ if (fine && !shot && !rmq.matches) {
     tx = e.clientX / innerWidth * 2 - 1; ty = e.clientY / innerHeight * 2 - 1;
     if (!raf) raf = requestAnimationFrame(step);
   }, P);
-}
-
-// ---- свечение у курсора: один фиксированный слой радиусом ~480px (home.css), только мышь, без RM и ?shot, rAF-троттлинг ----
-const glow = $('.cglow');
-if (glow && fine && !shot && !rmq.matches) {
-  html.classList.add('cg');
-  let gx = 0, gy = 0, grq = 0;
-  const put = () => { grq = 0; glow.style.transform = `translate3d(${gx}px,${gy}px,0)`; };
-  addEventListener('pointermove', e => {
-    if (e.pointerType && e.pointerType !== 'mouse') return;
-    gx = e.clientX; gy = e.clientY;
-    if (!glow.classList.contains('on')) { put(); glow.classList.add('on'); } else if (!grq) grq = requestAnimationFrame(put);
-  }, P);
-  document.addEventListener('mouseout', e => { if (!e.relatedTarget) glow.classList.remove('on'); }, P);
 }

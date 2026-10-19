@@ -1,0 +1,176 @@
+/* outsky.app — роадмап (/roadmap/, /en/roadmap/) в концепции «Туманность». Подключается после nebula.css.
+   Доска как в Notion: колонки по статусам — стекло (.pane), карточки — стекло потоньше, метки статусов — неоновые пилюли.
+   Разметку доски строит roadmap.js; классы — с префиксом rm- (старый roadmap.css этими страницами больше не подключается). */
+
+/* ===== первый экран ===== */
+.rm-top{padding-bottom:clamp(36px,4.4vw,56px)}
+.rm-top .neb .tr{left:82%; top:34%} .rm-top .neb .bl{left:8%; top:104%}
+.rm-head{width:fit-content; max-width:100%}
+.rm-upd{margin:0; cursor:default}
+.rm-upd[hidden]{display:none}
+.rm-upd time{padding-right:2px; font-variant-numeric:tabular-nums}
+.rm-lead{margin-top:22px}
+/* созвездие — в пустом поле справа от заголовка (Лев) */
+.rm-c-leo{right:9%; top:32%; width:clamp(140px,12vw,180px); rotate:-5deg; opacity:.15}
+@media (min-width:1000px){ .rm-c-leo{display:block} }
+
+/* ===== секция доски ===== */
+.rm-sec{padding-top:0}
+/* без JS доски нет — только карточка-сообщение: нижний отступ секции не нужен (до финала хватает его собственного) */
+html:not(.js) .rm-sec{padding-bottom:0}
+.rm-sec .neb .tl{left:4%; top:26%} .rm-sec .neb .br{left:90%; top:64%}
+/* созвездие — посреди левого поля у колонки 1180px (Малая Медведица) */
+.rm-c-umi{left:calc((100% - 1180px) / 4 - 21px); top:34%; width:42px; rotate:-8deg; opacity:.15}
+@media (min-width:1320px){ .rm-c-umi{display:block} }
+
+/* вкладки продуктов — только если продуктов на странице больше одного (roadmap.js); выбранная — залитая, как кнопки приложения */
+.rm-tabs{position:relative; display:flex; gap:4px; width:max-content; max-width:100%; margin:0 0 20px; padding:4px; border-radius:var(--r-pill);
+  background:var(--glass); box-shadow:inset 0 0 0 1px rgb(181 171 252/.22); overflow-x:auto; overscroll-behavior-x:contain; scrollbar-width:none}
+.rm-tabs::-webkit-scrollbar{display:none}
+.rm-tabs[hidden]{display:none}
+.rm-tab{flex:0 0 auto; min-height:40px; padding:0 18px; border:0; border-radius:var(--r-pill); background:transparent; color:var(--text-2); font-size:14px; font-weight:500; line-height:1.2;
+  cursor:pointer; white-space:nowrap; transition:color var(--d-s),background var(--d-s),box-shadow var(--d-s)}
+.rm-tab:hover{color:var(--text); background:rgb(255 255 255/.05)}
+.rm-tab[aria-selected="true"]{color:#fff; background:linear-gradient(120deg,#5b3bef,#6d4cff 58%,#8d42e8); box-shadow:0 0 18px -4px rgb(123 97 255/.8)}
+.rm-tab:focus-visible{outline:2px solid var(--lav); outline-offset:-2px}
+
+/* загрузка, ошибка, без JS */
+.rm-loading{display:none; margin:0; color:var(--text-2); font-size:14px}
+html.js .rm-loading:not([hidden]){display:block}
+.rm-msg{max-width:640px; padding:20px 24px; border-radius:var(--r-md); --gx:92%; --gy:120%; --ga:.22}
+.rm-msg[hidden]{display:none}
+.rm-msg p{margin:0; color:var(--text-2); font-size:15px; line-height:1.6}
+.rm-msg b{color:var(--text); font-weight:600}
+.rm-msg a{color:var(--lav)}
+
+/* доска: колонки в ряд; если не помещаются — прокрутка вбок с затуханием края (классы rm-more/rm-less ставит roadmap.js).
+   Снизу запас под неоновую тень колонок — прокрутка её иначе срезала бы */
+.rm-board{display:flex; align-items:flex-start; gap:16px; margin:0 -2px; padding:2px 2px 30px; border-radius:var(--r-xl);
+  overflow-x:auto; overscroll-behavior-x:contain; scrollbar-width:thin; scrollbar-color:rgb(181 171 252/.28) transparent}
+.rm-board[hidden]{display:none}
+.rm-board:focus-visible{outline:none; box-shadow:inset 0 0 0 2px var(--lav)}   /* кольцо внутри: маску края оно не задевает */
+.rm-board::-webkit-scrollbar{height:8px}
+.rm-board::-webkit-scrollbar-thumb{background:rgb(181 171 252/.28); border-radius:8px}
+.rm-board::-webkit-scrollbar-track{background:transparent}
+.rm-board.rm-more{-webkit-mask-image:linear-gradient(90deg,#000 calc(100% - 56px),transparent); mask-image:linear-gradient(90deg,#000 calc(100% - 56px),transparent)}
+.rm-board.rm-less{-webkit-mask-image:linear-gradient(90deg,transparent,#000 56px); mask-image:linear-gradient(90deg,transparent,#000 56px)}
+.rm-board.rm-more.rm-less{-webkit-mask-image:linear-gradient(90deg,transparent,#000 56px,#000 calc(100% - 56px),transparent); mask-image:linear-gradient(90deg,transparent,#000 56px,#000 calc(100% - 56px),transparent)}
+.rm-tabs.rm-more{-webkit-mask-image:linear-gradient(90deg,#000 calc(100% - 32px),transparent); mask-image:linear-gradient(90deg,#000 calc(100% - 32px),transparent)}
+.rm-tabs.rm-less{-webkit-mask-image:linear-gradient(90deg,transparent,#000 32px); mask-image:linear-gradient(90deg,transparent,#000 32px)}
+.rm-tabs.rm-more.rm-less{-webkit-mask-image:linear-gradient(90deg,transparent,#000 32px,#000 calc(100% - 32px),transparent); mask-image:linear-gradient(90deg,transparent,#000 32px,#000 calc(100% - 32px),transparent)}
+
+/* колонка — стекло (.pane): сверху мягкий отсвет цвета статуса и световое пятно за меткой; цвета статуса — переменными */
+.rm-col{--c:#E2E0F2; --c-dot:#A9A5CC; --c-bg:rgb(255 255 255/.06); --c-ring:rgb(255 255 255/.16); --c-tint:rgb(181 171 252/.08); --c-glow:none;
+  --gx:50%; --gy:-6%; --ga:.18; flex:1 1 0; min-width:210px; padding:14px 12px 12px; border-radius:22px;
+  background:radial-gradient(120% 220px at 50% 0,var(--c-tint),transparent 80%),var(--glass)}
+.rm-col[data-status="in_progress"]{--c:#E7E5FE; --c-dot:#B5ABFC; --c-bg:rgb(123 97 255/.22); --c-ring:rgb(181 171 252/.42); --c-tint:rgb(123 97 255/.2); --c-glow:0 0 9px #B5ABFC; --ga:.3}
+.rm-col[data-status="testing"]{--c:#FDE68A; --c-dot:#FACC15; --c-bg:rgb(250 204 21/.12); --c-ring:rgb(250 204 21/.36); --c-tint:rgb(250 204 21/.08); --c-glow:0 0 8px rgb(250 204 21/.8)}
+.rm-col[data-status="done"]{--c:#BBF7D0; --c-dot:#4ADE80; --c-bg:rgb(74 222 128/.13); --c-ring:rgb(74 222 128/.38); --c-tint:rgb(74 222 128/.1); --c-glow:0 0 8px rgb(74 222 128/.8)}
+.rm-col[data-status="on_hold"]{--c:#FED7AA; --c-dot:#FB923C; --c-bg:rgb(251 146 60/.13); --c-ring:rgb(251 146 60/.36); --c-tint:rgb(251 146 60/.08); --c-glow:0 0 8px rgb(251 146 60/.7)}
+.rm-col[data-status="cancelled"]{--c:#FECACA; --c-dot:#F87171; --c-bg:rgb(248 113 113/.13); --c-ring:rgb(248 113 113/.36); --c-tint:rgb(248 113 113/.08); --c-glow:0 0 8px rgb(248 113 113/.7)}
+
+.rm-col-h{display:flex; align-items:center; justify-content:space-between; gap:10px; margin:0 2px 14px; font-size:12px; font-weight:500; line-height:1.3}
+.rm-badge{display:inline-flex; align-items:center; gap:8px; padding:5px 12px 5px 10px; border-radius:var(--r-pill); background:var(--c-bg); box-shadow:inset 0 0 0 1px var(--c-ring);
+  color:var(--c); font-size:12px; font-weight:500; letter-spacing:.04em; white-space:nowrap}
+.rm-badge::before{content:""; width:7px; height:7px; border-radius:50%; background:var(--c-dot); box-shadow:var(--c-glow); flex-shrink:0}
+.rm-count{display:inline-grid; place-items:center; min-width:26px; height:26px; padding:0 8px; border-radius:var(--r-pill); color:var(--text-2); font-size:12px;
+  font-variant-numeric:tabular-nums; box-shadow:inset 0 0 0 1px var(--hair)}
+
+/* карточка — стекло потоньше: волосяная грань, на наведении — лавандовая с неоновым ореолом */
+.rm-list{display:flex; flex-direction:column; gap:10px; margin:0; padding:0; list-style:none}
+.rm-card{position:relative; padding:15px 16px 14px; border-radius:var(--r-md); background:linear-gradient(rgb(255 255 255/.055),rgb(255 255 255/.02));
+  box-shadow:inset 0 0 0 1px rgb(255 255 255/.09),inset 0 1px 0 rgb(255 255 255/.06); transition:box-shadow var(--d-s) var(--e-out),background var(--d-s) var(--e-out)}
+@media (hover:hover) and (pointer:fine){
+  .rm-card:hover{background:linear-gradient(rgb(181 171 252/.09),rgb(255 255 255/.025)); box-shadow:inset 0 0 0 1px rgb(181 171 252/.34),0 0 26px -10px rgb(123 97 255/.7)}
+}
+.rm-card h3{margin:0; font-size:15px; font-weight:600; line-height:1.4; letter-spacing:-.005em; color:var(--text); overflow-wrap:anywhere}
+.rm-card p{margin:6px 0 0; font-size:13.5px; line-height:1.55; color:var(--text-2); overflow-wrap:anywhere}
+.rm-meta{display:flex; flex-wrap:wrap; gap:6px; margin-top:12px}
+.rm-chip{display:inline-block; padding:3px 10px; border-radius:var(--r-pill); font-size:11.5px; font-weight:500; line-height:1.4; letter-spacing:.02em; white-space:nowrap;
+  color:#DAD7EF; background:rgb(255 255 255/.05); box-shadow:inset 0 0 0 1px rgb(255 255 255/.13)}
+/* метка продукта — только во вкладке «Всё», когда продуктов больше одного */
+.rm-prod{color:#E7E5FE; background:rgb(123 97 255/.2); box-shadow:inset 0 0 0 1px rgb(181 171 252/.36)}
+.rm-prod[data-product="extension"]{color:#CFFAFE; background:rgb(103 232 249/.12); box-shadow:inset 0 0 0 1px rgb(103 232 249/.32)}
+.rm-prod[data-product="vpn"]{color:#FBCFE8; background:rgb(244 114 208/.13); box-shadow:inset 0 0 0 1px rgb(244 114 208/.34)}
+.rm-col[data-status="cancelled"] .rm-card{opacity:.82}
+.rm-empty{margin:0; padding:20px 12px; border-radius:var(--r-md); border:1px dashed rgb(181 171 252/.24); text-align:center; color:var(--text-2); font-size:13px}
+.rm-note{margin:4px 0 0; font-size:13px; line-height:1.5; color:var(--text-2)}
+
+/* появление карточек после загрузки (только без RM и ?shot) и «дыхание» точки «В работе» */
+@media (prefers-reduced-motion:no-preference){
+  html:not(.shot) .rm-card{animation:rm-in var(--d-m) var(--e-out) both; animation-delay:calc(var(--i,0) * 40ms)}
+  html:not(.shot) .rm-col[data-status="in_progress"] .rm-badge::before{animation:rm-breathe 2.4s ease-in-out infinite}
+}
+.rm-static .rm-card,.rm-static .rm-badge::before{animation:none !important}
+@keyframes rm-in{from{opacity:0; transform:translateY(8px)} to{opacity:1; transform:none}}
+@keyframes rm-breathe{0%,100%{opacity:.5} 50%{opacity:1}}
+
+/* ===== финал: стеклянная карточка подписки (без своей плитки Telegram — она есть у карточки канала в подвале сразу ниже) ===== */
+.rm-fin .slogan{margin-bottom:40px}
+.rm-fcard{display:grid; grid-template-columns:minmax(0,1fr) auto; align-items:center; gap:20px 28px; max-width:820px; margin:0 auto; padding:28px 32px;
+  text-align:left; --gx:90%; --gy:115%; --ga:.36}
+.rm-fh{width:fit-content; margin:8px 0 6px; padding-bottom:.04em; font-size:clamp(22px,2.2vw,28px); font-weight:700; line-height:1.15; letter-spacing:-.02em;
+  background:var(--grad-glass); -webkit-background-clip:text; background-clip:text; color:transparent}
+.rm-ftx>p:last-child{margin:0; font-size:15px; line-height:1.55; color:var(--text-2)}
+/* Пегас финала — только где карточка его не накрывает */
+.rm-fin .c-peg{display:none}
+@media (min-width:1240px){ .rm-fin .c-peg{display:block} }
+
+/* ===== широкие и высокие экраны: короткие колонки (до трёх карточек) едут рядом с длинной, пока она прокручивается.
+   Только когда колонок не больше четырёх — тогда они помещаются без прокрутки вбок, а sticky внутри прокрутки не работает ===== */
+@media (min-width:981px) and (min-height:760px){
+  .rm-board:not(:has(> .rm-col:nth-child(5))){overflow:visible}
+  .rm-board:not(:has(> .rm-col:nth-child(5))) > .rm-col:not(:has(.rm-card:nth-child(4))){position:sticky; top:calc(var(--header-h) + 20px)}
+}
+
+/* ===== средние экраны: четыре колонки помещаются без прокрутки вбок ===== */
+@media (min-width:981px) and (max-width:1099px){
+  .rm-board{gap:12px}
+  .rm-col{min-width:180px; padding:12px 10px 10px}
+  .rm-card{padding:13px 13px 12px}
+}
+/* ===== узкие экраны (там же, где кнопка «Меню»): колонки друг под другом ===== */
+@media (max-width:980px){
+  .rm-board{flex-direction:column; align-items:stretch; gap:16px; margin:0; padding:0 0 28px; overflow:visible}
+  .rm-col{flex:none; min-width:0; width:100%; padding:16px 14px 14px}
+  .rm-col-h{margin-bottom:16px}
+}
+/* планшет: в колонке карточки в два ряда — длинная колонка вдвое короче */
+@media (min-width:640px) and (max-width:980px){ .rm-list{display:grid; grid-template-columns:repeat(2,minmax(0,1fr))} }
+@media (max-width:760px){
+  .rm-fcard{grid-template-columns:minmax(0,1fr); padding:26px 24px}
+  .rm-fcard .pill{justify-self:start}
+}
+@media (max-width:480px){
+  .rm-fcard{gap:18px; padding:24px 20px}
+  .rm-fh{margin-top:6px}
+  .rm-fcard .pill{justify-self:stretch; justify-content:center; padding-inline:18px}
+  .rm-fin .slogan{margin-bottom:32px}
+}
+@media (max-width:420px){
+  .rm-col{padding:14px 10px 10px; border-radius:20px}
+  .rm-card{padding:13px 14px 12px}
+  .rm-tab{padding:0 14px; font-size:13.5px}
+}
+
+/* ===== режимы (после базовых правил; общие блоки — в nebula.css) ===== */
+@media (prefers-reduced-motion:reduce){
+  .rm-card,.rm-tab{transition:none}
+  .rm-card,.rm-badge::before{animation:none}
+}
+@media (prefers-reduced-transparency:reduce){
+  .rm-col{background:#120F2C}
+  .rm-card{background:#1A1638}
+  .rm-tabs{background:#120F2C}
+}
+@media (prefers-contrast:more){
+  .rm-card{box-shadow:inset 0 0 0 1px rgb(255 255 255/.36)}
+  .rm-chip,.rm-count{box-shadow:inset 0 0 0 1px rgb(255 255 255/.4)}
+  .rm-fh{background:none; color:var(--text)}
+}
+@media (forced-colors:active){
+  .rm-col,.rm-card,.rm-badge,.rm-chip,.rm-count,.rm-tabs,.rm-tab,.rm-empty{border:1px solid CanvasText}
+  .rm-tab[aria-selected="true"]{border-width:3px}
+  .rm-badge::before{display:none}
+  .rm-fh{background:none; color:CanvasText}
+}

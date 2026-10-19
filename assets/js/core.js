@@ -1,9 +1,9 @@
-// outsky.app — общее ядро главной. Без библиотек, все слушатели пассивные.
+// outsky.app — общее ядро страниц «Туманности» (главная и внутренние). Без библиотек, все слушатели пассивные.
 //  reveal  — .rv получает .is-in при первом входе в экран (IO .15, rootMargin -8% снизу); ?shot и без IO — сразу всё.
 //  live    — секции [data-live] получают .is-live, пока они рядом с экраном (rootMargin 200px).
 //  scrollfx— закреплённые треки [data-track] получают --p 0…1 (сглажено по времени, τ = 110 мс) и событие track:progress.
 //            Включаются только при (min-width:1100px) and (min-height:680px), с JS, без reduced-motion и не в ?shot
-//            (тогда на html ставится .pin; без него треки — обычный поток, см. home.css).
+//            (тогда на html ставится .pin; без него треки — обычный поток, см. nebula.css).
 //  Эффекты подключаются лениво: <section data-fx="/assets/js/fx-home.js"> — import() при первом входе секции в экран.
 (() => {
   const html = document.documentElement;
