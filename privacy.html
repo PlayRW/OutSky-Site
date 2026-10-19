@@ -103,7 +103,7 @@
   <!-- ============================== ENGLISH ============================== -->
   <section id="en">
     <h1>Privacy Policy</h1>
-    <div class="date">OutSky Telegram bot, VPN service, browser extension and website · Effective October 16, 2026</div>
+    <div class="date">OutSky Telegram bot, VPN service, browser extension and website · Effective October 19, 2026</div>
 
     <p>This policy covers the OutSky Telegram bot <a href="https://t.me/OutSkyVPN_bot">@OutSkyVPN_bot</a>, the OutSky VPN service (our servers and the panel that manages them), the OutSky VPN browser extension and the website outsky.app. It describes how things work today: what data we collect and keep, why, where, for how long, and who else receives it.</p>
 
@@ -131,7 +131,8 @@
         <li><strong>Subscription</strong> — trial and subscription dates, traffic limit and usage, status, your subscription link and its identifier, and subscription events (for example, when it was issued and when it ended). The subscription link is a key to the VPN: do not share it.</li>
         <li><strong>Channel check</strong> — the trial is available to subscribers of our channel @outskyapp. The bot asks Telegram whether you are subscribed and stores the result and the date of the check. If you leave the channel, the trial may be switched off.</li>
         <li><strong>Button log</strong> — which menu button you pressed and when. Kept for 90 days.</li>
-        <li><strong>Technical logs of the bot</strong> — they include the text of your messages to the bot and subscription links. Kept for 7 days; their copy in the server's system log is limited in size and may be kept longer.</li>
+        <li><strong>Device reset note</strong> — after you reset your devices, the bot keeps a note of it for 24 hours so that devices can be reset once every 24 hours. The bot does not keep your device list: it reads it from the panel when you open <strong>Devices</strong>.</li>
+        <li><strong>Technical logs of the bot</strong> — they include the text of your messages to the bot, subscription links and identifiers and models of devices you reset. Kept for 7 days; their copy in the server's system log is limited in size and may be kept longer.</li>
       </ul>
       <p>When the bot issues a trial, it creates an account on the VPN service named <code>user_&lt;Telegram ID&gt;</code> (section 3). The owner of the service receives service notifications about issued trials in Telegram; they may include your name, username and Telegram ID.</p>
       <p>Your messages to the bot pass through Telegram and are stored by Telegram under its own privacy policy. We do not collect your phone number, e-mail address or payment details; there are no paid plans yet.</p>
@@ -144,7 +145,7 @@
       <ul>
         <li><strong>Account</strong> — a name like <code>user_&lt;Telegram ID&gt;</code>, your Telegram ID, access keys, and the term and limits of your subscription.</li>
         <li><strong>Subscription link requests</strong> — when an app or a browser loads your subscription link, the panel records the IP address, the app name and version (User-Agent) and the time. The most recent requests are kept.</li>
-        <li><strong>Devices</strong> — if an app sends device details (INCY and Happ, for example, do), the panel records the device identifier (HWID), model, OS version, app and IP address.</li>
+        <li><strong>Devices</strong> — if an app sends device details (INCY and Happ, for example, do), the panel records the device identifier (HWID), model, OS version, app and IP address. On the free trial the subscription works only in VPN apps that send a device identifier, and you can connect up to 2 devices (each VPN app on a device counts separately); once the limit is reached, a new device gets no servers (INCY and Happ show a notice). You can reset your devices in the bot (once every 24 hours) or through support.</li>
         <li><strong>Traffic</strong> — how much traffic you have used, in total and per server per day, the time of your first and last connection, and the server you last connected to. We use this to apply your plan's limit and to manage server load. We count the volume, not the content.</li>
       </ul>
       <p>The VPN servers receive the list of accounts from the panel — the account name (it contains your Telegram ID) and the access key — so this data is also stored on every VPN server.</p>
@@ -208,10 +209,11 @@
       <ul>
         <li><strong>Your Telegram details and subscription in the bot</strong> (section 2). Why: to issue and show your subscription and not to issue a second trial. Where: the bot's server. How long: no set period — not deleted automatically; we delete them on request (sections 9 and 10).</li>
         <li><strong>Button log.</strong> Why: menu statistics. Where: the bot's server. How long: 90 days.</li>
-        <li><strong>Technical logs of the bot</strong> (messages to the bot, subscription links). Why: to find errors. Where: the bot's server. How long: 7 days; the copy in the system log is limited in size and may be kept longer.</li>
+        <li><strong>Device reset note.</strong> Why: so that devices can be reset once every 24 hours. Where: the bot's server. How long: 24 hours.</li>
+        <li><strong>Technical logs of the bot</strong> (messages to the bot, subscription links, identifiers and models of devices you reset). Why: to find errors. Where: the bot's server. How long: 7 days; the copy in the system log is limited in size and may be kept longer.</li>
         <li><strong>Service notifications about issued trials</strong> (may include your name, username and Telegram ID). Why: so the owner can see that the bot works. Where: the owner's chat in Telegram. How long: no period set.</li>
         <li><strong>Your account on the VPN service</strong> (name with Telegram ID, access keys, term, limits). Why: so that you can connect. Where: the panel; the account name and key also on every VPN server. How long: not deleted automatically; we delete it on request.</li>
-        <li><strong>Subscription link requests and devices</strong> (IP address, app, time; device identifier, model, OS). Why: to see which apps and devices use a subscription and to help with connection problems. Where: the panel. How long: the most recent requests while the account exists; devices are not deleted automatically.</li>
+        <li><strong>Subscription link requests and devices</strong> (IP address, app, time; device identifier, model, OS). Why: to see which apps and devices use a subscription, to apply the subscription's device limit and to help with connection problems. Where: the panel. How long: the most recent requests while the account exists; devices are not deleted automatically.</li>
         <li><strong>Traffic statistics.</strong> Why: to apply your plan's limit and manage server load. Where: the panel. How long: not deleted automatically.</li>
         <li><strong>Technical logs of the servers</strong> (may contain IP address, account name, site address, time). Why: to fix problems and protect the service. Where: our servers. How long: no period set yet.</li>
         <li><strong>Extension data on your device</strong> (section 4). Where: your browser. How long: until you use <strong>Change account</strong> or uninstall the extension.</li>
@@ -243,7 +245,7 @@
       <ul>
         <li>At the moment, accounts in the bot and on the VPN service are not deleted automatically, including after your subscription ends. We delete them at your request (section 10).</li>
         <li>If you have not used the bot for 6 months and have had no subscription during that time, the bot marks your account as deleted, and you can get a trial again. The record with your data stays in the bot's database.</li>
-        <li>Button log — 90 days; technical logs of the bot — 7 days (their copy in the system log is limited in size and may be kept longer).</li>
+        <li>Button log — 90 days; device reset note — 24 hours; technical logs of the bot — 7 days (their copy in the system log is limited in size and may be kept longer).</li>
         <li>Technical logs of the servers — no period set yet; some of them are limited in size.</li>
         <li>Backups — 7 days on our server; in the owner's Telegram chat, only the latest backup (section 8).</li>
         <li>Extension data on your device — until you use <strong>Change account</strong> or uninstall the extension.</li>
@@ -278,6 +280,7 @@
       <p>If we change what data we collect or how we use it, we will update this page and its effective date and announce the change in advance in our Telegram channel <a href="https://t.me/outskyapp">@outskyapp</a>.</p>
       <p>Change log:</p>
       <ul>
+        <li><strong>October 19, 2026</strong> — device limit on the free trial: device data is also used to apply the limit; devices can be reset in the bot, which keeps a 24-hour reset note, and the bot logs may include identifiers and models of devices you reset.</li>
         <li><strong>October 16, 2026</strong> — one policy for the bot, the VPN service, the extension and the website: what we keep, where, for how long and who else receives it; backups; your rights. The previous version was inaccurate in places: it said that our record of a subscription is deleted after it expires (in fact, accounts are not deleted automatically), that we do not record the addresses of the pages you visit, and that server logs are kept for a short time (in fact, site addresses may end up in technical logs, and no retention period has been set for them).</li>
         <li><strong>October 15, 2026</strong> — previous version (extension only).</li>
       </ul>
@@ -289,7 +292,7 @@
   <!-- ============================== RUSSIAN ============================== -->
   <section id="ru" lang="ru">
     <h1>Политика конфиденциальности</h1>
-    <div class="date">Telegram-бот, VPN-сервис, расширение для браузера и сайт OutSky · Действует с 16 октября 2026 г.</div>
+    <div class="date">Telegram-бот, VPN-сервис, расширение для браузера и сайт OutSky · Действует с 19 октября 2026 г.</div>
 
     <p>Эта политика охватывает Telegram-бота <a href="https://t.me/OutSkyVPN_bot">@OutSkyVPN_bot</a>, VPN-сервис OutSky (наши серверы и панель, которая ими управляет), браузерное расширение OutSky VPN и сайт outsky.app. Здесь описано, как всё устроено сейчас: какие данные мы собираем и храним, зачем, где, как долго и кто ещё их получает.</p>
 
@@ -317,7 +320,8 @@
         <li><strong>Подписку</strong> — даты пробного периода и подписки, лимит и расход трафика, статус, ссылку подписки и её идентификатор, события подписки (например, когда она выдана и когда закончилась). Ссылка подписки — это ключ к VPN: не передавайте её другим.</li>
         <li><strong>Проверку подписки на канал</strong> — пробный период доступен подписчикам нашего канала @outskyapp. Бот спрашивает у Telegram, подписаны ли вы, и хранит результат и дату проверки. Если отписаться от канала, пробный период может отключиться.</li>
         <li><strong>Журнал нажатий кнопок</strong> — какую кнопку меню и когда вы нажали. Хранится 90 дней.</li>
-        <li><strong>Технические журналы бота</strong> — в них попадают тексты ваших сообщений боту и ссылки подписок. Хранятся 7 дней; их копия в системном журнале сервера ограничена по размеру и может храниться дольше.</li>
+        <li><strong>Отметка о сбросе устройств</strong> — после сброса устройств бот 24 часа хранит отметку об этом, чтобы сбрасывать устройства можно было раз в сутки. Список устройств бот не хранит: он берёт его из панели, когда вы открываете <strong>«Устройства»</strong>.</li>
+        <li><strong>Технические журналы бота</strong> — в них попадают тексты ваших сообщений боту, ссылки подписок и идентификаторы и модели сбрасываемых устройств. Хранятся 7 дней; их копия в системном журнале сервера ограничена по размеру и может храниться дольше.</li>
       </ul>
       <p>Выдавая пробный период, бот создаёт аккаунт в VPN-сервисе с именем вида <code>user_&lt;Telegram ID&gt;</code> (раздел 3). Владельцу сервиса в Telegram приходят служебные уведомления о выдаче пробного периода; в них могут быть ваше имя, username и Telegram ID.</p>
       <p>Сообщения боту проходят через Telegram и хранятся у Telegram по его политике конфиденциальности. Номер телефона, e-mail и платёжные данные мы не собираем; платных тарифов пока нет.</p>
@@ -330,7 +334,7 @@
       <ul>
         <li><strong>Аккаунт</strong> — имя вида <code>user_&lt;Telegram ID&gt;</code>, ваш Telegram ID, ключи доступа, срок и лимиты подписки.</li>
         <li><strong>Запросы ссылки подписки</strong> — когда приложение или браузер загружает ссылку подписки, панель записывает IP-адрес, название и версию приложения (User-Agent) и время. Хранятся последние такие запросы.</li>
-        <li><strong>Устройства</strong> — если приложение передаёт данные устройства (так делают, например, INCY и Happ), панель записывает идентификатор устройства (HWID), модель, версию ОС, приложение и IP-адрес.</li>
+        <li><strong>Устройства</strong> — если приложение передаёт данные устройства (так делают, например, INCY и Happ), панель записывает идентификатор устройства (HWID), модель, версию ОС, приложение и IP-адрес. На пробном периоде подписка работает только в VPN-приложениях, которые передают идентификатор устройства, и подключить можно до 2 устройств (каждое VPN-приложение на устройстве считается отдельно); когда лимит исчерпан, новое устройство не получит серверов (INCY и Happ покажут уведомление). Сбросить устройства можно в боте (раз в сутки) или через поддержку.</li>
         <li><strong>Трафик</strong> — сколько трафика вы израсходовали, всего и по дням на каждом сервере, время первого и последнего подключения и сервер последнего подключения. Это нужно, чтобы применять лимит подписки и следить за нагрузкой на серверы. Мы считаем объём, а не содержимое.</li>
       </ul>
       <p>VPN-серверы получают из панели список аккаунтов — имя аккаунта (в нём есть Telegram ID) и ключ доступа, поэтому эти данные хранятся и на каждом VPN-сервере.</p>
@@ -394,10 +398,11 @@
       <ul>
         <li><strong>Данные Telegram-аккаунта и подписка в боте</strong> (раздел 2). Зачем: выдать и показать подписку, не выдавать пробный период повторно. Где: сервер бота. Сколько: без срока — автоматически не удаляются; удалим по запросу (разделы 9 и 10).</li>
         <li><strong>Журнал нажатий кнопок.</strong> Зачем: статистика меню. Где: сервер бота. Сколько: 90 дней.</li>
-        <li><strong>Технические журналы бота</strong> (сообщения боту, ссылки подписок). Зачем: поиск ошибок. Где: сервер бота. Сколько: 7 дней; копия в системном журнале ограничена по размеру и может храниться дольше.</li>
+        <li><strong>Отметка о сбросе устройств.</strong> Зачем: чтобы сбрасывать устройства можно было раз в сутки. Где: сервер бота. Сколько: 24 часа.</li>
+        <li><strong>Технические журналы бота</strong> (сообщения боту, ссылки подписок, идентификаторы и модели сбрасываемых устройств). Зачем: поиск ошибок. Где: сервер бота. Сколько: 7 дней; копия в системном журнале ограничена по размеру и может храниться дольше.</li>
         <li><strong>Служебные уведомления о выдаче пробного периода</strong> (могут содержать ваше имя, username и Telegram ID). Зачем: чтобы владелец видел, что бот работает. Где: чат владельца в Telegram. Сколько: срок не установлен.</li>
         <li><strong>Аккаунт в VPN-сервисе</strong> (имя с Telegram ID, ключи доступа, срок, лимиты). Зачем: чтобы вы могли подключаться. Где: панель; имя аккаунта и ключ — ещё и на каждом VPN-сервере. Сколько: автоматически не удаляется; удалим по запросу.</li>
-        <li><strong>Запросы ссылки подписки и устройства</strong> (IP-адрес, приложение, время; идентификатор устройства, модель, ОС). Зачем: видеть, какие приложения и устройства пользуются подпиской, и помогать с проблемами подключения. Где: панель. Сколько: последние запросы — пока существует аккаунт; устройства автоматически не удаляются.</li>
+        <li><strong>Запросы ссылки подписки и устройства</strong> (IP-адрес, приложение, время; идентификатор устройства, модель, ОС). Зачем: видеть, какие приложения и устройства пользуются подпиской, применять лимит устройств подписки и помогать с проблемами подключения. Где: панель. Сколько: последние запросы — пока существует аккаунт; устройства автоматически не удаляются.</li>
         <li><strong>Статистика трафика.</strong> Зачем: применять лимит подписки и следить за нагрузкой. Где: панель. Сколько: автоматически не удаляется.</li>
         <li><strong>Технические журналы серверов</strong> (могут содержать IP-адрес, имя аккаунта, адрес сайта, время). Зачем: устранение неполадок и защита сервиса. Где: наши серверы. Сколько: срок пока не установлен.</li>
         <li><strong>Данные расширения на устройстве</strong> (раздел 4). Где: ваш браузер. Сколько: до нажатия кнопки <strong>«Сменить аккаунт»</strong> или удаления расширения.</li>
@@ -429,7 +434,7 @@
       <ul>
         <li>Сейчас аккаунты в боте и в VPN-сервисе автоматически не удаляются, в том числе после окончания подписки. Мы удаляем их по вашему запросу (раздел 10).</li>
         <li>Если вы 6 месяцев не пользовались ботом и всё это время у вас не было подписки, бот помечает ваш аккаунт как удалённый, и вы снова можете получить пробный период. Запись с вашими данными в базе бота при этом остаётся.</li>
-        <li>Журнал нажатий кнопок — 90 дней; технические журналы бота — 7 дней (их копия в системном журнале ограничена по размеру и может храниться дольше).</li>
+        <li>Журнал нажатий кнопок — 90 дней; отметка о сбросе устройств — 24 часа; технические журналы бота — 7 дней (их копия в системном журнале ограничена по размеру и может храниться дольше).</li>
         <li>Технические журналы серверов — срок пока не установлен; часть из них ограничена по размеру.</li>
         <li>Резервные копии — 7 дней на сервере; в чате владельца в Telegram — только последняя копия (раздел 8).</li>
         <li>Данные расширения на устройстве — до нажатия кнопки <strong>«Сменить аккаунт»</strong> или удаления расширения.</li>
@@ -464,6 +469,7 @@
       <p>Если мы изменим, какие данные собираем или как их используем, мы обновим эту страницу и дату редакции и заранее сообщим об изменениях в Telegram-канале <a href="https://t.me/outskyapp">@outskyapp</a>.</p>
       <p>Журнал изменений:</p>
       <ul>
+        <li><strong>19 октября 2026 г.</strong> — лимит устройств на пробном периоде: данные устройств используются и для соблюдения лимита; сбросить устройства можно в боте — бот 24 часа хранит отметку о сбросе, в его журналы могут попадать идентификаторы и модели сбрасываемых устройств.</li>
         <li><strong>16 октября 2026 г.</strong> — единая политика для бота, VPN-сервиса, расширения и сайта: что храним, где, сколько и кто ещё получает данные; резервные копии; ваши права. Прежняя редакция была местами неточной: в ней говорилось, что запись о подписке удаляется после её окончания (на деле аккаунты автоматически не удаляются), что мы не записываем адреса посещённых страниц и что журналы серверов хранятся недолго (на деле адреса сайтов могут попадать в технические журналы, а срок их хранения пока не установлен).</li>
         <li><strong>15 октября 2026 г.</strong> — предыдущая редакция (только расширение).</li>
       </ul>
