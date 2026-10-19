@@ -185,6 +185,7 @@ html[lang=en]:not(.js) .globe{background-image:url(/assets/img/home/globe-en.svg
 .card ul.mini{flex:1; gap:6px; grid-auto-rows:minmax(0,1fr)}
 .card ul.mini li{align-items:center; padding:8px 12px; border-radius:var(--r-sm); font-size:13.5px; background:rgb(255 255 255/.03); box-shadow:inset 0 0 0 1px rgb(255 255 255/.08)}
 .card ul.mini svg{margin-top:1px}
+@media (max-width:1099px){ .card ul.mini{grid-auto-rows:auto; align-content:end} }   /* стопка: плашки своей высоты, список внизу карточки */
 .rts{display:grid; gap:7px}
 .rt{display:flex; align-items:center; gap:12px; padding:10px 14px; border-radius:var(--r-md); cursor:pointer; background:rgb(255 255 255/.03); box-shadow:inset 0 0 0 1px rgb(255 255 255/.09); transition:box-shadow var(--d-s)}
 .rt>div{flex:1; min-width:0} .rt b{display:block; font-size:14px; font-weight:500} .rt small{display:block; font-size:12.5px; line-height:1.4; color:var(--text-2)}
