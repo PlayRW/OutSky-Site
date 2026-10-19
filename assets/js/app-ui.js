@@ -1,12 +1,13 @@
 // Живой макет приложения OutSky на демо-данных: окно Windows и телефон-зеркало. Без библиотек и внешних запросов.
-// Без JS виден статичный снимок «Подключено» (разметка). ?shot — тот же снимок без анимаций. Тексты — по <html lang>.
+// Без JS виден статичный снимок «Подключено» (разметка). ?shot и reduced motion — тот же снимок без бегущих чисел. Тексты — по <html lang>.
 
 // ===== окно Windows =====
-// Наружу: html[data-os-state], события os:state (смена состояния) и os:tick (раз в секунду); слушает osw:toggle (кнопка телефона).
+// Наружу: html[data-os-state], события os:state (смена состояния), os:tick (раз в секунду) и os:pings (перерисованы таблетки);
+// слушает osw:toggle (кнопка телефона).
 (() => {
   const root = document.querySelector('.os-ui.osw'); if (!root) return;
   const lang = document.documentElement.lang === 'en' ? 'en' : 'ru';
-  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const rmq = matchMedia('(prefers-reduced-motion: reduce)');
   const shot = /[?&]shot/.test(location.search);
   if (shot) document.documentElement.classList.add('shot');
   const $ = s => root.querySelector(s), $$ = s => [...root.querySelectorAll(s)];
@@ -21,7 +22,7 @@
     en: { ms: 'ms', na: 'n/a', tap: 'Tap to connect', connect: 'Connect', disconnect: 'Disconnect',
           kick: { off: 'Not connected', connecting: 'Connecting…', on: 'Connected', err: 'No connection' },
           errTitle: 'Server didn’t respond', errSub: 'try another server', now: 'Now: ', mb: 'MB', gb: 'GB', dec: '.',
-          routes: ['Russia direct', 'Proxy everything', 'Custom rules'], fold: 'Collapse menu', unfold: 'Expand menu',
+          routes: ['Russia direct', 'Everything via VPN', 'Custom rules'], fold: 'Collapse menu', unfold: 'Expand menu',
           speed: 'Speed', speedRun: 'Testing…', testing: 'testing…', noReply: 'no reply', mbit: 'Mbps',
           names: { jp: 'Japan', ca: 'Canada', pl: 'Poland', sg: 'Singapore', at: 'Austria', it: 'Italy', es: 'Spain', br: 'Brazil', in: 'India', ar: 'Argentina' } }
   }[lang];
@@ -57,6 +58,7 @@
   // пинг: < 60 — отлично, < 150 — норма, 150–500 — жёлтый, > 500 — красный, нет ответа — н/д
   const q = p => p == null ? 'na' : p < 60 ? 'q1' : p < 150 ? 'q2' : p <= 500 ? 'q3' : 'q4';
   const pingTxt = p => p == null ? T.na : `${p} ${T.ms}`;
+  const subOn = s => `${s.pr} · ${s.d} · ${pingTxt(s.ping)}`;   // подзаголовок «Подключено»: протокол и тот же пинг, что в полоске и списке
 
   let state = 'on', sel = 0, flt = 'all', route = 0, t0 = 0, mb = 0, tmr = 0, cto = 0, auto = 0;
 
@@ -90,7 +92,11 @@
     const f = fastest();
     $('#oswFastSub').textContent = T.now + name(S[f]);
     paintPill($('#oswFastPing'), S[f], pinging.size > 0);
-    if (state === 'on') { const p = $('#oswPing'); p.className = 'osw-v ' + q(S[sel].ping); p.innerHTML = S[sel].ping == null ? '—' : `${S[sel].ping} <small>${T.ms}</small>`; }
+    if (state === 'on') {
+      const s = S[sel], p = $('#oswPing'); p.className = 'osw-v ' + q(s.ping); p.innerHTML = s.ping == null ? '—' : `${s.ping} <small>${T.ms}</small>`;
+      $('#oswSub').textContent = subOn(s);
+    }
+    document.dispatchEvent(new CustomEvent('os:pings'));
   }
   function paintFilter() { rowEls.forEach((el, i) => { el.hidden = !(flt === 'all' || S[i].k === flt); }); }
 
@@ -132,7 +138,7 @@
     // Под кнопкой — выбранный сервер, ниже протокол и пинг.
     $('#oswKick').textContent = T.kick[state];
     $('#oswTitle').innerHTML = state === 'err' ? T.errTitle : `<span class="osw-fl">${FL[s.f]}</span>${name(s)}`;
-    $('#oswSub').textContent = state === 'on' ? `${s.pr} · ${s.d} · ${pingTxt(s.ping)}`
+    $('#oswSub').textContent = state === 'on' ? subOn(s)
       : state === 'connecting' ? `${s.pr} · ${s.d}`
       : state === 'err' ? `${name(s)} · ${s.pr} — ${T.errSub}` : T.tap;
     $('#oswPw').setAttribute('aria-label', state === 'off' || state === 'err' ? T.connect : T.disconnect);
@@ -148,9 +154,20 @@
     cto = setTimeout(() => {
       if (state !== 'connecting') return;
       if (S[sel].ping == null) { state = 'err'; render(); return; }   // честный статус: сервер не ответил — не «Подключено»
-      state = 'on'; t0 = Date.now(); mb = 0; render(); tick(); tmr = setInterval(tick, 1000);
-    }, reduce ? 40 : 1500);
+      state = 'on'; t0 = Date.now(); mb = 0; render(); tick(); run();
+    }, rmq.matches ? 40 : 1500);
   }
+  // Живые обновления — время, график, скорость ↓↑, «дрожание» пинга — только пока первый экран рядом и вкладка видна.
+  // Reduced motion — статичный снимок, как ?shot: нажатия работают, но числа сами не бегут.
+  let near = true, jt = 0;
+  function run() {
+    clearInterval(tmr); clearInterval(jt); tmr = jt = 0;
+    if (!near || document.hidden || rmq.matches) return;
+    if (state === 'on') tmr = setInterval(tick, 1000);
+    jt = setInterval(jitter, 3500);
+  }
+  // снимок «Подключено» (?shot и reduced motion): 00:42:17 и 1,2 ГБ; если анимации потом включат — отсчёт пойдёт с него
+  function still() { state = 'on'; t0 = Date.now() - 2537e3; mb = 1250; $('#oswTm').textContent = hms(2537); $('#oswTr').innerHTML = vol(mb); render(); }
   function off() { stop(); state = 'off'; render(); }
   function pick(i) { sel = i; if (state === 'off') render(); else connect(); }
 
@@ -158,7 +175,7 @@
     if (e.target.closest('#oswPw')) { (state === 'on' || state === 'connecting') ? off() : connect(); return; }
     if (e.target.closest('[data-fast]')) { pick(fastest()); return; }
     const r = e.target.closest('.osw-row[data-i]'); if (r) { pick(+r.dataset.i); return; }
-    const f = e.target.closest('#oswFlt span'); if (f) { flt = f.dataset.f; $$('#oswFlt span').forEach(x => x.classList.toggle('on', x === f)); paintFilter(); return; }
+    const f = e.target.closest('#oswFlt span'); if (f) { flt = f.dataset.f; $$('#oswFlt span').forEach(x => { x.classList.toggle('on', x === f); x.setAttribute('aria-pressed', x === f); }); paintFilter(); return; }
     const a = e.target.closest('[data-act]');
     if (a && a.dataset.act === 'retry') { connect(); return; }
     if (a && a.dataset.act === 'another') { sel = fastest(); connect(); return; }
@@ -174,13 +191,34 @@
   // С маршрутизацией (карточка «Россия напрямую») не связан: правила работают в обоих режимах.
   function setMode(m) {
     $$('#oswMode [data-m]').forEach(x => { const on = +x.dataset.m === m; x.classList.toggle('on', on); x.setAttribute('aria-checked', on); });
+    tabs();
   }
   function setMini(v) {
     root.classList.toggle('mini', v);
     const b = $('[data-act=fold]'); b.setAttribute('aria-expanded', !v); b.title = v ? T.unfold : T.fold;
+    setTimeout(tabs, 320);                                              // меню сворачивается с переходом .28s
   }
-  $$('#oswFlt span').forEach(el => { el.setAttribute('role', 'button'); el.tabIndex = 0; });
+  // Tab: что сейчас закрыто телефоном (он лежит поверх низа бокового меню), — вне Tab-цепочки, иначе фокус там
+  // невидим (WCAG 2.4.11). Закрыто — больше четверти площади. «Прокси | Туннель» — roving tabindex: Tab попадает
+  // только на выбранный режим, стрелки — между режимами; если телефон закрывает хоть один режим — вне цепочки вся группа.
+  const phone = document.querySelector('.os-ui.osp');
+  function tabs() {
+    const pr = phone && phone.getClientRects().length ? phone.getBoundingClientRect() : null;
+    const under = el => {
+      if (!pr) return false;
+      const r = el.getBoundingClientRect(), w = Math.min(r.right, pr.right) - Math.max(r.left, pr.left), h = Math.min(r.bottom, pr.bottom) - Math.max(r.top, pr.top);
+      return w > 0 && h > 0 && w * h > .25 * r.width * r.height;
+    };
+    const radios = $$('#oswMode [role=radio]'), mode = radios.some(under);
+    $$('[role=button]').forEach(el => { el.tabIndex = under(el) ? -1 : 0; });
+    radios.forEach(el => { el.tabIndex = !mode && el.getAttribute('aria-checked') === 'true' ? 0 : -1; });
+  }
+  let rz = 0;
+  addEventListener('resize', () => { cancelAnimationFrame(rz); rz = requestAnimationFrame(tabs); }, { passive: true });
+  $$('#oswFlt span').forEach(el => { el.setAttribute('role', 'button'); el.setAttribute('aria-pressed', el.classList.contains('on')); });
   root.addEventListener('keydown', e => {
+    const r = e.target.closest('#oswMode [role=radio]'), d = { ArrowRight: 1, ArrowDown: 1, ArrowLeft: -1, ArrowUp: -1 }[e.key];
+    if (r && d) { e.preventDefault(); const all = $$('#oswMode [role=radio]'), n = all[(all.indexOf(r) + d + all.length) % all.length]; setMode(+n.dataset.m); n.focus(); return; }
     if (e.key !== 'Enter' && e.key !== ' ') return;
     const el = e.target.closest('[role=button],[role=radio]'); if (!el || !root.contains(el)) return;
     e.preventDefault(); el.click();
@@ -220,7 +258,7 @@
       jit(s); pinging.delete(i);
       if (!pinging.size) { btn.classList.remove('busy'); btn.removeAttribute('aria-busy'); }
       paintPings();
-    }, reduce ? 30 : 300 + i * 140 + Math.random() * 260));
+    }, rmq.matches ? 30 : 300 + i * 140 + Math.random() * 260));
   }
   // «Скорость» сверху: после вопроса про трафик таблетки переключаются на скорость — сначала у всех «—»,
   // серверы проверяются по очереди (у текущего крутится кольцо), результат встаёт на место
@@ -230,7 +268,7 @@
     const btn = $('[data-act=speed]'), lbl = $('#oswSpeedLbl'); btn.classList.add('busy'); btn.setAttribute('aria-busy', 'true'); lbl.textContent = T.speedRun;
     for (let i = 0; i < S.length; i++) {
       S[i].spd = 'run'; paintPings();
-      await new Promise(r => setTimeout(r, reduce ? 30 : 650));
+      await new Promise(r => setTimeout(r, rmq.matches ? 30 : 650));
       S[i].spd = S[i].sp == null ? null : Math.max(1, Math.round(S[i].sp * (.9 + Math.random() * .2))); paintPings();
     }
     speedBusy = false; btn.classList.remove('busy'); btn.removeAttribute('aria-busy'); lbl.textContent = T.speed;
@@ -241,17 +279,23 @@
   // телефон рядом с окном — зеркало: его кнопка подключения нажимает кнопку окна
   document.addEventListener('osw:toggle', () => $('#oswPw').click());
 
-  setView('ping'); paintFilter();
-  if (shot) { state = 'on'; render(); $('#oswTm').textContent = '00:42:17'; $('#oswTr').innerHTML = vol(1250); return; }
-  state = 'off'; render();
-  auto = setTimeout(() => { if (state === 'off') connect(); }, reduce ? 0 : 1100);
-  setInterval(() => { if (!document.hidden) jitter(); }, 3500);
+  setView('ping'); paintFilter(); tabs();
+  if (shot) { still(); return; }
+  if (rmq.matches) still();
+  else { state = 'off'; render(); auto = setTimeout(() => { if (state === 'off') connect(); }, 1100); }
+  const hero = root.closest('[data-live]');
+  if (hero && 'IntersectionObserver' in window) new IntersectionObserver(es => { near = es[es.length - 1].isIntersecting; run(); }, { rootMargin: '200px 0px' }).observe(hero);
+  else run();
+  document.addEventListener('visibilitychange', run);
+  rmq.addEventListener('change', run);
 })();
 
 // ===== телефон — живое зеркало окна =====
 // Повторяет состояние, выбранный сервер, пинги (или скорость после теста), скорость ↑↓ и время из окна.
 // Переключатель подключения нажимает кнопку окна (osw:toggle), строка сервера — строку окна, ⟳ — «Пинг» окна.
 // На узких экранах окно скрыто, но продолжает работать — телефон остаётся живым.
+// Пока окно видно, телефон — только зеркало: скрыт от скринридеров (aria-hidden) и вне Tab (tabindex=-1), мышью нажимается.
+// inert не подходит — он отключил бы и клики. Окно скрыто (< 760) — телефон снова обычный: в Tab и в дереве доступности.
 (() => {
   const ph = document.querySelector('.os-ui.osp'); if (!ph) return;
   const $ = s => document.querySelector(s), $$ = s => [...document.querySelectorAll(s)];
@@ -282,9 +326,22 @@
   }
   document.addEventListener('os:state', sync);
   document.addEventListener('os:tick', sync);
+  document.addEventListener('os:pings', sync);
+  // зеркало или единственный макет — по тому, видно ли окно
+  const win = $('.os-ui.osw');
+  let mirror = null;
+  function setMirror() {
+    const m = !!win && win.getClientRects().length > 0; if (m === mirror) return; mirror = m;
+    if (m) ph.setAttribute('aria-hidden', 'true'); else ph.removeAttribute('aria-hidden');
+    $$p('[role=button]').forEach(el => { el.tabIndex = m ? -1 : 0; });
+    const sc = $p('.osp-rows'); if (sc) { if (m) sc.tabIndex = -1; else sc.removeAttribute('tabindex'); }   // прокручиваемый список без кнопок Chrome сам ставит в Tab
+  }
+  let rz = 0;
+  addEventListener('resize', () => { cancelAnimationFrame(rz); rz = requestAnimationFrame(setMirror); }, { passive: true });
+  ph.addEventListener('mousedown', e => { if (mirror && e.target.closest('[role=button]')) e.preventDefault(); });   // клик мышью не уводит фокус в скрытое зеркало
   ph.addEventListener('click', e => {
     if (e.target.closest('[data-osp-pw]')) { document.dispatchEvent(new CustomEvent('osw:toggle')); return; }
-    if (e.target.closest('[data-osp-act=reping]')) { const b = $('[data-act=reping]'); if (b) b.click(); tick(); return; }
+    if (e.target.closest('[data-osp-act=reping]')) { const b = $('[data-act=reping]'); if (b) b.click(); return; }
     const r = e.target.closest('.osp-row[data-i]');
     if (r) { const w = $(`#oswRows .osw-row[data-i="${r.dataset.i}"]`); if (w) w.click(); sync(); }
   });
@@ -293,9 +350,6 @@
     const el = e.target.closest('[role=button]'); if (!el || !ph.contains(el)) return;
     e.preventDefault(); el.click();
   });
-  // во время замера пинга окно меняет таблетки чаще, чем раз в секунду — обновляемся следом
-  let raf = 0;
-  function tick() { cancelAnimationFrame(raf); const t0 = performance.now(); const f = () => { sync(); if (performance.now() - t0 < 2500) raf = requestAnimationFrame(f); }; f(); }
-  sync();
-  setInterval(() => { if (!document.hidden) sync(); }, 1000);   // пинг «дрожит» и вне os:tick
+  // своих таймеров нет: окно шлёт os:pings при каждой перерисовке таблеток (замер, «дрожание», скорость)
+  setMirror(); sync();
 })();

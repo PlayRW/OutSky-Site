@@ -92,7 +92,7 @@
 .osw-side{position:relative; display:flex; flex-direction:column; gap:10px; padding:14px; border-right:1px solid var(--div); min-height:0;
   background:radial-gradient(90% 30% at 50% 104%,rgb(123 97 255/.12),transparent 70%),linear-gradient(180deg,transparent 48%,rgb(91 59 239/.08)),var(--side)}
 .osw-h{display:flex; align-items:center; gap:6px; padding:0 2px 0 4px; min-height:30px}
-.osw-h h3{margin:0; flex:1; font-size:15px; font-weight:600; letter-spacing:-.005em}
+.osw-h .osw-ht{margin:0; flex:1; font-size:15px; font-weight:600; letter-spacing:-.005em}
 .osw-ib{width:30px; height:30px; display:grid; place-items:center; border-radius:8px; color:var(--n400); transition:background .15s, color .15s}
 .osw-ib:hover{background:var(--n900); color:var(--n200)}
 .osw-ib svg{width:15px; height:15px}

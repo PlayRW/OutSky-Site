@@ -20,7 +20,11 @@ if (menu && menu.hidePopover) menu.addEventListener('click', e => { if (e.target
 // ---- мини-интерактивы карточек ----
 const feat = $('#features');
 $$('.tg').forEach(el => { el.setAttribute('role', 'switch'); el.tabIndex = 0; el.setAttribute('aria-checked', el.classList.contains('on')); });
-$$('.rt').forEach(el => { el.setAttribute('role', 'radio'); el.tabIndex = 0; el.setAttribute('aria-checked', el.classList.contains('on')); });
+// маршруты (04) — радиогруппа: в порядке Tab только выбранный (roving tabindex), стрелки выбирают соседний
+const rts = $$('.rt');
+const pickRt = rt => rts.forEach(x => { const on = x === rt; x.classList.toggle('on', on); x.setAttribute('aria-checked', on); x.tabIndex = on ? 0 : -1; });
+rts.forEach(el => el.setAttribute('role', 'radio'));
+if (rts.length) pickRt(rts.find(x => x.classList.contains('on')) || rts[0]);
 document.addEventListener('click', e => {
   const t = e.target.closest('.tg');
   if (t) { const on = t.classList.toggle('on'); t.setAttribute('aria-checked', on); if (t.id === 'hwTg') $('#hwId').classList.toggle('off', !on); return; }
@@ -30,9 +34,11 @@ document.addEventListener('click', e => {
     $('#hwId code').textContent = `${g(8)}-${g(4)}-4${g(3)}-${g(4)}-…`; return;
   }
   const rt = e.target.closest('.rt');
-  if (rt) $$('.rt').forEach(x => { x.classList.toggle('on', x === rt); x.setAttribute('aria-checked', x === rt); });
+  if (rt) pickRt(rt);
 });
 document.addEventListener('keydown', e => {
+  const ar = { ArrowDown: 1, ArrowRight: 1, ArrowUp: -1, ArrowLeft: -1 }[e.key], rk = ar && e.target.closest('.rt');
+  if (rk) { e.preventDefault(); const n = rts[(rts.indexOf(rk) + ar + rts.length) % rts.length]; pickRt(n); n.focus(); return; }
   if (e.key !== 'Enter' && e.key !== ' ') return;
   const el = e.target.closest('.tg, .rt'); if (!el) return;
   e.preventDefault(); el.click();
