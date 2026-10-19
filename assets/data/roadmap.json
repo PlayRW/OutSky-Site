@@ -22,7 +22,7 @@
       "text": { "ru": "Пять экранов на демо-данных: главный, серверы, маршрутизация, настройки, диагностика. К VPN прототип пока не подключается.", "en": "Five screens on demo data: home, servers, routing, settings, diagnostics. The prototype does not connect to a VPN yet." } },
     { "id": "app-design", "product": "app", "status": "in_progress", "tags": ["design"],
       "title": { "ru": "Единый дизайн для всех продуктов OutSky", "en": "Unified design for all OutSky products" },
-      "text": { "ru": "Один визуальный язык для приложения, расширения и сайта — на основе дизайна расширения.", "en": "One visual language for the app, the extension and the site, based on the extension’s design." } },
+      "text": { "ru": "Один визуальный язык для приложения и сайта.", "en": "One visual language for the app and the site." } },
     { "id": "app-engine", "product": "app", "status": "in_progress", "tags": [],
       "title": { "ru": "Выбор движка подключения", "en": "Choosing the connection engine" },
       "text": { "ru": "Сравним два движка на прототипе: какие протоколы поддерживают, как работают на телефонах и с серверами провайдеров.", "en": "We’ll compare two engines on a prototype: protocol support, mobile platforms and compatibility with providers’ servers." } },
