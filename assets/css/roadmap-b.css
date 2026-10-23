@@ -8,6 +8,9 @@
 .rm-head{width:fit-content; max-width:100%}
 .rm-upd{margin:0; cursor:default}
 .rm-upd[hidden]{display:none}
+/* пока доска грузится: место под дату держим, декор секции доски, финал и подвал прячем (CLS) */
+html.js body:has(#rm-loading:not([hidden])) .rm-upd[hidden]{display:inline-flex; visibility:hidden}
+html.js body:has(#rm-loading:not([hidden])) :is(.rm-sec>.neb,.rm-sec>.cst,.rm-fin,.ft){visibility:hidden}
 .rm-upd time{padding-right:2px; font-variant-numeric:tabular-nums}
 .rm-lead{margin-top:22px}
 /* созвездие — в пустом поле справа от заголовка (Лев) */
